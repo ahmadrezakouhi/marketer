@@ -11,9 +11,15 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico')}}">
 
-        <!--Morris Chart-->
-        <link rel="stylesheet" href="{{ asset('assets/libs/morris-js/morris.css')}}" />
-        <link href="assets/libs/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="{{asset('assets/libs/toastr/toastr.min.css')}}">
+
+  <!-- third party css -->
+  <link href="{{ asset('assets/libs/datatables/dataTables.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('assets/libs/datatables/responsive.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('assets/libs/datatables/buttons.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('assets/libs/datatables/select.bootstrap4.css')}}" rel="stylesheet" type="text/css" />
+  <!-- third party css end -->
 
         <!-- App css -->
         <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
@@ -68,7 +74,7 @@
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item active">
                                         <div class="notify-icon">
-                                            <img src="assets/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="تصویر" /> </div>
+                                            <img src="{{ asset('assets/images/users/user-1.jpg')}}" class="img-fluid rounded-circle" alt="تصویر" /> </div>
                                         <p class="notify-details">علی کردی</p>
                                         <p class="text-muted mb-0 user-msg">
                                             <small>سلام چطوری؟ در مورد جلسه بعدی...</small>
@@ -88,7 +94,7 @@
                                     <!-- item-->
                                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                                         <div class="notify-icon">
-                                            <img src="assets/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="تصویر" /> </div>
+                                            <img src="{{ asset('assets/images/users/user-4.jpg')}}" class="img-fluid rounded-circle" alt="تصویر" /> </div>
                                         <p class="notify-details">سجاد صابری</p>
                                         <p class="text-muted mb-0 user-msg">
                                             <small>ادمین تو واقعا عالیه</small>
@@ -137,7 +143,7 @@
 
                         <li class="dropdown notification-list">
                             <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="assets/images/users/user-1.jpg" alt="تصویر کاربر" class="rounded-circle">
+                                <img src="{{ asset('assets/images/users/user-1.jpg')}}" alt="تصویر کاربر" class="rounded-circle">
                                 <span class="pro-user-name ml-1">
                                     قائم <i class="mdi mdi-chevron-down"></i>
                                 </span>
@@ -189,12 +195,12 @@
                     <div class="logo-box">
                         <a href="index.html" class="logo text-center">
                             <span class="logo-lg">
-                                <img src="assets/images/logo-light.png" alt="تصویر" height="16">
+                                <img src="{{ asset('assets/images/logo-light.png')}}" alt="تصویر" height="16">
                                 <!-- <span class="logo-lg-text-light">UBold</span> -->
                             </span>
                             <span class="logo-sm">
                                 <!-- <span class="logo-sm-text-dark">U</span> -->
-                                <img src="assets/images/logo-sm.png" alt="تصویر" height="24">
+                                <img src="{{ asset('assets/images/logo-sm.png')}}" alt="تصویر" height="24">
                             </span>
                         </a>
                     </div>
@@ -513,18 +519,31 @@
         <!-- knob plugin -->
         <script src="{{ asset('assets/libs/jquery-knob/jquery.knob.min.js')}}"></script>
 
-        <!--Morris Chart-->
-        <script src="{{ asset('assets/libs/morris-js/morris.min.js')}}"></script>
-        <script src="{{ asset('assets/libs/raphael/raphael.min.js')}}"></script>
 
-        <!-- Dashboard init js-->
-        <script src="{{ asset('assets/js/pages/dashboard.init.js')}}"></script>
+
+
 
         <!-- App js-->
         <script src="{{ asset('assets/js/app.min.js')}}"></script>
 
         <!-- Toastr plugins -->
         <script src="{{ asset('assets/libs/toastr/toastr.min.js')}}"></script>
+
+
+
+        <script src="{{ asset('assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/dataTables.bootstrap4.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/dataTables.responsive.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/responsive.bootstrap4.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/dataTables.buttons.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/buttons.bootstrap4.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/buttons.html5.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/buttons.flash.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/buttons.print.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/dataTables.keyTable.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/datatables/dataTables.select.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/pdfmake/vfs_fonts.js')}}"></script>
 
 
     </body>

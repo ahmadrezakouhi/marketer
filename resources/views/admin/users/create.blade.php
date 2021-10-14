@@ -45,10 +45,10 @@
 
                                 </select>
                             </div>
-                            <div class="form-row">
+                            <div class="form-row " id="marketer_section" style="display: none">
                                 <div class="form-group col-md-4">
-                                    <label for="role_id" class="col-form-label">پورسانت</label>
-                                    <select id="role_id" class="form-control" name="role_id">
+                                    <label for="level1" class="col-form-label">پورسانت</label>
+                                    <select id="level1" class="form-control" name="level1">
                                         @for ($i = 1; $i <= 13; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
@@ -56,8 +56,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="role_id" class="col-form-label">پورسانت زیردست </label>
-                                    <select id="role_id" class="form-control" name="role_id">
+                                    <label for="level2" class="col-form-label">پورسانت زیردست </label>
+                                    <select id="level2" class="form-control" name="level2">
                                         @for ($i = 1; $i <= 13; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
@@ -66,8 +66,8 @@
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="role_id" class="col-form-label">پورسانت زیردست دوم</label>
-                                    <select id="role_id" class="form-control" name="role_id">
+                                    <label for="level3" class="col-form-label">پورسانت زیردست دوم</label>
+                                    <select id="level3" class="form-control" name="level3">
                                         @for ($i = 1; $i <= 13; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
                                         @endfor
@@ -178,6 +178,16 @@
                 })
 
             })
+
+
+            $('#role_id').change(function () {
+                if($(this).find(":selected").text()==="marketer"){
+                    $('#marketer_section').fadeIn();
+
+                }else{
+                    $('#marketer_section').fadeOut();
+                }
+            });
 
 
 

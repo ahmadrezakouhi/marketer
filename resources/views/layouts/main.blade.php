@@ -7,17 +7,19 @@
         <meta content="یک قالب مدیریتی با امکانات فراوان برای ساخت سی آر ام، سیستم مدیریت محتوا و ..." name="description" />
         <meta content="قائم امیدی" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="csrf-token" content="<?php echo csrf_token(); ?>" id="token">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico')}}">
 
         <!--Morris Chart-->
-        <link rel="stylesheet" href="assets/libs/morris-js/morris.css" />
+        <link rel="stylesheet" href="{{ asset('assets/libs/morris-js/morris.css')}}" />
+        <link href="assets/libs/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
 
         <!-- App css -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/app-rtl.min.css" rel="stylesheet" type="text/css" />
-
+        <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/app-rtl.min.css')}}" rel="stylesheet" type="text/css" />
+        <script src="{{asset('js/jquery.js')}}"></script>
     </head>
 
     <body>
@@ -42,20 +44,6 @@
                             <!-- End mobile menu toggle-->
                         </li>
 
-                        <li class="d-none d-sm-block">
-                            <form class="app-search">
-                                <div class="app-search-box">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="جست و جو...">
-                                        <div class="input-group-append">
-                                            <button class="btn" type="submit">
-                                                <i class="fe-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </li>
 
                         <li class="dropdown notification-list">
                             <a class="nav-link dropdown-toggle waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -515,125 +503,29 @@
         <!-- End Page content -->
         <!-- ============================================================== -->
 
-        <!-- Footer Start -->
 
-        <!-- end Footer -->
 
-        <!-- Right Sidebar -->
-        <div class="right-bar">
-            <div class="rightbar-title">
-                <a href="javascript:void(0);" class="right-bar-toggle float-right">
-                    <i class="dripicons-cross noti-icon"></i>
-                </a>
-                <h4 class="m-0 text-white">تنظیمات</h4>
-            </div>
-            <div class="slimscroll-menu rightbar-content">
-                <!-- User box -->
-                <div class="user-box">
-                    <div class="user-img">
-                        <img src="assets/images/users/user-1.jpg" alt="تصویر کاربر" title="قائم امیدی" class="rounded-circle img-fluid">
-                        <a href="javascript:void(0);" class="user-edit"><i class="mdi mdi-pencil"></i></a>
-                    </div>
 
-                    <h5><a href="javascript: void(0);">قائم امیدی</a> </h5>
-                    <p class="text-muted mb-0"><small>مدیر</small></p>
-                </div>
-
-                <!-- Settings -->
-                <hr class="mt-0" />
-                <h5 class="pl-3">تنظیمات پایه</h5>
-                <hr class="mb-0" />
-
-                <div class="p-3">
-                    <div class="checkbox checkbox-primary mb-2">
-                        <input id="Rcheckbox1" type="checkbox" checked>
-                        <label for="Rcheckbox1">
-                            اطلاعیه ها
-                        </label>
-                    </div>
-                    <div class="checkbox checkbox-primary mb-2">
-                        <input id="Rcheckbox2" type="checkbox" checked>
-                        <label for="Rcheckbox2">
-                            دسترسی ای پی آی
-                        </label>
-                    </div>
-                    <div class="checkbox checkbox-primary mb-2">
-                        <input id="Rcheckbox3" type="checkbox">
-                        <label for="Rcheckbox3">
-                            به روزرسانی های خودکار
-                        </label>
-                    </div>
-                    <div class="checkbox checkbox-primary mb-2">
-                        <input id="Rcheckbox4" type="checkbox" checked>
-                        <label for="Rcheckbox4">
-                            وضعیت آنلاین
-                        </label>
-                    </div>
-                    <div class="checkbox checkbox-primary mb-0">
-                        <input id="Rcheckbox5" type="checkbox" checked>
-                        <label for="Rcheckbox5">
-                            پرداخت خودکار
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Timeline -->
-                <hr class="mt-0" />
-                <h5 class="pl-3 pr-3">پیام ها <span class="float-right badge badge-pill badge-danger">25</span></h5>
-                <hr class="mb-0" />
-                <div class="p-3">
-                    <div class="inbox-widget">
-                        <div class="inbox-item">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-2.jpg" class="rounded-circle" alt="تصویر"></div>
-                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">نسیم</a></p>
-                            <p class="inbox-item-text">پروژه تموم شد. لطفا چک کن...</p>
-                        </div>
-                        <div class="inbox-item">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-3.jpg" class="rounded-circle" alt="تصویر"></div>
-                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">وحید</a></p>
-                            <p class="inbox-item-text">این قالب عالیه!</p>
-                        </div>
-                        <div class="inbox-item">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-4.jpg" class="rounded-circle" alt="تصویر"></div>
-                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">سجاد</a></p>
-                            <p class="inbox-item-text">از صحبت باهات خوشحال شدم</p>
-                        </div>
-
-                        <div class="inbox-item">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-5.jpg" class="rounded-circle" alt="تصویر"></div>
-                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">شایان</a></p>
-                            <p class="inbox-item-text">سلام! من آنلاینم...</p>
-                        </div>
-                        <div class="inbox-item">
-                            <div class="inbox-item-img"><img src="assets/images/users/user-6.jpg" class="rounded-circle" alt="تصویر"></div>
-                            <p class="inbox-item-author"><a href="javascript: void(0);" class="text-dark">احمد</a></p>
-                            <p class="inbox-item-text">این قالب عالیه!</p>
-                        </div>
-                    </div> <!-- end inbox-widget -->
-                </div> <!-- end .p-3-->
-
-            </div> <!-- end slimscroll-menu-->
-        </div>
-        <!-- /Right-bar -->
-
-        <!-- Right bar overlay-->
-        <div class="rightbar-overlay"></div>
 
         <!-- Vendor js -->
-        <script src="assets/js/vendor.min.js"></script>
+        <script src="{{ asset('assets/js/vendor.min.js')}}"></script>
 
         <!-- knob plugin -->
-        <script src="assets/libs/jquery-knob/jquery.knob.min.js"></script>
+        <script src="{{ asset('assets/libs/jquery-knob/jquery.knob.min.js')}}"></script>
 
         <!--Morris Chart-->
-        <script src="assets/libs/morris-js/morris.min.js"></script>
-        <script src="assets/libs/raphael/raphael.min.js"></script>
+        <script src="{{ asset('assets/libs/morris-js/morris.min.js')}}"></script>
+        <script src="{{ asset('assets/libs/raphael/raphael.min.js')}}"></script>
 
         <!-- Dashboard init js-->
-        <script src="assets/js/pages/dashboard.init.js"></script>
+        <script src="{{ asset('assets/js/pages/dashboard.init.js')}}"></script>
 
         <!-- App js-->
-        <script src="assets/js/app.min.js"></script>
+        <script src="{{ asset('assets/js/app.min.js')}}"></script>
+
+        <!-- Toastr plugins -->
+        <script src="{{ asset('assets/libs/toastr/toastr.min.js')}}"></script>
+
 
     </body>
 </html>

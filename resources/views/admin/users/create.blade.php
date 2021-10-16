@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'ایجاد کاربر')
+@section('title', 'مدیریت کاربر')
 @section('content')
 
     <div>
@@ -9,14 +9,14 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel"> افزودن کاربر</h4>
+                        <h4 class="modal-title" id="userFormLabel"> افزودن کاربر</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
                     <div class="modal-body">
 
-                        <form method="POST" action="{{ route('user.store') }}">
+                        <form id="userForm" method="POST" action="{{ route('user.store') }}">
                             @csrf
-
+                            <input type="hidden" name="user_id" id="user_id">
                             <div class="form-group ">
                                 <label for="name" class="col-form-label">نام</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="نام">
@@ -80,7 +80,7 @@
                     </div>
                     <div class="modal-footer">
 
-                        <button type="submit" class="btn btn-primary btn-block shadow mt-2">ثبت</button>
+                        <button id="saveBtn" type="submit" class="btn btn-primary btn-block shadow mt-2" value="create">ثبت</button>
                         </form>
                     </div>
                 </div><!-- /.modal-content -->
@@ -99,47 +99,45 @@
 
 
 
-            <div class="wrapper">
-                <div class="container mt-0">
+        <div class="wrapper">
+            <div class="container">
 
 
-            <div class="row">
-                <div class="col-12">
-        <div class="card-box" style="">
-            <div class="d-flex justify-content-between">
-                <h4 class="mt-0 header-title">کاربر ها</h4>
-                <button class="btn btn-success  waves-effect waves-light shadow" data-toggle="modal"
-                    data-target="#myModal"><i class="fas fa-user-plus"></i></button>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box" style="">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="mt-0 header-title">کاربر ها</h4>
+                                <a id="createNewUser" class="btn btn-success  waves-effect waves-light shadow"
+                                    href="javascript:void(0)" data-target="#myModal"><i class="fas fa-user-plus"></i></a>
+                            </div>
+                            <hr>
+
+
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>نام</th>
+                                        <th>نام خانوادگی</th>
+                                        <th>ایمیل</th>
+                                        <th>تلفن</th>
+                                        <th>نوع کابر </th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <hr>
-
-
-            <table id="datatable" class="table table-bordered dt-responsive nowrap">
-                <thead>
-                    <tr>
-                        <th>نام</th>
-                        <th>نام خانوادگی</th>
-                        <th>ایمیل</th>
-                        <th>تلفن</th>
-                        <th>نوع کابر
-                            
-                        </th>
-                        <th></th>
-
-                    </tr>
-                </thead>
-
-
-                <tbody>
-
-
-                </tbody>
-            </table>
         </div>
-                </div>
-            </div>
-                </div>
-            </div>
 
 
 
@@ -191,6 +189,45 @@
                 ]
             });
 
+
+            $('#createNewUser').click(function() {
+                $('#saveBtn').val("edit-user");
+                $('#user_id').val('');
+                $('#userForm').trigger('reset');
+                $('#userFormLabel').text(' افزودن کاربر');
+                $('#myModal').modal('show');
+
+            })
+
+
+            $('body').on('click', '.editUser', function() {
+
+                var user_id = $(this).data('id');
+
+                $.get("{{ route('user.index')}}"+"/"+user_id + "/edit", function(data) {
+
+
+
+                    $('#userForm').trigger('reset');
+                    $('#userFormLabel').text('ادیت کاربر');
+
+                    $('#myModal').modal('show');
+
+                    $('#user_id').val(data.id);
+
+                    $('#name').val(data.name);
+                    $('#last_name').val(data.last_name);
+                    $('#email').val(data.email);
+                    $('#phone').val(data.phone);
+
+
+
+                })
+
+            });
+
+
+
             $('form').submit(function(event) {
                 event.preventDefault();
                 $.ajax({
@@ -198,13 +235,25 @@
                     url: "{{ route('user.store') }}",
                     data: $(this).serialize(),
                     success: function(res) {
-
+                        $('#userForm').trigger('reset');
                         $('#myModal').modal("hide");
 
                         table.draw();
 
-                        toastr["success"]("با موفقیت انجام شد");
+                        if($('#user_id').val()){
+                            toastr["success"]("ویرایش انجام شد");
+                        }else {
+                            toastr["success"]("کاربر جدید ثبت شد");
+                        }
 
+
+                    }
+                    ,
+                    error:function(res){
+                        var error =eval("("+res.responseText+")")
+                         $.each(error.errors,function (index,value) {
+                            toastr["error"](value);
+                         })
 
                     }
                 })
@@ -223,16 +272,7 @@
 
 
 
-            $('#test').click(function() {
 
-
-
-                Swal.fire(
-                    'Good job!',
-                    'You clicked the button!',
-                    'success'
-                )
-            })
 
             function toasterOptions() {
                 toastr.options = {
@@ -278,7 +318,7 @@
 
                             type: "DELETE",
 
-                            url: "/user/"  + user_id,
+                            url: "/user/" + user_id,
 
                             success: function(data) {
 

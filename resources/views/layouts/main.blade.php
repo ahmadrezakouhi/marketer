@@ -10,7 +10,8 @@
         <meta name="csrf-token" content="<?php echo csrf_token(); ?>" id="token">
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico')}}">
-
+<!-- Sweet Alert css -->
+<link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" href="{{asset('assets/libs/toastr/toastr.min.css')}}">
 
@@ -530,7 +531,8 @@
         <script src="{{ asset('assets/libs/toastr/toastr.min.js')}}"></script>
 
 
-
+    <!-- Sweet Alerts js -->
+         <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js')}}"></script>
         <script src="{{ asset('assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{ asset('assets/libs/datatables/dataTables.bootstrap4.js')}}"></script>
         <script src="{{ asset('assets/libs/datatables/dataTables.responsive.min.js')}}"></script>

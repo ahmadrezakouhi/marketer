@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Role;
 use App\User;
+use DataTables;
 
 class UserController extends Controller
 {
@@ -13,8 +14,26 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        if ($request->ajax()) {
+            $data = User::with('role');
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteUser"><i class="fas fa-trash"></i></a>';
+                    return $btn;
+                })
+                ->addColumn('role', function (User $user) {
+
+                    return $user->role->name;
+
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**
@@ -25,7 +44,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('admin.users.create' , compact('roles',$roles));
+        return view('admin.users.create', compact('roles', $roles));
     }
 
     /**
@@ -36,13 +55,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-         User::create([
-            'name'=>$request->name,
-            'last_name'=>$request->last_name,
-            'email'=>$request->email,
-            'phone'=>$request->phone,
-            'password'=>bcrypt($request->phone),
-            'role_id'=>$request->role_id
+        User::create([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => bcrypt($request->phone),
+            'role_id' => $request->role_id
 
         ]);
 
@@ -91,6 +110,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::find($id)->delete();
     }
 }

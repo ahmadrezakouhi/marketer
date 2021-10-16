@@ -94,17 +94,18 @@
 
 
 
-        <button class="btn btn-primary waves-effect waves-light" id="test">مودال
-            استاندارد</button>
 
 
 
 
 
+            <div class="wrapper">
+                <div class="container mt-0">
 
 
-
-        <div class="card-box" style="min-width: 500px">
+            <div class="row">
+                <div class="col-12">
+        <div class="card-box" style="">
             <div class="d-flex justify-content-between">
                 <h4 class="mt-0 header-title">کاربر ها</h4>
                 <button class="btn btn-success  waves-effect waves-light shadow" data-toggle="modal"
@@ -113,32 +114,32 @@
             <hr>
 
 
-            <table id="datatable" class="table table-bordered ">
+            <table id="datatable" class="table table-bordered dt-responsive nowrap">
                 <thead>
                     <tr>
                         <th>نام</th>
-                        <th>سمت</th>
+                        <th>نام خانوادگی</th>
                         <th>ایمیل</th>
                         <th>تلفن</th>
+                        <th>نوع کابر
+                            
+                        </th>
+                        <th></th>
 
                     </tr>
                 </thead>
 
 
                 <tbody>
-                    <tr>
-                        <td>علی فتحی</td>
-                        <td>بازاریاب</td>
-                        <td>alifathi@gmail.com</td>
-                        <td>093045666</td>
 
-                    </tr>
 
                 </tbody>
             </table>
         </div>
-
-
+                </div>
+            </div>
+                </div>
+            </div>
 
 
 
@@ -157,7 +158,38 @@
                 }
             });
             toasterOptions();
-            $('table').DataTable();
+            var table = $('table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('user.index') }}",
+                columns: [{
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'last_name',
+                        name: 'last_name'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'role',
+                        name: 'role'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
 
             $('form').submit(function(event) {
                 event.preventDefault();
@@ -169,9 +201,9 @@
 
                         $('#myModal').modal("hide");
 
+                        table.draw();
 
-
-                        toastr["danger"]("با موفقیت انجام شد");
+                        toastr["success"]("با موفقیت انجام شد");
 
 
                     }
@@ -180,11 +212,11 @@
             })
 
 
-            $('#role_id').change(function () {
-                if($(this).find(":selected").text()==="marketer"){
+            $('#role_id').change(function() {
+                if ($(this).find(":selected").text() === "marketer") {
                     $('#marketer_section').fadeIn();
 
-                }else{
+                } else {
                     $('#marketer_section').fadeOut();
                 }
             });
@@ -195,7 +227,11 @@
 
 
 
-                toastr["info"]("با موفقیت انجام شد");
+                Swal.fire(
+                    'Good job!',
+                    'You clicked the button!',
+                    'success'
+                )
             })
 
             function toasterOptions() {
@@ -217,6 +253,71 @@
                     "hideMethod": "fadeOut"
                 }
             }
+
+            $('body').on('click', '.deleteUser', function() {
+
+
+
+                var user_id = $(this).data("id");
+
+                Swal.fire({
+                    title: "مطمئنی؟",
+                    text: "این کار قابل بازگشت نیست!",
+                    type: "warning",
+                    showCancelButton: !0,
+                    confirmButtonText: "بله حذفش کن!",
+                    cancelButtonText: "نه لغو کن!",
+                    confirmButtonClass: "btn btn-success mt-2",
+                    cancelButtonClass: "btn btn-danger ml-2 mt-2",
+                    buttonsStyling: !1
+                }).then(function(t) {
+                    if (t.value) {
+
+
+                        $.ajax({
+
+                            type: "DELETE",
+
+                            url: "/user/"  + user_id,
+
+                            success: function(data) {
+
+                                table.draw();
+                                Swal.fire({
+                                    title: "حذف شد!",
+                                    text: "فایل شما حذف شد.",
+                                    type: "success"
+                                })
+                            },
+
+                            error: function(data) {
+
+                                console.log('Error:', data);
+
+                            }
+
+                        });
+
+
+
+
+
+                    } else {
+                        t.dismiss === Swal.DismissReason.cancel && Swal.fire({
+                            title: "لغو شد",
+                            type: "error"
+                        })
+                    }
+                })
+
+
+
+
+
+            });
+
+
+
 
         })
     </script>

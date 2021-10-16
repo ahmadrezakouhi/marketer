@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Role;
 use App\User;
@@ -22,7 +23,7 @@ class UserController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct">Edit</a>';
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editUser"><i class="fa fa-edit"></i></a>';
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteUser"><i class="fas fa-trash"></i></a>';
                     return $btn;
                 })
@@ -53,19 +54,19 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        User::create([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => bcrypt($request->phone),
-            'role_id' => $request->role_id
 
+        User::updateOrCreate(['id'=>$request->user_id],[
+            'name'=>$request->name,
+            'last_name'=>$request->last_name,
+            'email'=>$request->email,
+            'phone'=>$request->phone,
+            'role_id'=>$request->role_id,
+            'password'=>bcrypt($request->phone)
         ]);
 
-        return response()->json($request->all());
+        return response()->json();
     }
 
     /**
@@ -87,7 +88,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user  = User::findOrFail($id);
+        return response()->json($user);
     }
 
     /**

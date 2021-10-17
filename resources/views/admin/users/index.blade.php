@@ -45,36 +45,7 @@
 
                                 </select>
                             </div>
-                            <div class="form-row " id="marketer_section" style="display: none">
-                                <div class="form-group col-md-4">
-                                    <label for="level1" class="col-form-label">پورسانت</label>
-                                    <select id="level1" class="form-control" name="level1">
-                                        @for ($i = 1; $i <= 13; $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="level2" class="col-form-label">پورسانت زیردست </label>
-                                    <select id="level2" class="form-control" name="level2">
-                                        @for ($i = 1; $i <= 13; $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-
-                                    </select>
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <label for="level3" class="col-form-label">پورسانت زیردست دوم</label>
-                                    <select id="level3" class="form-control" name="level3">
-                                        @for ($i = 1; $i <= 13; $i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
-                                        @endfor
-
-                                    </select>
-                                </div>
-                            </div>
+                           
 
 
                     </div>

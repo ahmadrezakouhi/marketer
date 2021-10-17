@@ -51,6 +51,13 @@ class MarketerController extends Controller
                -> addColumn('level3', function (Marketer $marketer) {
                     return $marketer->commission->level3;
                 })
+                ->editColumn('status', function (Marketer $marketer)
+                {
+                    if($marketer->status){
+                        return 'فعال';
+                    }
+                    return 'غیر فعال';
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }

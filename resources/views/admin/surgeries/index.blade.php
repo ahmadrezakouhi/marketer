@@ -16,7 +16,7 @@
 
                         <form id="surgeryForm" method="POST" action="{{ route('user.store') }}">
                             @csrf
-                            <input type="hidden" name="user_id" id="user_id">
+                            <input type="hidden" name="surgery_id" id="surgery_id">
                             <div class="form-group ">
                                 <label for="name" class="col-form-label">نام</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="نام">
@@ -123,7 +123,7 @@
 
             $('#createNewUser').click(function() {
                 $('#saveBtn').val("edit-surgery");
-                $('#user_id').val('');
+                $('#surgery_id').val('');
                 $('#surgeryForm').trigger('reset');
                 $('#surgeryFormLabel').text(' افزودن عمل');
                 $('#myModal').modal('show');
@@ -131,11 +131,11 @@
             })
 
 
-            $('body').on('click', '.editUser', function() {
+            $('body').on('click', '.editSurgery', function() {
 
-                var user_id = $(this).data('id');
+                var surgery_id = $(this).data('id');
 
-                $.get("{{ route('surgery.index')}}"+"/"+user_id + "/edit", function(data) {
+                $.get("{{ route('surgery.index')}}"+"/"+surgery_id + "/edit", function(data) {
 
 
 
@@ -144,7 +144,7 @@
 
                     $('#myModal').modal('show');
 
-                    $('#user_id').val(data.id);
+                    $('#surgery_id').val(data.id);
 
                     $('#name').val(data.name);
 
@@ -169,7 +169,7 @@
 
                         table.draw();
 
-                        if($('#user_id').val()){
+                        if($('#surgery_id').val()){
                             toastr["success"]("ویرایش انجام شد");
                         }else {
                             toastr["success"]("کاربر جدید ثبت شد");
@@ -216,11 +216,11 @@
                 }
             }
 
-            $('body').on('click', '.deleteUser', function() {
+            $('body').on('click', '.deleteSurgery', function() {
 
 
 
-                var user_id = $(this).data("id");
+                var surgery_id = $(this).data("id");
 
                 Swal.fire({
                     title: "مطمئنی؟",
@@ -240,7 +240,7 @@
 
                             type: "DELETE",
 
-                            url: "/user/" + user_id,
+                            url: "/user/" + surgery_id,
 
                             success: function(data) {
 

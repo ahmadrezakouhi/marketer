@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SurgeryRequest;
 use App\Surgery;
 use DataTables;
 
@@ -21,8 +22,8 @@ class SurgeryController extends Controller
             return Datatables::of($surgeries)
             ->addIndexColumn()
             ->addColumn('action',function($row){
-                $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editUser"><i class="fa fa-edit"></i></a>';
-                $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteUser"><i class="fas fa-trash"></i></a>';
+                $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editSurgery"><i class="fa fa-edit"></i></a>';
+                $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteSurgery"><i class="fas fa-trash"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -52,9 +53,12 @@ class SurgeryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SurgeryRequest $request)
     {
-        //
+        Surgery::updateOrCreate(['id'=>$request->surgery_id],[
+            'name'=>$request->name
+        ]);
+        return response()->json();
     }
 
     /**

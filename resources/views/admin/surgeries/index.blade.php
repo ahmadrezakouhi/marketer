@@ -172,7 +172,7 @@
                         if($('#surgery_id').val()){
                             toastr["success"]("ویرایش انجام شد");
                         }else {
-                            toastr["success"]("کاربر جدید ثبت شد");
+                            toastr["success"]("عمل جدید ثبت شد");
                         }
 
 

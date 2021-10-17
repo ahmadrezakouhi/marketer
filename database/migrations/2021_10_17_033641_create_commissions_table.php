@@ -15,6 +15,11 @@ class CreateCommissionsTable extends Migration
     {
         Schema::create('commissions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('marketer_id')->unsigned();
+            $table->foreign('marketer_id')->references('id')->on('marketers')->onDelete('cascade');
+            $table->tinyInteger('level1')->default(5)->nullable();
+            $table->tinyInteger('level2')->default(3)->nullable();
+            $table->tinyInteger('level3')->default(1)->nullable();
             $table->timestamps();
         });
     }

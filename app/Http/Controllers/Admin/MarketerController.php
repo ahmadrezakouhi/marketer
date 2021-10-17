@@ -42,6 +42,15 @@ class MarketerController extends Controller
                 })->addColumn('phone', function (Marketer $marketer) {
                     return $marketer->user->phone;
                 })
+                ->addColumn('level1', function (Marketer $marketer) {
+                    return $marketer->commission->level1;
+                })
+                ->addColumn('level2', function (Marketer $marketer) {
+                    return $marketer->commission->level2;
+                })
+               -> addColumn('level3', function (Marketer $marketer) {
+                    return $marketer->commission->level3;
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }

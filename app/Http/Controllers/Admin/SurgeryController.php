@@ -69,7 +69,7 @@ class SurgeryController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -80,7 +80,8 @@ class SurgeryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $surgery = Surgery::findOrFail($id);
+        return response()->json($surgery);
     }
 
     /**

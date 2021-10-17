@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'مدیریت کاربر')
+@section('title', 'مدیریت بازایاب ها')
 @section('content')
 
     <div>
@@ -33,17 +33,33 @@
                                 <input type="email" class="form-control" id="email" name="email" placeholder="ایمیل">
                             </div>
                             <div class="form-group ">
-                                <label for="phone" class="col-form-label">تلفن</label>
+                                <label for="phone" class="col-form-label">موبایل</label>
                                 <input type="text" class="form-control" id="phone" name="phone" placeholder="تلفن">
                             </div>
-                            
+                            <div class="form-group ">
+                                <label for="tel" class="col-form-label">تلفن ثابت</label>
+                                <input type="text" class="form-control" id="tel" name="tel" placeholder="تلفن">
+                            </div>
+                            <div class="form-group ">
+                                <label for="address" class="col-form-label">آدرس</label>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="آدرس">
+                            </div>
+                            <div class="form-group ">
+                                <label for="national_code" class="col-form-label">کد ملی</label>
+                                <input type="text" class="form-control" id="national_code" name="national_code" placeholder="کد ملی">
+                            </div>
+                            <div class="checkbox checkbox-success">
+                                <input id="active" type="checkbox">
+                                <label for="active">فعال</label>
+                            </div>
 
 
 
                     </div>
                     <div class="modal-footer">
 
-                        <button id="saveBtn" type="submit" class="btn btn-primary btn-block shadow mt-2" value="create">ثبت</button>
+                        <button id="saveBtn" type="submit" class="btn btn-primary btn-block shadow mt-2"
+                            value="create">ثبت</button>
                         </form>
                     </div>
                 </div><!-- /.modal-content -->
@@ -83,8 +99,10 @@
                                         <th>نام</th>
                                         <th>نام خانوادگی</th>
                                         <th>ایمیل</th>
-                                        <th>تلفن</th>
-                                        <th>نوع کابر </th>
+                                        <th>موبایل</th>
+                                        <th>تلفن ثابت</th>
+                                        <th>آدرس</th>
+                                        <th>کد ملی</th>
                                         <th></th>
 
                                     </tr>
@@ -122,7 +140,7 @@
             var table = $('table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('user.index') }}",
+                ajax: "{{ route('marketer.index') }}",
                 columns: [{
                         data: 'name',
                         name: 'name'
@@ -140,9 +158,19 @@
                         name: 'phone'
                     },
                     {
-                        data: 'role',
-                        name: 'role'
+                        data: 'tel',
+                        name: 'tel'
                     },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+                    {
+                        data: 'national_code',
+                        name: 'national_code'
+                    },
+
+
                     {
                         data: 'action',
                         name: 'action',
@@ -167,7 +195,7 @@
 
                 var user_id = $(this).data('id');
 
-                $.get("{{ route('user.index')}}"+"/"+user_id + "/edit", function(data) {
+                $.get("{{ route('user.index') }}" + "/" + user_id + "/edit", function(data) {
 
 
 
@@ -203,20 +231,19 @@
 
                         table.draw();
 
-                        if($('#user_id').val()){
+                        if ($('#user_id').val()) {
                             toastr["success"]("ویرایش انجام شد");
-                        }else {
+                        } else {
                             toastr["success"]("کاربر جدید ثبت شد");
                         }
 
 
-                    }
-                    ,
-                    error:function(res){
-                        var error =eval("("+res.responseText+")")
-                         $.each(error.errors,function (index,value) {
+                    },
+                    error: function(res) {
+                        var error = eval("(" + res.responseText + ")")
+                        $.each(error.errors, function(index, value) {
                             toastr["error"](value);
-                         })
+                        })
 
                     }
                 })

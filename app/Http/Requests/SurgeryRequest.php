@@ -24,7 +24,7 @@ class SurgeryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=>'required'
         ];
     }
 }

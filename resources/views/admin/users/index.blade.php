@@ -45,7 +45,7 @@
 
                                 </select>
                             </div>
-                           
+
 
 
                     </div>
@@ -232,14 +232,7 @@
             })
 
 
-            $('#role_id').change(function() {
-                if ($(this).find(":selected").text() === "marketer") {
-                    $('#marketer_section').fadeIn();
-
-                } else {
-                    $('#marketer_section').fadeOut();
-                }
-            });
+           
 
 
 

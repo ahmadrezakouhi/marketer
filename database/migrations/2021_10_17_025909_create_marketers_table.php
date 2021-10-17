@@ -15,6 +15,13 @@ class CreateMarketersTable extends Migration
     {
         Schema::create('marketers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('tel');
+            $table->string('address');
+            $table->string('national_code');
+            $table->tinyInteger('status')->default(0);
+            $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

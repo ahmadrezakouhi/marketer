@@ -35,6 +35,8 @@ class UserController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+        $roles = Role::where('name','!=','marketer')->get();
+        return view('admin.users.index', compact('roles', $roles));
     }
 
     /**
@@ -44,8 +46,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.users.create', compact('roles', $roles));
+       
     }
 
     /**

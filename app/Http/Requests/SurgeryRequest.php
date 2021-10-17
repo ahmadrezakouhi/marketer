@@ -13,7 +13,7 @@ class SurgeryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,4 +27,14 @@ class SurgeryRequest extends FormRequest
             'name'=>'required'
         ];
     }
+
+
+    public function messages()
+    {
+        return [
+            'name.required'=>'فیلد نام الزامی است'
+        ];
+    }
+
+
 }

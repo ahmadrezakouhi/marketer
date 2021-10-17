@@ -104,6 +104,7 @@ class SurgeryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Surgery::destroy($id);
+        return response()->json();
     }
 }

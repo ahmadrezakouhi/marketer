@@ -103,6 +103,10 @@
                                         <th>تلفن ثابت</th>
                                         <th>آدرس</th>
                                         <th>کد ملی</th>
+                                        <th>وضعیت</th>
+                                        <th>درصد پوسانت</th>
+                                        <th>درصد پوسانت زیردست اول</th>
+                                        <th>درصد پورسانت زیر دست دوم</th>
                                         <th></th>
 
                                     </tr>
@@ -168,6 +172,22 @@
                     {
                         data: 'national_code',
                         name: 'national_code'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'level1',
+                        name: 'level1'
+                    },
+                    {
+                        data: 'level2',
+                        name: 'level2'
+                    },
+                    {
+                        data: 'level3',
+                        name: 'level3'
                     },
 
 

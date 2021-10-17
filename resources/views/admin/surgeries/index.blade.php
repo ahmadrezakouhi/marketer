@@ -240,7 +240,7 @@
 
                             type: "DELETE",
 
-                            url: "/user/" + surgery_id,
+                            url: "{{ route('surgery.index')}}"+'/'+ surgery_id,
 
                             success: function(data) {
 

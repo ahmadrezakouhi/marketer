@@ -12,4 +12,9 @@ class Marketer extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function commission()
+    {
+        return $this->hasOne('App\Commission');
+    }
+
 }

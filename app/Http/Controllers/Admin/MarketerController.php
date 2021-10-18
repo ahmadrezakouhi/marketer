@@ -19,7 +19,7 @@ class MarketerController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $marketers = Marketer::with('user','commission');
+            $marketers = Marketer::with('user', 'commission');
             return Datatables::of($marketers)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -28,19 +28,12 @@ class MarketerController extends Controller
                     return $btn;
                 })->addColumn('name', function (Marketer $marketer) {
                     return $marketer->user->name;
-
                 })->addColumn('last_name', function (Marketer $marketer) {
                     return $marketer->user->last_name;
-
-
                 })->addColumn('email', function (Marketer $marketer) {
                     return $marketer->user->email;
-
-
                 })->addColumn('email', function (Marketer $marketer) {
                     return $marketer->user->email;
-
-
                 })->addColumn('phone', function (Marketer $marketer) {
                     return $marketer->user->phone;
                 })
@@ -50,12 +43,11 @@ class MarketerController extends Controller
                 ->addColumn('level2', function (Marketer $marketer) {
                     return $marketer->commission->level2;
                 })
-               -> addColumn('level3', function (Marketer $marketer) {
+                ->addColumn('level3', function (Marketer $marketer) {
                     return $marketer->commission->level3;
                 })
-                ->editColumn('status', function (Marketer $marketer)
-                {
-                    if($marketer->status){
+                ->editColumn('status', function (Marketer $marketer) {
+                    if ($marketer->status) {
                         return 'فعال';
                     }
                     return 'غیر فعال';
@@ -85,29 +77,28 @@ class MarketerController extends Controller
     public function store(Request $request)
     {
         $user = User::create([
-            'name'=>$request->name,
-            'last_name'=>$request->last_name,
-            'email'=>$request->email,
-            'phone'=>$request->phone,
-            'password'=>bcrypt($request->phone),
-            'role_id'=>6
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => bcrypt($request->phone),
+            'role_id' => 6
 
         ]);
         $marketer = new Marketer([
-            'tel'=>$request->tel,
-            'address'=>$request->address,
-            'national_code'=>$request->national_code,
-            'status'=>$request->status ? 1: 0,
-            'parent_id'=>null
+            'tel' => $request->tel,
+            'address' => $request->address,
+            'national_code' => $request->national_code,
+            'status' => $request->status ? 1 : 0,
+            'parent_id' => null
         ]);
 
         $user->marketer()->save($marketer);
 
-    $commission = new Commission();
-    $marketer->commission()->save($commission);
+        $commission = new Commission();
+        $marketer->commission()->save($commission);
 
-return response()->json();
-
+        return response()->json();
     }
 
     /**
@@ -118,7 +109,6 @@ return response()->json();
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -129,7 +119,7 @@ return response()->json();
      */
     public function edit($id)
     {
-        $marketer = Marketer::with('user','commission')->findOrFail($id);
+        $marketer = Marketer::with('user', 'commission')->findOrFail($id);
         return response()->json($marketer);
     }
 
@@ -142,7 +132,30 @@ return response()->json();
      */
     public function update(Request $request, $id)
     {
-        //
+        $marketer = Marketer::findOrFail($id);
+        $marketer->user()->update([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => bcrypt($request->phone),
+            'role_id' => 6
+
+
+        ]);
+        $marketer->update([
+            'tel' => $request->tel,
+            'address' => $request->address,
+            'national_code' => $request->national_code,
+            'status' => $request->status ? 1 : 0,
+        ]);
+
+        $marketer->commission()->update([
+            'level1'=> 1,
+            'level2'=> 0,
+            'level3'=> 2
+        ]);
+        return response()->json();
     }
 
     /**
@@ -159,6 +172,5 @@ return response()->json();
         $marketer->delete();
 
         return response()->json();
-
     }
 }

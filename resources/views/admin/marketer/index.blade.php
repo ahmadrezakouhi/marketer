@@ -46,8 +46,42 @@
                             </div>
                             <div class="form-group ">
                                 <label for="national_code" class="col-form-label">کد ملی</label>
-                                <input type="text" class="form-control" id="national_code" name="national_code" placeholder="کد ملی">
+                                <input type="text" class="form-control" id="national_code" name="national_code"
+                                    placeholder="کد ملی">
                             </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="level1" class="col-form-label">پورسانت</label>
+                                    <select id="level1" class="form-control" name="level1">
+                                        @for ($i=1;$i<=13;$i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="level2" class="col-form-label">پورسانت زیردست</label>
+                                    <select id="level2" class="form-control" name="level2">
+                                        @for ($i=1;$i<=13;$i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="level3" class="col-form-label"> پورسانت زیردست دوم</label>
+                                    <select id="level3" class="form-control" name="level3">
+                                        @for ($i=1;$i<=13;$i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+
+                                    </select>
+                                </div>
+
+                            </div>
+
+
                             <div class="checkbox checkbox-success">
                                 <input id="active" type="checkbox">
                                 <label for="active">فعال</label>
@@ -234,7 +268,10 @@
                     $('#address').val(data.address);
                     $('#national_code').val(data.national_code);
                     // var cheched = data.status ? true : false;
-                    $('#active').prop('checked',data.status);
+                    $('#active').prop('checked', data.status);
+                    $('#level1').val(data.commission.level1);
+                    $('#level2').val(data.commission.level2);
+                    $('#level3').val(data.commission.level3);
 
 
                 })
@@ -246,7 +283,8 @@
             $('form').submit(function(event) {
                 event.preventDefault();
                 var marketer_id = $('#marketer_id').val();
-                var url = marketer_id ? "{{ route('marketer.index')}}"+"/"+marketer_id : "{{route('marketer.index')}}";
+                var url = marketer_id ? "{{ route('marketer.index') }}" + "/" + marketer_id :
+                    "{{ route('marketer.index') }}";
                 var method = marketer_id ? "PUT" : "POST";
                 console.log(url);
                 $.ajax({
@@ -329,7 +367,7 @@
 
                             type: "DELETE",
 
-                            url: "{{ route('marketer.index')}}"+"/" + marketer_id,
+                            url: "{{ route('marketer.index') }}" + "/" + marketer_id,
 
                             success: function(data) {
 

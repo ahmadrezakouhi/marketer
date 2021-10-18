@@ -95,7 +95,11 @@ class MarketerController extends Controller
 
         $user->marketer()->save($marketer);
 
-        $commission = new Commission();
+        $commission = new Commission([
+            'level1'=>$request->level1,
+            'level2'=>$request->level2,
+            'level3'=>$request->level3,
+        ]);
         $marketer->commission()->save($commission);
 
         return response()->json();
@@ -151,9 +155,9 @@ class MarketerController extends Controller
         ]);
 
         $marketer->commission()->update([
-            'level1'=> 1,
-            'level2'=> 0,
-            'level3'=> 2
+            'level1'=> $request->level1,
+            'level2'=> $request->level2,
+            'level3'=> $request->level3
         ]);
         return response()->json();
     }

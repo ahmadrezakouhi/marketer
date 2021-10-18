@@ -245,9 +245,13 @@
 
             $('form').submit(function(event) {
                 event.preventDefault();
+                var marketer_id = $('#marketer_id').val();
+                var url = marketer_id ? "{{ route('marketer.index')}}"+"/"+marketer_id : "{{route('marketer.index')}}";
+                var method = marketer_id ? "PUT" : "POST";
+                console.log(url);
                 $.ajax({
-                    method: "POST",
-                    url: "{{ route('marketer.store') }}",
+                    method: method, //"POST",
+                    url: url, //"{{ route('marketer.store') }}",
                     data: $(this).serialize(),
                     success: function(res) {
                         $('#userForm').trigger('reset');
@@ -260,7 +264,7 @@
                         } else {
                             toastr["success"]("بازاریاب جدید ثبت شد");
                         }
-
+                        console.log(res);
 
                     },
                     error: function(res) {

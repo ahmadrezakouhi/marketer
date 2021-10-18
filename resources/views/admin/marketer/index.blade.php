@@ -211,11 +211,11 @@
             })
 
 
-            $('body').on('click', '.editUser', function() {
+            $('body').on('click', '.editMarketer', function() {
 
                 var marketer_id = $(this).data('id');
 
-                $.get("{{ route('user.index') }}" + "/" + marketer_id + "/edit", function(data) {
+                $.get("{{ route('marketer.index') }}" + "/" + marketer_id + "/edit", function(data) {
 
 
 
@@ -226,11 +226,15 @@
 
                     $('#marketer_id').val(data.id);
 
-                    $('#name').val(data.name);
-                    $('#last_name').val(data.last_name);
-                    $('#email').val(data.email);
-                    $('#phone').val(data.phone);
-
+                    $('#name').val(data.user.name);
+                    $('#last_name').val(data.user.last_name);
+                    $('#email').val(data.user.email);
+                    $('#phone').val(data.user.phone);
+                    $('#tel').val(data.tel);
+                    $('#address').val(data.address);
+                    $('#national_code').val(data.national_code);
+                    // var cheched = data.status ? true : false;
+                    $('#active').prop('checked',data.status);
 
 
                 })

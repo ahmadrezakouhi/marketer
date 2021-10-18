@@ -16,7 +16,7 @@
 
                         <form id="userForm" method="POST" action="{{ route('user.store') }}">
                             @csrf
-                            <input type="hidden" name="user_id" id="user_id">
+                            <input type="hidden" name="marketer_id" id="marketer_id">
                             <div class="form-group ">
                                 <label for="name" class="col-form-label">نام</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="نام">
@@ -203,7 +203,7 @@
 
             $('#createNewUser').click(function() {
                 $('#saveBtn').val("edit-user");
-                $('#user_id').val('');
+                $('#marketer_id').val('');
                 $('#userForm').trigger('reset');
                 $('#userFormLabel').text(' افزودن کاربر');
                 $('#myModal').modal('show');
@@ -213,9 +213,9 @@
 
             $('body').on('click', '.editUser', function() {
 
-                var user_id = $(this).data('id');
+                var marketer_id = $(this).data('id');
 
-                $.get("{{ route('user.index') }}" + "/" + user_id + "/edit", function(data) {
+                $.get("{{ route('user.index') }}" + "/" + marketer_id + "/edit", function(data) {
 
 
 
@@ -224,7 +224,7 @@
 
                     $('#myModal').modal('show');
 
-                    $('#user_id').val(data.id);
+                    $('#marketer_id').val(data.id);
 
                     $('#name').val(data.name);
                     $('#last_name').val(data.last_name);
@@ -243,7 +243,7 @@
                 event.preventDefault();
                 $.ajax({
                     method: "POST",
-                    url: "{{ route('user.store') }}",
+                    url: "{{ route('marketer.store') }}",
                     data: $(this).serialize(),
                     success: function(res) {
                         $('#userForm').trigger('reset');
@@ -251,10 +251,10 @@
 
                         table.draw();
 
-                        if ($('#user_id').val()) {
+                        if ($('#marketer_id').val()) {
                             toastr["success"]("ویرایش انجام شد");
                         } else {
-                            toastr["success"]("کاربر جدید ثبت شد");
+                            toastr["success"]("بازاریاب جدید ثبت شد");
                         }
 
 
@@ -301,7 +301,7 @@
 
 
 
-                var user_id = $(this).data("id");
+                var marketer_id = $(this).data("id");
 
                 Swal.fire({
                     title: "مطمئنی؟",
@@ -321,7 +321,7 @@
 
                             type: "DELETE",
 
-                            url: "/user/" + user_id,
+                            url: "/user/" + marketer_id,
 
                             success: function(data) {
 

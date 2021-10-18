@@ -297,7 +297,7 @@
                 }
             }
 
-            $('body').on('click', '.deleteUser', function() {
+            $('body').on('click', '.deleteMarketer', function() {
 
 
 
@@ -321,7 +321,7 @@
 
                             type: "DELETE",
 
-                            url: "/user/" + marketer_id,
+                            url: "{{ route('marketer.index')}}"+"/" + marketer_id,
 
                             success: function(data) {
 

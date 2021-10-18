@@ -20,7 +20,7 @@ class UserController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = User::with('role');
+            $data = User::with('role')->where('role_id','!=',6);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {

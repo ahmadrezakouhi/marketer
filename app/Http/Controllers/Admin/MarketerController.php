@@ -118,7 +118,7 @@ return response()->json();
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -129,7 +129,8 @@ return response()->json();
      */
     public function edit($id)
     {
-        //
+        $marketer = Marketer::with('user','commission')->findOrFail($id);
+        return response()->json($marketer);
     }
 
     /**

@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
         return [
             'name'=>'required',
             'last_name'=>'required',
-            'email'=>'required|unique:users',
+            'email'=>'required',
             'phone'=>'required',
         ];
     }
@@ -38,7 +38,7 @@ class UserRequest extends FormRequest
             'name.required'=>'فیلد نام الزامی است',
             'last_name.required'=>'فیلد نام خانوادگی الزامی است',
             'email.required'=>'فیلد ایمیل الزامی است',
-            'email.unique'=>'ایمیل ثبت شده است',
+            // 'email.unique'=>'ایمیل ثبت شده است',
             'phone.required'=>'فیلد تلفن الزامی است',
         ];
     }

@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('user', 'UserController');
+Route::resource('user', 'Admin\UserController');
 
 
 Route::resource('surgery','Admin\SurgeryController');

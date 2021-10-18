@@ -8,8 +8,8 @@ class Commission extends Model
 {
     protected $fillable = ['marketer_id','level1','level2','level3'];
 
-    public function user()
+    public function marketer()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\marketer');
     }
 }

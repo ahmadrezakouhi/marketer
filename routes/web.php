@@ -11,10 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('user', 'Admin\UserController');
+
+
+Route::resource('surgery','Admin\SurgeryController');
+
+Route::resource('marketer', 'Admin\MarketerController');
+

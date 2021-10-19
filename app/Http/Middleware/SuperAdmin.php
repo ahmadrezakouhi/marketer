@@ -15,6 +15,10 @@ class SuperAdmin
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(Auth::user()->isSuperAdmin()){
+
+            return $next($request);
+        }
+        return redirect('login');
     }
 }

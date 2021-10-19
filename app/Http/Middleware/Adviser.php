@@ -15,6 +15,10 @@ class Adviser
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(Auth::user()->isAdviser()){
+
+            return $next($request);
+        }
+        return redirect('login');
     }
 }

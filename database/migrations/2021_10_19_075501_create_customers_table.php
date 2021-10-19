@@ -22,6 +22,7 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->tinyInteger('gender');
+            $table->tinyInteger('age');
             $table->string('tel');
             $table->string('phone');
             $table->string('address');

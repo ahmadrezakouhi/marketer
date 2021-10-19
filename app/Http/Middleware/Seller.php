@@ -15,6 +15,10 @@ class Seller
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(Auth::user()->isSeller()){
+
+            return $next($request);
+        }
+        return redirect('login');
     }
 }

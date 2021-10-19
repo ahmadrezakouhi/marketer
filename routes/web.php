@@ -16,6 +16,10 @@
 // });
 
 Auth::routes();
+Route::post('logout',function(){
+    Auth::logout();
+    return redirect('login');
+})->name('logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

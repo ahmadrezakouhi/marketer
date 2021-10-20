@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Marketer;
 
+use App\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use DataTables;
 class CustomerController extends Controller
 {
     /**
@@ -12,9 +13,24 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->ajax()){
+            $customers = Customer::all();
+            return Datatables::of($customers)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editCustomer"><i class="fa fa-edit"></i></a>';
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteCustomer"><i class="fas fa-trash"></i></a>';
+                    return $btn;
+                })
+
+                ->rawColumns(['action'])
+                ->make(true);
+
+        }
+
+        return view('marketer.customers.index');
     }
 
     /**

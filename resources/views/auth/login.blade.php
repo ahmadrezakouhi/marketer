@@ -137,7 +137,9 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12 text-center">
+
                                             <p> <a href="{{route('password.request')}}" class="text-muted ml-1"><i class="fa fa-lock mr-1"></i>رمز عبور خود را فراموش کرده اید؟</a></p>
+
 
                                         </div> <!-- end col -->
                                     </div>

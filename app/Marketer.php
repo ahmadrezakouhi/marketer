@@ -17,4 +17,9 @@ class Marketer extends Model
         return $this->hasOne('App\Commission');
     }
 
+    public function customers()
+    {
+        return $this->hasMany('App\Customer');
+    }
+
 }

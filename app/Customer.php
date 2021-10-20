@@ -13,4 +13,8 @@ class Customer extends Model
         return $this->belongsTo('App\Marketer');
     }
 
+    public function surgeries()
+    {
+        return $this->belongsToMany('App\Surgery');
+    }
 }

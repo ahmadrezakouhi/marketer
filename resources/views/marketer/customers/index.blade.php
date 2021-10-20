@@ -54,6 +54,15 @@
                                 <label for="address" class="col-form-label"> آدرس</label>
                                 <input type="text" class="form-control" id="address" name="address" placeholder="آدرس">
                             </div>
+                            <div class="form-group ">
+                                <label for="role_id" class="col-form-label">عمل</label>
+                                <select id="role_id" class="form-control" name="role_id">
+                                    @foreach ($surgeries as $surgery)
+                                        <option value="{{ $surgery->id }}">{{ $surgery->name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
                             {{-- <div class="form-group ">
                                 <label for="role_id" class="col-form-label">نوع کاربر</label>
                                 <select id="role_id" class="form-control" name="role_id">

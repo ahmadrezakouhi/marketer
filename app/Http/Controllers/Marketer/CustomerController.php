@@ -6,6 +6,7 @@ use App\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Marketer;
+use App\Surgery;
 use DataTables;
 class CustomerController extends Controller
 {
@@ -32,8 +33,9 @@ class CustomerController extends Controller
                 ->make(true);
 
         }
+        $surgeries = Surgery::all();
 
-        return view('marketer.customers.index');
+        return view('marketer.customers.index',compact('surgeries'));
     }
 
     /**

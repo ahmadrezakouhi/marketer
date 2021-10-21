@@ -15,9 +15,9 @@ class CreateCardsTable extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('marketer_id');
+            $table->bigInteger('marketer_id')->unsigned();
             $table->foreign('marketer_id')->references('id')->on('marketers');
-            $table->bigInteger('bank_id');
+            $table->bigInteger('bank_id')->unsigned();
             $table->foreign('bank_id')->references('id')->on('banks');
             $table->string('identification');
             $table->tinyInteger('status')->default(0);

@@ -1,8 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Marketer;
 
+use App\Bank;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Marketer;
+use App\Card;
+use DataTables;
 
 class CardController extends Controller
 {
@@ -11,9 +16,25 @@ class CardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $cards = Marketer::find(1)->cards()->with('bank');
+            return Datatables::of($cards)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editCard"><i class="fa fa-edit"></i></a>';
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteCard"><i class="fas fa-trash"></i></a>';
+                    return $btn;
+                })
+                ->addColumn('name', function (Card $card) {
+                    return $card->bank->name;
+                })
+                ->rawColumns(['action'])
+                ->make(true);;
+        }
+        $banks = Bank::all();
+        return view('marketer.cards.index', compact('banks'));
     }
 
     /**

@@ -22,7 +22,7 @@ class CreateCustomersTable extends Migration
             $table->tinyInteger('gender');
             $table->tinyInteger('age');
             $table->string('tel');
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->string('address');
             $table->timestamps();
         });

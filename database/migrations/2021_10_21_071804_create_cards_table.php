@@ -19,7 +19,7 @@ class CreateCardsTable extends Migration
             $table->foreign('marketer_id')->references('id')->on('marketers');
             $table->bigInteger('bank_id')->unsigned();
             $table->foreign('bank_id')->references('id')->on('banks');
-            $table->string('identification');
+            $table->string('identification')->unique();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

@@ -18,7 +18,7 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $customers = Marketer::find(1)->customers;
+            $customers = Marketer::find(1)->customers()->with('surgeries');
             return Datatables::of($customers)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -26,7 +26,9 @@ class CustomerController extends Controller
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteCustomer"><i class="fas fa-trash"></i></a>';
                     return $btn;
                 })->editColumn('gender',function(Customer $customer){
-                    return $customer->gender ? 'آقا' : 'خانم' ;
+                    return $customer->gender ? 'زن':'مرد';
+                })->addColumn('surgery',function(Customer $customer){
+                    return $customer->surgeries()->first()->name;
                 })
 
                 ->rawColumns(['action'])
@@ -56,7 +58,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      
     }
 
     /**

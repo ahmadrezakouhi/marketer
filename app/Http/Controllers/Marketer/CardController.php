@@ -55,7 +55,18 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $marketer = Marketer::find(1);
+
+        $bank = Bank::findOrFail($request->bank_id);
+        $card = new Card([
+            'identification'=>$request->identification
+            ,
+            'bank_id'=>$request->bank_id
+        ]);
+        $marketer->cards()->save($card);
+        // $bank->cards()->save($card);
+
+
     }
 
     /**

@@ -14,4 +14,9 @@ class Card extends Model
         return $this->belongsTo('App\Marketer');
     }
 
+    public function bank()
+    {
+        return $this->belongsTo('App\Bank');
+    }
+
 }

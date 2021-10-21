@@ -58,7 +58,21 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-      
+        $marketer = Marketer::find(1);
+        $customer = new Customer([
+                'name'=>$request->name,
+                'last_name'=>$request->last_name,
+                'gender'=>$request->gender,
+                'age'=>$request->age,
+                'tel'=>$request->tel,
+                'phone'=>$request->phone,
+                'address'=>$request->address,
+        ]);
+
+        $marketer->customers()->save($customer);
+        $surgery = Surgery::find($request->surgery_id);
+        $customer->surgeries()->save($surgery);
+        return response()->json($request->all());
     }
 
     /**

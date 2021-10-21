@@ -28,3 +28,5 @@ Route::resource('marketer', 'Admin\MarketerController');
 
 Route::resource('customer','Marketer\CustomerController');
 
+Route::resource('card','Marketer\CardController');
+

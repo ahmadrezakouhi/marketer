@@ -22,4 +22,9 @@ class Marketer extends Model
         return $this->hasMany('App\Customer');
     }
 
+    public function cards()
+    {
+        return $this->hasMany('App\Card');
+    }
+
 }

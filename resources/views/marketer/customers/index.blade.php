@@ -14,9 +14,9 @@
                     </div>
                     <div class="modal-body">
 
-                        <form id="userForm" method="POST" action="{{ route('user.store') }}">
+                        <form id="userForm" method="POST" action="{{ route('customer.store') }}">
                             @csrf
-                            <input type="hidden" name="user_id" id="user_id">
+                            <input type="hidden" name="customer_id" id="customer_id">
                             <div class="form-group ">
                                 <label for="name" class="col-form-label">نام</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="نام">
@@ -55,8 +55,8 @@
                                 <input type="text" class="form-control" id="address" name="address" placeholder="آدرس">
                             </div>
                             <div class="form-group ">
-                                <label for="role_id" class="col-form-label">عمل</label>
-                                <select id="role_id" class="form-control" name="role_id">
+                                <label for="surgery_id" class="col-form-label">عمل</label>
+                                <select id="surgery_id" class="form-control" name="surgery_id">
                                     @foreach ($surgeries as $surgery)
                                         <option value="{{ $surgery->id }}">{{ $surgery->name }}</option>
                                     @endforeach
@@ -122,6 +122,7 @@
                                         <th>تلفن</th>
                                         <th>موبایل</th>
                                         <th>آدرس</th>
+                                        <th>عمل</th>
                                         <th></th>
 
                                     </tr>
@@ -189,6 +190,10 @@
                         name: 'address'
                     },
                     {
+                        data: 'surgery',
+                        name: 'surgary'
+                    },
+                    {
                         data: 'action',
                         name: 'action',
                         orderable: false,
@@ -238,9 +243,13 @@
 
             $('form').submit(function(event) {
                 event.preventDefault();
+                var customer_id = $('#customer_id').val();
+                var url = customer_id ? "{{ route('customer.index') }}" + "/" + customer_id :
+                    "{{ route('customer.index') }}";
+                var method = customer_id ? "PUT" : "POST";
                 $.ajax({
-                    method: "POST",
-                    url: "{{ route('user.store') }}",
+                    method: method,
+                    url: url,
                     data: $(this).serialize(),
                     success: function(res) {
                         $('#userForm').trigger('reset');
@@ -251,7 +260,7 @@
                         if($('#user_id').val()){
                             toastr["success"]("ویرایش انجام شد");
                         }else {
-                            toastr["success"]("کاربر جدید ثبت شد");
+                            toastr["success"]("سفارش جدید ثبت شد");
                         }
 
 

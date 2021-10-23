@@ -8,6 +8,7 @@ use App\User;
 use App\Marketer;
 use App\Commission;
 use DataTables;
+
 class MarketerController extends Controller
 {
     /**
@@ -133,6 +134,14 @@ class MarketerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $marketer = Marketer::find(1)->marketers()->find($id);
+
+        if ($marketer->status == 1) {
+            return response()->json(['message'=>'بازاریاب تایید شده رو نمی توان حذف کرد .'],500);
+        }
+        $marketer->commission->delete();
+        $marketer->user()->delete();
+
+        return response()->json();
     }
 }

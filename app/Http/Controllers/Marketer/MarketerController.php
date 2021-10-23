@@ -111,7 +111,8 @@ class MarketerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $marketer = Marketer::find(1)->marketers()->with('user')->find($id);
+        return response()->json($marketer);
     }
 
     /**

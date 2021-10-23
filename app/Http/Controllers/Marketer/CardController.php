@@ -30,6 +30,15 @@ class CardController extends Controller
                 ->addColumn('name', function (Card $card) {
                     return $card->bank->name;
                 })
+                ->editColumn('status',function(Card $card){
+                    if($card->status == 0){
+                        return 'در انتظار تایید ';
+                    }else if($card->status==1){
+                        return 'تایید شده';
+                    }else {
+                        return 'رد شده';
+                    }
+                })
                 ->rawColumns(['action'])
                 ->make(true);;
         }
@@ -111,6 +120,15 @@ class CardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $card = Marketer::find(1)->cards()->where('id',$id)->first();
+        if($card->status == 1){
+            return response()->json(['message'=>'این کارت تایید شده است نمی توان آن را حذف کرد.'],500);
+
+        }else {
+            $card->delete();
+        }
+
+        return response()->json();
+
     }
 }

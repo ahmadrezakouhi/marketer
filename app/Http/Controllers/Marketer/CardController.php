@@ -66,14 +66,14 @@ class CardController extends Controller
     {
         $marketer = Marketer::find(1);
 
-        $bank = Bank::findOrFail($request->bank_id);
+
         $card = new Card([
             'identification'=>$request->identification
             ,
             'bank_id'=>$request->bank_id
         ]);
         $marketer->cards()->save($card);
-        // $bank->cards()->save($card);
+        return response()->json();
 
 
     }
@@ -97,7 +97,11 @@ class CardController extends Controller
      */
     public function edit($id)
     {
-        //
+        $card = Marketer::find(1)->cards()->find($id)->first();
+        if($card->status == 1){
+            return response()->json(['message'=>'کارت تایید شده امکان ادیت آن وجود ندارد'],500);
+        }
+        return response()->json($card);
     }
 
     /**
@@ -109,7 +113,19 @@ class CardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Marketer::find(1)->cards()->find($id)->update([
+
+            'identification'=>$request->identification,
+            'bank_id'=>$request->bank_id,
+            'status'=>0
+
+
+        ]);
+
+
+
+
+        return response()->json();
     }
 
     /**

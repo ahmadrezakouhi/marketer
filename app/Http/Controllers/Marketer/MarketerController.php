@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Marketer;
+use App\Commission;
 use DataTables;
 class MarketerController extends Controller
 {
@@ -65,7 +66,29 @@ class MarketerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::create([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => bcrypt($request->phone),
+            'role_id' => 6
+
+        ]);
+        $marketer = new Marketer([
+            'tel' => $request->tel,
+            'address' => $request->address,
+            'national_code' => $request->national_code,
+            'status' => $request->status ? 1 : 0,
+            'parent_id' => 1 // remove with auth
+        ]);
+
+        $user->marketer()->save($marketer);
+
+        $commission = new Commission();
+        $marketer->commission()->save($commission);
+
+        return response()->json();
     }
 
     /**

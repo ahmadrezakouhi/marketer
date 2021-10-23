@@ -27,4 +27,9 @@ class Marketer extends Model
         return $this->hasMany('App\Card');
     }
 
+
+    public function marketers(){
+        return $this->hasMany('App\Marketer','parent_id','id');
+    }
+
 }

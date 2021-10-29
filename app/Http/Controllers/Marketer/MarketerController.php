@@ -25,6 +25,7 @@ class MarketerController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editMarketer"><i class="fa fa-edit"></i></a>';
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteMarketer"><i class="fas fa-trash"></i></a>';
+                    $btn = $btn . ' <a href="'.route("marketers.show",$row->id).'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-info showSubMarketer"><i class="fas fa-sitemap"></i></a>';
                     return $btn;
                 })->addColumn('name', function (Marketer $marketer) {
                     return $marketer->user->name;
@@ -100,7 +101,7 @@ class MarketerController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

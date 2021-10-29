@@ -124,7 +124,22 @@ class MarketerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $marketer = Marketer::find(1)->marketers()->find($id);
+        $marketer->user()->update([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => bcrypt($request->phone),
+            'role_id' => 6
+        ]);
+        $marketer->update([
+            'tel' => $request->tel,
+            'address' => $request->address,
+            'national_code' => $request->national_code,
+            'status' => $request->status ? 1 : 0,
+        ]);
+        return response()->json();
     }
 
     /**

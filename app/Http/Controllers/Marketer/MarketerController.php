@@ -25,6 +25,7 @@ class MarketerController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editMarketer"><i class="fa fa-edit"></i></a>';
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteMarketer"><i class="fas fa-trash"></i></a>';
+                    $btn = $btn . ' <a href="'.route("marketers.show",$row->id).'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-info showSubMarketer"><i class="fas fa-sitemap"></i></a>';
                     return $btn;
                 })->addColumn('name', function (Marketer $marketer) {
                     return $marketer->user->name;
@@ -98,9 +99,35 @@ class MarketerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request , $id)
     {
-        //
+        if ($request->ajax()) {
+            $marketers = Marketer::find($id)->marketers()->with('user');
+            return Datatables::of($marketers)
+                ->addIndexColumn()
+                ->addColumn('name', function (Marketer $marketer) {
+                    return $marketer->user->name;
+                })->addColumn('last_name', function (Marketer $marketer) {
+                    return $marketer->user->last_name;
+                })->addColumn('email', function (Marketer $marketer) {
+                    return $marketer->user->email;
+                })->addColumn('phone', function (Marketer $marketer) {
+                    return $marketer->user->phone;
+                })
+                ->editColumn('status', function (Marketer $marketer) {
+                    if ($marketer->status) {
+                        return 'فعال';
+                    }
+                    return 'غیر فعال';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        $selectedMarketer = Marketer::with('user')->find($id);
+      
+
+        return view('marketer.marketers.show',compact('selectedMarketer', 'id'));
     }
 
     /**

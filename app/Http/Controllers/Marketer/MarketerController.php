@@ -99,9 +99,35 @@ class MarketerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request , $id)
     {
+        if ($request->ajax()) {
+            $marketers = Marketer::find($id)->marketers()->with('user');
+            return Datatables::of($marketers)
+                ->addIndexColumn()
+                ->addColumn('name', function (Marketer $marketer) {
+                    return $marketer->user->name;
+                })->addColumn('last_name', function (Marketer $marketer) {
+                    return $marketer->user->last_name;
+                })->addColumn('email', function (Marketer $marketer) {
+                    return $marketer->user->email;
+                })->addColumn('phone', function (Marketer $marketer) {
+                    return $marketer->user->phone;
+                })
+                ->editColumn('status', function (Marketer $marketer) {
+                    if ($marketer->status) {
+                        return 'فعال';
+                    }
+                    return 'غیر فعال';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
 
+        $selectedMarketer = Marketer::with('user')->find($id);
+      
+
+        return view('marketer.marketers.show',compact('selectedMarketer', 'id'));
     }
 
     /**

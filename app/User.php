@@ -52,4 +52,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Marketer');
     }
 
+
+    public function wallet()
+    {
+        return $this->hasOne('App\Wallet');
+    }
+
+
 }

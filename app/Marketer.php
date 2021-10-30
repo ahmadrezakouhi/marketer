@@ -17,4 +17,19 @@ class Marketer extends Model
         return $this->hasOne('App\Commission');
     }
 
+    public function customers()
+    {
+        return $this->hasMany('App\Customer');
+    }
+
+    public function cards()
+    {
+        return $this->hasMany('App\Card');
+    }
+
+
+    public function marketers(){
+        return $this->hasMany('App\Marketer','parent_id','id');
+    }
+
 }

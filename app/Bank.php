@@ -4,13 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Surgery extends Model
+class Bank extends Model
 {
     protected $fillable = ['name'];
 
-    public function customers()
+    public function cards()
     {
-        return $this->belongsToMany('App\Customer');
+        return $this->hasMany('App\Card');
     }
-
 }

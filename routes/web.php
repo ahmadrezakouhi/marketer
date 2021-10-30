@@ -23,10 +23,19 @@ Route::post('logout',function(){
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('user', 'Admin\UserController');
+Route::prefix('admin')->group(function () {
+    Route::resource('user', 'Admin\UserController');
 
 
-Route::resource('surgery','Admin\SurgeryController');
+    Route::resource('surgery', 'Admin\SurgeryController');
 
-Route::resource('marketer', 'Admin\MarketerController');
+    Route::resource('marketer', 'Admin\MarketerController');
+});
 
+Route::prefix('marketer')->group(function () {
+    Route::resource('customer', 'Marketer\CustomerController');
+
+    Route::resource('card', 'Marketer\CardController');
+
+    Route::resource('marketers', 'Marketer\MarketerController');
+});

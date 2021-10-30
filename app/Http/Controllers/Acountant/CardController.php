@@ -20,16 +20,14 @@ class CardController extends Controller
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-success acceptCard"><i class="fas fa-check"></i></a>';
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger declineCard"><i class="fas fa-ban"></i></a>';
                     return $btn;
-                })->addColumn('fullname',function (Card $card)
-                {
+                })->addColumn('fullname', function (Card $card) {
                     return $card->marketer->user->full_name;
-                })->editColumn('status',function (Card $card)
-                {
-                    if($card->status==-1){
+                })->editColumn('status', function (Card $card) {
+                    if ($card->status == -1) {
                         return 'رد شده';
-                    }else if($card->status == 0){
+                    } else if ($card->status == 0) {
                         return 'در حال بررسی';
-                    }else {
+                    } else {
                         return 'تایید شده';
                     }
                 })
@@ -37,5 +35,19 @@ class CardController extends Controller
                 ->make(true);
         }
         return view('acountant.cards.index');
+    }
+
+
+    public function accept(Request $request)
+    {
+        Card::find($request->card_id)->update(['status' => 1]);
+        return response()->json();
+    }
+
+    public function decline(Request $request)
+    {
+        Card::find($request->card_id)->update(['status' => -1]);
+        return response()->json();
+
     }
 }

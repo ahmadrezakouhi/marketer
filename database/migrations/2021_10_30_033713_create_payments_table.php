@@ -15,10 +15,10 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('marketer_id')->unsigned()->index();
-            $table->foreign('marketer_id')->references('id')->on('marketers');
+            $table->bigInteger('card_id')->unsigned()->index();
+            $table->foreign('card_id')->references('id')->on('cards');
             $table->double('amount');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

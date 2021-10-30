@@ -6,5 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    protected $fillable = ['marketer_id','amount','status'];
+    protected $fillable = ['card_id','amount','status'];
+
+    public function card()
+    {
+        return $this->belongsTo('App\Card');
+    }
+
+    public function marketer()
+    {
+        return $this->hasManyThrough('App\Marketer','App\Card');
+    }
 }

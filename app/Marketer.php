@@ -38,4 +38,9 @@ class Marketer extends Model
         return $this->hasOne('App\Wallet');
     }
 
+
+    public function payments(){
+        return $this->hasManyThrough('App\Payment','App\Card');
+    }
+
 }

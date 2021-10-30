@@ -19,4 +19,9 @@ class Card extends Model
         return $this->belongsTo('App\Bank');
     }
 
+    public function payments()
+    {
+        $this->hasMany('App\Payment');
+    }
+
 }

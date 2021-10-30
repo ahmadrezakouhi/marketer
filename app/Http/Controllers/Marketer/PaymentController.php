@@ -64,7 +64,12 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Payment::create([
+            'card_id'=>$request->card_id,
+            'amount'=>$request->amount,
+            'status'=>0
+        ]);
+        return response()->json();
     }
 
     /**

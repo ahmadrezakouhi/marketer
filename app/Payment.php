@@ -12,4 +12,9 @@ class Payment extends Model
     {
         return $this->belongsTo('App\Card');
     }
+
+    public function marketer()
+    {
+        return $this->hasManyThrough('App\Marketer','App\Card');
+    }
 }

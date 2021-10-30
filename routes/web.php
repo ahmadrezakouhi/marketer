@@ -46,4 +46,5 @@ Route::prefix('acountant')->group(function(){
     Route::get('cards','Acountant\CardController@index')->name('acountant.cards.index');
     Route::post('accept/cards','Acountant\CardController@accept')->name('acountant.cards.accept');
     Route::post('decline/cards','Acountant\CardController@decline')->name('acountant.cards.decline');
+    Route::get('payments','Acountant\PaymentController@index')->name('acountant.payments.index');
 });

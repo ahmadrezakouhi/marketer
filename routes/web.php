@@ -34,4 +34,5 @@ Route::prefix('marketer')->group(function () {
     Route::resource('card', 'Marketer\CardController');
 
     Route::resource('marketers', 'Marketer\MarketerController');
+    Route::resource('payments', 'Marketer\PaymentController');
 });

@@ -32,4 +32,10 @@ class Marketer extends Model
         return $this->hasMany('App\Marketer','parent_id','id');
     }
 
+
+    public function wallet()
+    {
+        return $this->hasOne('App\Wallet');
+    }
+
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Marketer;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Marketer;
+use App\Payment;
+use DataTables;
 class PaymentController extends Controller
 {
     /**
@@ -12,9 +14,36 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
+        if ($request->ajax()) {
+            $payments = Marketer::find(1)->payments()->with('card');
+            return Datatables::of($payments)
+                ->addIndexColumn()
+                ->addColumn('name',function (Payment $payment)
+                {
+                    return $payment->card->bank->name;
+                })
+                ->addColumn('identification',function (Payment $payment)
+                {
+                    return $payment->card->identification;
+                })
+                ->editColumn('status',function (Payment $payment)
+                {
+                    if ($payment->status == -1) {
+                        return 'رد شده';
+                    } else if($payment->status == 0) {
+                        return 'در حال بررسی';
+
+                    }else {
+                        return 'تایید شده';
+                    }
+
+                })
+                ->make(true);
+        }
+        $cards = Marketer::find(1)->cards;
+        return view('marketer.payments.index',compact('cards'));
     }
 
     /**

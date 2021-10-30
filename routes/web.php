@@ -40,3 +40,8 @@ Route::prefix('marketer')->group(function () {
     Route::resource('marketers', 'Marketer\MarketerController');
     Route::resource('payments', 'Marketer\PaymentController');
 });
+
+
+Route::prefix('acountant')->group(function(){
+    Route::resource('cards','Acountant\CardController');
+});

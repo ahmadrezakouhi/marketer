@@ -17,7 +17,8 @@ class CreateCustomerSurgeryTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('customer_id')->unsigned();
             $table->foreign('customer_id')->references('id')->on('customers');
-            $table->bigInteger('surgery_id')->references('id')->on('surgeries');
+            $table->bigInteger('surgery_id')->unsigned();
+            $table->foreign('surgery_id')->references('id')->on('surgeries');
             $table->tinyInteger('status')->default(0);
             $table->double('price')->nullable();
             $table->timestamps();

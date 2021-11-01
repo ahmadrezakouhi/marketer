@@ -62,3 +62,10 @@ Route::prefix('acountant')->group(function(){
     Route::post('payments/decline','Acountant\PaymentController@decline')->name('acountant.payments.decline');
 
 });
+
+
+
+Route::prefix('adviser')->group(function ()
+{
+   Route::get('orders','Adviser\OrderController@index')->name('adviser.orders.index');
+});

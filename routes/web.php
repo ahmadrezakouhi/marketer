@@ -24,19 +24,41 @@ Route::post('logout',function(){
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->group(function () {
+
     Route::resource('user', 'Admin\UserController');
 
 
     Route::resource('surgery', 'Admin\SurgeryController');
 
     Route::resource('marketer', 'Admin\MarketerController');
+
 });
 
 Route::prefix('marketer')->group(function () {
+
     Route::resource('customer', 'Marketer\CustomerController');
 
     Route::resource('card', 'Marketer\CardController');
 
     Route::resource('marketers', 'Marketer\MarketerController');
+
     Route::resource('payments', 'Marketer\PaymentController');
+
+});
+
+
+Route::prefix('acountant')->group(function(){
+
+    Route::get('cards','Acountant\CardController@index')->name('acountant.cards.index');
+
+    Route::post('cards/accept','Acountant\CardController@accept')->name('acountant.cards.accept');
+
+    Route::post('cards/decline','Acountant\CardController@decline')->name('acountant.cards.decline');
+
+    Route::get('payments','Acountant\PaymentController@index')->name('acountant.payments.index');
+
+    Route::post('payments/accept','Acountant\PaymentController@accept')->name('acountant.payments.accept');
+
+    Route::post('payments/decline','Acountant\PaymentController@decline')->name('acountant.payments.decline');
+
 });

@@ -16,8 +16,8 @@ class PaymentController extends Controller
             return Datatables::of($payments)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-success acceptCard"><i class="fas fa-check"></i></a>';
-                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger declineCard"><i class="fas fa-ban"></i></a>';
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="accept" class="edit btn btn-icon waves-effect waves-light btn-success acceptPayment"><i class="fas fa-check"></i></a>';
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="decline" class="btn btn-icon waves-effect waves-light btn-danger declinePayment"><i class="fas fa-ban"></i></a>';
                     return $btn;
                 })
                 ->addColumn('fullname', function (Payment $payment) {
@@ -44,5 +44,20 @@ class PaymentController extends Controller
 
 
         return view('acountant.payments.index');
+    }
+
+
+
+    public function accept(Request $request)
+    {
+        Payment::find($request->payment_id)->update(['status' => 1]);
+    }
+
+
+
+
+    public function decline(Request $request)
+    {
+        Payment::find($request->payment_id)->update(['status' => -1]);
     }
 }

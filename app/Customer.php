@@ -15,6 +15,6 @@ class Customer extends Model
 
     public function surgeries()
     {
-        return $this->belongsToMany('App\Surgery')->withPivot('status','price');
+        return $this->belongsToMany('App\Surgery')->using('App\CustomerSurgery')->withPivot('status','price');
     }
 }

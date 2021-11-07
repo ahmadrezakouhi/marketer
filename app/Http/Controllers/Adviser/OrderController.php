@@ -49,18 +49,22 @@ class OrderController extends Controller
 
     public function accept(Request $request)
     {
-        $customer_surgery = CustomerSurgery::where('customer_id',$request->order_id);
+        $customer_surgery = CustomerSurgery::where('customer_id',$request->order_id)->first();
         if($customer_surgery->status !=0){
-            return response()->json(['error'=>'']);
+            return response()->json(['error'=>'سفارش تایید و یا رد شده را نمی توان انتخاب کرد!!!'],500);
         }
 
-
-        $customer_surgery->update(['status'=>1]);
-        return response()->json();
+        
+        CustomerSurgery::where('customer_id',$request->order_id)->update(['status'=>1]);
+        return response()->json(['id'=>'hi']);
     }
 
     public function decline(Request $request)
     {
+        $customer_surgery = CustomerSurgery::where('customer_id',$request->order_id)->first();
+        if($customer_surgery->status !=0){
+            return response()->json(['error'=>'سفارش تایید و یا رد شده را نمی توان انتخاب کرد!!!'],500);
+        }
 
         CustomerSurgery::where('customer_id',$request->order_id)->update(['status'=>-1]);
         return response()->json();

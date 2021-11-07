@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'مدیریت بازایاب ها')
+@section('title', 'مدیریت سفارش  ها')
 @section('content')
 
     <div>
@@ -107,14 +107,7 @@
             });
 
 
-            $('#createNewUser').click(function() {
-                $('#saveBtn').val("edit-user");
-                $('#marketer_id').val('');
-                $('#userForm').trigger('reset');
-                $('#userFormLabel').text(' افزودن کاربر');
-                $('#myModal').modal('show');
 
-            })
 
 
             $('body').on('click', '.acceptOrder', function() {
@@ -128,7 +121,16 @@
                         order_id:order_id
                     },
                     success:function(res){
-                        toastr["success"]("تایید انجام شد");
+                        console.log('ss');
+                        toastr["success"]("سفارش مورد نظر تایید شد");
+                    }
+                    ,
+                    error: function(res) {
+                        var error = res.responseJSON;
+                        $.each(error, function(index, value) {
+                            toastr["error"](value);
+                        })
+
                     }
                 })
 
@@ -146,8 +148,17 @@
                         order_id:order_id
                     },
                     success:function(res){
-                        toastr["success"]("شبا مورد نظر رد شد");
+                        toastr["success"]("سفارش مورد نظر رد شد");
                     }
+                    ,
+                    error: function(res) {
+                        var error = res.responseJSON;
+                        $.each(error, function(index, value) {
+                            toastr["error"](value);
+                        })
+
+                    }
+
                 })
 
                 table.draw();
@@ -184,67 +195,7 @@
                 }
             }
 
-            $('body').on('click', '.deleteMarketer', function() {
 
-
-
-                var marketer_id = $(this).data("id");
-
-                Swal.fire({
-                    title: "مطمئنی؟",
-                    text: "این کار قابل بازگشت نیست!",
-                    type: "warning",
-                    showCancelButton: !0,
-                    confirmButtonText: "بله حذفش کن!",
-                    cancelButtonText: "نه لغو کن!",
-                    confirmButtonClass: "btn btn-success mt-2",
-                    cancelButtonClass: "btn btn-danger ml-2 mt-2",
-                    buttonsStyling: !1
-                }).then(function(t) {
-                    if (t.value) {
-
-
-                        $.ajax({
-
-                            type: "DELETE",
-
-                            url: "{{ route('marketer.index') }}" + "/" + marketer_id,
-
-                            success: function(data) {
-
-                                table.draw();
-                                Swal.fire({
-                                    title: "حذف شد!",
-                                    text: "فایل شما حذف شد.",
-                                    type: "success"
-                                })
-                            },
-
-                            error: function(data) {
-
-                                console.log('Error:', data);
-
-                            }
-
-                        });
-
-
-
-
-
-                    } else {
-                        t.dismiss === Swal.DismissReason.cancel && Swal.fire({
-                            title: "لغو شد",
-                            type: "error"
-                        })
-                    }
-                })
-
-
-
-
-
-            });
 
 
 

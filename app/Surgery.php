@@ -10,7 +10,7 @@ class Surgery extends Model
 
     public function customers()
     {
-        return $this->belongsToMany('App\Customer');
+        return $this->belongsToMany('App\Customer')->using("App\CustomerSurgery");
     }
 
 }

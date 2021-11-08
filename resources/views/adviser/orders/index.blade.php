@@ -76,6 +76,8 @@
             var table = $('table').DataTable({
                 processing: true,
                 serverSide: true,
+
+                orderable:false,
                 ajax: "{{ route('adviser.orders.index') }}",
                 columns: [
 
@@ -90,11 +92,17 @@
                     },
                     {
                         data: 'status',
-                        name: 'status'
+                        name: 'status',
+                        searchable:false,
+                        orderable: false,
+
                     },
                     {
                         data: 'price',
-                        name: 'price'
+                        name: 'price' ,
+                        searchable:false,
+                        orderable: false,
+
                     },
 
                     {

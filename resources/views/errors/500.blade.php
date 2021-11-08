@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>ادمین تو - قالب مدیریتی واکنش گرا</title>
+        <title>ارور 500</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="یک قالب مدیریتی با امکانات فراوان برای ساخت سی آر ام، سیستم مدیریت محتوا و ..." name="description" />
         <meta content="قائم امیدی" name="author" />

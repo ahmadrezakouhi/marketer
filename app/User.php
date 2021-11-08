@@ -53,7 +53,54 @@ class User extends Authenticatable
     }
 
 
-   
+    public function isAdmin(){
+        if($this->role->name =="admin"){
+           return true;
+        }
+        return false;
+    }
+
+    public function isSuperAdmin(){
+        if($this->role->name == 'super_admin'){
+            return true;
+        }
+        return false;
+    }
+
+
+    public function isSeller(){
+        if($this->role->name == 'seller'){
+            return true;
+        }
+        return false;
+    }
+
+
+    public function isAccountant()
+    {
+        if($this->role->name == 'accountant'){
+            return true;
+        }
+        return false;
+    }
+
+    public function isAdviser(){
+        if($this->role->name == 'advise'){
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public function isMarketer()
+    {
+        if($this->role->name == 'marketer'){
+            return true;
+        }
+        return false;
+    }
+
 
 
 }

@@ -35,7 +35,7 @@
                                     <h3 class="mt-3 mb-2">برگه پیدا نشد</h3>
                                     <p class="text-muted mb-3">متاسفیم! چیزی که به دنبال آن می گردید، یافت نشد.</p>
 
-                                    <a href="index.html" class="btn btn-danger waves-effect waves-light"><i class="fas fa-home mr-1"></i> بازگشت به خانه</a>
+                                    <a href="{{ route('login')}}" class="btn btn-danger waves-effect waves-light"><i class="fas fa-home mr-1"></i> بازگشت به خانه</a>
                                 </div>
 
 

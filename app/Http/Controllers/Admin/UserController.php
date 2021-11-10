@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Role;
 use App\User;
 use DataTables;
@@ -20,7 +21,7 @@ class UserController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = User::with('role')->where('role_id','!=',6);
+            $data = User::with('role')->where('role_id','!=',6)->where('email','!=',Auth::user()->email);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {

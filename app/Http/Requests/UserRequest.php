@@ -23,10 +23,11 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        $user_id= request()->input('user_id');
         return [
             'name'=>'required',
             'last_name'=>'required',
-            'email'=>'required',
+            'email'=>"required | unique:users,email,{$user_id}",
             'phone'=>'required',
         ];
     }
@@ -38,7 +39,7 @@ class UserRequest extends FormRequest
             'name.required'=>'فیلد نام الزامی است',
             'last_name.required'=>'فیلد نام خانوادگی الزامی است',
             'email.required'=>'فیلد ایمیل الزامی است',
-            // 'email.unique'=>'ایمیل ثبت شده است',
+            'email.unique'=>'ایمیل ثبت شده است',
             'phone.required'=>'فیلد تلفن الزامی است',
         ];
     }

@@ -221,10 +221,13 @@
                     }
                     ,
                     error:function(res){
-                        var error =eval("("+res.responseText+")")
-                         $.each(error.errors,function (index,value) {
+                        // var error =eval("("+res.responseText+")")
+                        //  $.each(error.errors,function (index,value) {
+                        //     toastr["error"](value);
+                        //  })
+                        $.each(res.responseJSON.errors, function(index, value) {
                             toastr["error"](value);
-                         })
+                        })
 
                     }
                 })

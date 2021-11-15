@@ -22,8 +22,9 @@ class UserController extends Controller
     {
 
         if ($request->ajax()) {
+            $user = Auth::user();
             $data =DB::table('users')->join('roles','roles.id','=','users.role_id')->
-            select('users.id','users.name as username','users.last_name','users.email','users.phone','roles.name as role_name')->where('role_id','!=',6)->get();//User::with('role')->where('role_id','!=',6);
+            select('users.id','users.name as username','users.last_name','users.email','users.phone','roles.name as role_name')->where([['role_id','!=','6'],['users.id','!=',$user->id]])->get();//User::with('role')->where('role_id','!=',6);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {

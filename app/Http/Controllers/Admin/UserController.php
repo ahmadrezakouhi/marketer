@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Role;
 use App\User;
 use DataTables;
+use DB;
 
 class UserController extends Controller
 {
@@ -21,7 +22,8 @@ class UserController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = User::with('role')->where('role_id','!=',6)->where('email','!=',Auth::user()->email);
+            $data =DB::table('users')->join('roles','roles.id','=','users.role_id')->
+            select('users.id','users.name as username','users.last_name','users.email','users.phone','roles.name as role_name')->where('role_id','!=',6)->get();//User::with('role')->where('role_id','!=',6);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -29,11 +31,11 @@ class UserController extends Controller
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteUser"><i class="fas fa-trash"></i></a>';
                     return $btn;
                 })
-                ->addColumn('role', function (User $user) {
+                // ->addColumn('role', function (User $user) {
 
-                    return $user->role->name;
+                //     return $user->role->name;
 
-                })
+                // })
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -116,5 +118,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
+        // DB::table('users')->where('id','=',$id)->delete();
     }
 }

@@ -132,8 +132,8 @@
                 serverSide: true,
                 ajax: "{{ route('user.index') }}",
                 columns: [{
-                        data: 'name',
-                        name: 'name'
+                        data: 'username',
+                        name: 'username'
                     },
                     {
                         data: 'last_name',
@@ -148,8 +148,8 @@
                         name: 'phone'
                     },
                     {
-                        data: 'role',
-                        name: 'role'
+                        data: 'role_name',
+                        name: 'role_name'
                     },
                     {
                         data: 'action',
@@ -232,7 +232,7 @@
             })
 
 
-           
+
 
 
 
@@ -282,7 +282,7 @@
 
                             type: "DELETE",
 
-                            url: "/user/" + user_id,
+                            url: "{{route('user.index')}}"+'/'+ user_id,
 
                             success: function(data) {
 

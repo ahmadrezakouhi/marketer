@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SurgeryRequest;
 use App\Surgery;
 use DataTables;
-
+use DB;
 class SurgeryController extends Controller
 {
     /**
@@ -18,7 +18,7 @@ class SurgeryController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $surgeries = Surgery::all();
+            $surgeries = DB::table('surgeries')->get();
             return Datatables::of($surgeries)
             ->addIndexColumn()
             ->addColumn('action',function($row){

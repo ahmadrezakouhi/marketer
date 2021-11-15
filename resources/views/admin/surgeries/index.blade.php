@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'مدیریت عمل')
+@section('title', ' مدیریت عمل ها ')
 @section('content')
 
     <div>
@@ -9,7 +9,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="surgeryFormLabel"> افزودن کاربر</h4>
+                        <h4 class="modal-title" id="surgeryFormLabel"> افزودن عمل</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
                     <div class="modal-body">
@@ -56,9 +56,9 @@
                     <div class="col-12">
                         <div class="card-box" style="">
                             <div class="d-flex justify-content-between">
-                                <h4 class="mt-0 header-title">کاربر ها</h4>
+                                <h4 class="mt-0 header-title">عمل ها</h4>
                                 <a id="createNewUser" class="btn btn-success  waves-effect waves-light shadow"
-                                    href="javascript:void(0)" data-target="#myModal"><i class="fas fa-user-plus"></i></a>
+                                    href="javascript:void(0)" data-target="#myModal"><i class="mdi mdi-medical-bag"></i></a>
                             </div>
                             <hr>
 

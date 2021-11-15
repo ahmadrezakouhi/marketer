@@ -9,7 +9,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="userFormLabel"> افزودن کاربر</h4>
+                        <h4 class="modal-title" id="userFormLabel"> افزودن بازاریاب</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     </div>
                     <div class="modal-body">
@@ -17,6 +17,7 @@
                         <form id="userForm" method="POST" action="{{ route('user.store') }}">
                             @csrf
                             <input type="hidden" name="marketer_id" id="marketer_id">
+                            <input type="hidden" name="user_id" id="user_id">
                             <div class="form-group ">
                                 <label for="name" class="col-form-label">نام</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="نام">
@@ -52,28 +53,40 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-4">
-                                    <label for="level1" class="col-form-label">پورسانت</label>
+                                    <label for="level1" class="col-form-label text-center  " style="width:100%">پورسانت</label>
                                     <select id="level1" class="form-control" name="level1">
                                         @for ($i=1;$i<=13;$i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
+                                            <option value="{{ $i }}"
+                                            @if($i==5)
+                                            selected
+                                            @endif
+
+                                            >{{ $i }}</option>
                                         @endfor
 
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="level2" class="col-form-label">پورسانت زیردست</label>
+                                    <label for="level2" class="col-form-label text-center" style="width:100%">پورسانت زیر دست اول</label>
                                     <select id="level2" class="form-control" name="level2">
                                         @for ($i=1;$i<=13;$i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
+                                            <option value="{{ $i }}"
+                                            @if($i==3)
+                                            selected
+                                            @endif
+                                            >{{ $i }}</option>
                                         @endfor
 
                                     </select>
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label for="level3" class="col-form-label"> پورسانت زیردست دوم</label>
+                                    <label for="level3" class="col-form-label text-center" style="width: 100%"> پورسانت زیردست دوم</label>
                                     <select id="level3" class="form-control" name="level3">
                                         @for ($i=1;$i<=13;$i++)
-                                            <option value="{{ $i }}">{{ $i }}</option>
+                                            <option value="{{ $i }}" @if($i==1)
+                                            selected
+                                            @endif
+                                            >{{ $i }}</option>
                                         @endfor
 
                                     </select>
@@ -120,7 +133,7 @@
                     <div class="col-12">
                         <div class="card-box" style="">
                             <div class="d-flex justify-content-between">
-                                <h4 class="mt-0 header-title">کاربر ها</h4>
+                                <h4 class="mt-0 header-title">بازاریاب ها</h4>
                                 <a id="createNewUser" class="btn btn-success  waves-effect waves-light shadow"
                                     href="javascript:void(0)" data-target="#myModal"><i class="fas fa-user-plus"></i></a>
                             </div>
@@ -238,8 +251,9 @@
             $('#createNewUser').click(function() {
                 $('#saveBtn').val("edit-user");
                 $('#marketer_id').val('');
+                $('#user_id').val('');
                 $('#userForm').trigger('reset');
-                $('#userFormLabel').text(' افزودن کاربر');
+                $('#userFormLabel').text(' افزودن بازاریاب');
                 $('#myModal').modal('show');
 
             })
@@ -252,26 +266,27 @@
                 $.get("{{ route('marketer.index') }}" + "/" + marketer_id + "/edit", function(data) {
 
 
-
+                    console.log(data);
                     $('#userForm').trigger('reset');
-                    $('#userFormLabel').text('ادیت کاربر');
+                    $('#userFormLabel').text('ادیت بازاریاب');
 
                     $('#myModal').modal('show');
 
                     $('#marketer_id').val(data.id);
+                    $('#user_id').val(data.user_id);
 
-                    $('#name').val(data.user.name);
-                    $('#last_name').val(data.user.last_name);
-                    $('#email').val(data.user.email);
-                    $('#phone').val(data.user.phone);
+                    $('#name').val(data.name);
+                    $('#last_name').val(data.last_name);
+                    $('#email').val(data.email);
+                    $('#phone').val(data.phone);
                     $('#tel').val(data.tel);
                     $('#address').val(data.address);
                     $('#national_code').val(data.national_code);
                     // var cheched = data.status ? true : false;
                     $('#active').prop('checked', data.status);
-                    $('#level1').val(data.commission.level1);
-                    $('#level2').val(data.commission.level2);
-                    $('#level3').val(data.commission.level3);
+                    $('#level1').val(data.level1);
+                    $('#level2').val(data.level2);
+                    $('#level3').val(data.level3);
 
 
                 })
@@ -306,10 +321,18 @@
 
                     },
                     error: function(res) {
-                        var error = eval("(" + res.responseText + ")")
-                        $.each(error.errors, function(index, value) {
+                        // var error = eval("(" + res.responseText + ")")
+                        // $.each(error.errors, function(index, value) {
+                        //     toastr["error"](value);
+                        // });
+                        console.log(res);
+                        // var errors = res.responseJSON;
+                    //    if(errors){
+                        $.each(res.responseJSON.errors, function(index, value) {
                             toastr["error"](value);
                         })
+
+                    //    }
 
                     }
                 })

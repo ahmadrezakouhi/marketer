@@ -5,10 +5,11 @@ namespace App\Http\Controllers\admin;
 use App\Commission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MarketerRequest;
 use App\Marketer;
 use App\User;
 use DataTables;
-
+use DB;
 class MarketerController extends Controller
 {
     /**
@@ -16,42 +17,47 @@ class MarketerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $marketers = Marketer::with('user', 'commission');
+            $marketers = DB::table('users')->join('marketers','users.id','=','marketers.user_id')
+            ->join('commissions','marketers.id','=','commissions.marketer_id')->select('marketers.id as id','name'
+            ,'last_name','email','phone','tel','address','national_code','status','level1','level2','level3')->get();
+            ; //Marketer::with('user', 'commission');
             return Datatables::of($marketers)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
+                    // dd($row);
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editMarketer"><i class="fa fa-edit"></i></a>';
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteMarketer"><i class="fas fa-trash"></i></a>';
                     return $btn;
-                })->addColumn('name', function (Marketer $marketer) {
-                    return $marketer->user->name;
-                })->addColumn('last_name', function (Marketer $marketer) {
-                    return $marketer->user->last_name;
-                })->addColumn('email', function (Marketer $marketer) {
-                    return $marketer->user->email;
-                })->addColumn('email', function (Marketer $marketer) {
-                    return $marketer->user->email;
-                })->addColumn('phone', function (Marketer $marketer) {
-                    return $marketer->user->phone;
-                })
-                ->addColumn('level1', function (Marketer $marketer) {
-                    return $marketer->commission->level1;
-                })
-                ->addColumn('level2', function (Marketer $marketer) {
-                    return $marketer->commission->level2;
-                })
-                ->addColumn('level3', function (Marketer $marketer) {
-                    return $marketer->commission->level3;
-                })
-                ->editColumn('status', function (Marketer $marketer) {
-                    if ($marketer->status) {
-                        return 'فعال';
-                    }
-                    return 'غیر فعال';
-                })
+                 })//->addColumn('name', function (Marketer $marketer) {
+                //     return $marketer->user->name;
+                // })->addColumn('last_name', function (Marketer $marketer) {
+                //     return $marketer->user->last_name;
+                // })->addColumn('email', function (Marketer $marketer) {
+                //     return $marketer->user->email;
+                // })->addColumn('phone', function (Marketer $marketer) {
+                //     return $marketer->user->phone;
+                // })
+                // ->addColumn('level1', function (Marketer $marketer) {
+                //     return $marketer->commission->level1;
+                // })
+                // ->addColumn('level2', function (Marketer $marketer) {
+                //     return $marketer->commission->level2;
+                // })
+                // ->addColumn('level3', function (Marketer $marketer) {
+                //     return $marketer->commission->level3;
+                // })
+                // ->editColumn('status', function (Marketer $marketer) {
+                //     if ($marketer->status) {
+                //         return 'فعال';
+                //     }
+                //     return 'غیر فعال';
+                // })
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -74,8 +80,13 @@ class MarketerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MarketerRequest $request)
     {
+        $request->validated();
+        if ($request->level1 + $request->level2 + $request->level3 > 15) {
+            return response()->json(['errors'=>['commissions' => 'جمع پورسانت های تعیین شده باید کمتر از 15 درصد باشد.']], 500);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'last_name' => $request->last_name,
@@ -123,7 +134,11 @@ class MarketerController extends Controller
      */
     public function edit($id)
     {
-        $marketer = Marketer::with('user', 'commission')->findOrFail($id);
+        // $marketer = Marketer::with('user', 'commission')->findOrFail($id);
+        $marketer = DB::table('users')->join('marketers','users.id','=','marketers.user_id')
+        ->join('commissions','marketers.id','=','commissions.marketer_id')->select('marketers.id as id','users.id as user_id','name'
+        ,'last_name','email','phone','tel','address','national_code','status','level1','level2','level3')->where('marketers.id',
+        '=',$id)->first();
         return response()->json($marketer);
     }
 
@@ -134,8 +149,11 @@ class MarketerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MarketerRequest $request, $id)
     {
+        if ($request->level1 + $request->level2 + $request->level3 > 15) {
+            return response()->json(['errors'=>['commissions' => 'جمع پورسانت های تعیین شده باید کمتر از 15 درصد باشد.']], 500);
+        }
         $marketer = Marketer::findOrFail($id);
         $marketer->user()->update([
             'name' => $request->name,
@@ -171,9 +189,11 @@ class MarketerController extends Controller
     public function destroy($id)
     {
         $marketer = Marketer::findOrFail($id);
-        $marketer->commission()->delete();
-        $marketer->user()->delete();
+        // $marketer->commission()->delete();
+        // $marketer->user()->delete();
         $marketer->delete();
+
+
 
         return response()->json();
     }

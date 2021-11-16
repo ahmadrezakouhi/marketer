@@ -25,8 +25,8 @@ class RedirectIfAuthenticated
                 return redirect('/admin/marketer');
             }else if($user->isMarketer()){
                 return redirect('/marketer/marketers');
-            }else if($user->isSeller()){
-
+            }else if($user->isAdviser()){
+                return redirect('/adviser/orders');
             }else if($user->isAccountant()){
 
             }else if($user->isMarketer()){

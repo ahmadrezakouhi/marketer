@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use Illuminate\Support\Facades\Auth;
 class Adviser
 {
     /**
@@ -15,6 +15,9 @@ class Adviser
      */
     public function handle($request, Closure $next)
     {
+        if(!Auth::check()){
+            return redirect('login');
+        }
         if(Auth::user()->isAdviser()){
 
             return $next($request);

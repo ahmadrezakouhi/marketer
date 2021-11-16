@@ -47,6 +47,8 @@ class LoginController extends Controller
             return '/admin/marketer';
         } else if ($user->isMarketer()) {
             return '/marketer/marketers';
+        }else if($user->isAdviser()){
+            return '/adviser/orders';
         }
     }
 }

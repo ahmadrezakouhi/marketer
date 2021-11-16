@@ -85,7 +85,7 @@ class User extends Authenticatable
     }
 
     public function isAdviser(){
-        if($this->role->name == 'advise'){
+        if($this->role->name == 'adviser'){
             return true;
         }
 

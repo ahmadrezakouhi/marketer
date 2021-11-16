@@ -64,7 +64,7 @@ Route::prefix('acountant')->group(function(){
 
 
 
-Route::prefix('adviser')->group(function ()
+Route::middleware('adviser')->prefix('adviser')->group(function ()
 {
    Route::get('orders','Adviser\OrderController@index')->name('adviser.orders.index');
    Route::post('orders/accept','Adviser\OrderController@accept')->name('adviser.orders.accept');

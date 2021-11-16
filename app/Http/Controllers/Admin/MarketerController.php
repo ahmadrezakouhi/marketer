@@ -189,8 +189,8 @@ class MarketerController extends Controller
     public function destroy($id)
     {
         $marketer = Marketer::findOrFail($id);
-        // $marketer->commission()->delete();
-        // $marketer->user()->delete();
+        $marketer->commission()->delete();
+        $marketer->user()->delete();
         $marketer->delete();
 
 

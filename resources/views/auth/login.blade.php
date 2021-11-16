@@ -95,7 +95,6 @@
     <body class="authentication-bg">
 
         <div class="home-btn d-none d-sm-block">
-            <a href="index.html"><i class="fas fa-home h2 text-dark"></i></a>
         </div>
 
         <div class="account-pages mt-5 mb-5">
@@ -105,7 +104,7 @@
                         <div class="text-center">
 
                         </div>
-                        <div class="card">
+                        <div class="card shadow">
 
                             <div class="card-body p-4">
 

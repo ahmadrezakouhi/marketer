@@ -52,6 +52,12 @@ class User extends Authenticatable
         return $this->hasOne('App\Marketer');
     }
 
+    public function isSuperAdmin(){
+        if($this->role->name == 'super_admin'){
+            return true;
+        }
+        return false;
+    }
 
     public function isAdmin(){
         if($this->role->name =="admin"){
@@ -60,12 +66,6 @@ class User extends Authenticatable
         return false;
     }
 
-    public function isSuperAdmin(){
-        if($this->role->name == 'super_admin'){
-            return true;
-        }
-        return false;
-    }
 
 
     public function isSeller(){

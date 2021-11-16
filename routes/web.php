@@ -25,12 +25,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->group(function () {
 
-    Route::resource('user', 'Admin\UserController');
+    Route::resource('user', 'Admin\UserController')->middleware('super_admin');
 
+    Route::resource('surgery', 'Admin\SurgeryController')->middleware('super_admin');
 
-    Route::resource('surgery', 'Admin\SurgeryController');
-
-    Route::resource('marketer', 'Admin\MarketerController');
+    Route::resource('marketer', 'Admin\MarketerController')->middleware('admin');
 
 });
 

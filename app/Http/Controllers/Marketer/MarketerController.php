@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Marketer;
 use App\Commission;
+use App\Role;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
+use DB;
 
 class MarketerController extends Controller
 {
@@ -19,7 +22,13 @@ class MarketerController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $marketers = Marketer::find(1)->marketers()->with('user');
+             $marketer_id = Auth::user()->marketer->id;
+            $marketers =
+            DB::table('users')->join('marketers','users.id','=','marketers.user_id')
+            ->select('marketers.id as id','name'
+            ,'last_name','email','phone','tel','address','national_code','status','parent_id')
+            ->where('parent_id','=',$marketer_id)->get();
+             //Marketer::find($marketer_id)->marketers()->with('user');
             return Datatables::of($marketers)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -27,23 +36,24 @@ class MarketerController extends Controller
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteMarketer"><i class="fas fa-trash"></i></a>';
                     $btn = $btn . ' <a href="'.route("marketers.show",$row->id).'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-info showSubMarketer"><i class="fas fa-sitemap"></i></a>';
                     return $btn;
-                })->addColumn('name', function (Marketer $marketer) {
-                    return $marketer->user->name;
-                })->addColumn('last_name', function (Marketer $marketer) {
-                    return $marketer->user->last_name;
-                })->addColumn('email', function (Marketer $marketer) {
-                    return $marketer->user->email;
-                })->addColumn('email', function (Marketer $marketer) {
-                    return $marketer->user->email;
-                })->addColumn('phone', function (Marketer $marketer) {
-                    return $marketer->user->phone;
                 })
-                ->editColumn('status', function (Marketer $marketer) {
-                    if ($marketer->status) {
-                        return 'فعال';
-                    }
-                    return 'غیر فعال';
-                })
+                // ->addColumn('name', function (Marketer $marketer) {
+                //     return $marketer->user->name;
+                // })->addColumn('last_name', function (Marketer $marketer) {
+                //     return $marketer->user->last_name;
+                // })->addColumn('email', function (Marketer $marketer) {
+                //     return $marketer->user->email;
+                // })->addColumn('email', function (Marketer $marketer) {
+                //     return $marketer->user->email;
+                // })->addColumn('phone', function (Marketer $marketer) {
+                //     return $marketer->user->phone;
+                // })
+                // ->editColumn('status', function (Marketer $marketer) {
+                //     if ($marketer->status) {
+                //         return 'فعال';
+                //     }
+                //     return 'غیر فعال';
+                // })
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -68,13 +78,14 @@ class MarketerController extends Controller
      */
     public function store(Request $request)
     {
+        $marketer_role_id = Role::where('name','marketer')->first()->id;
         $user = User::create([
             'name' => $request->name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt($request->phone),
-            'role_id' => 6
+            'role_id' => $marketer_role_id
 
         ]);
         $marketer = new Marketer([
@@ -82,7 +93,7 @@ class MarketerController extends Controller
             'address' => $request->address,
             'national_code' => $request->national_code,
             'status' => $request->status ? 1 : 0,
-            'parent_id' => 1 // remove with auth
+            'parent_id' => Auth::user()->marketer->id
         ]);
 
         $user->marketer()->save($marketer);
@@ -125,7 +136,7 @@ class MarketerController extends Controller
         }
 
         $selectedMarketer = Marketer::with('user')->find($id);
-      
+
 
         return view('marketer.marketers.show',compact('selectedMarketer', 'id'));
     }
@@ -151,6 +162,9 @@ class MarketerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $marketer_role_id = Role::where('name','marketer')->first()->id;
+
+
         $marketer = Marketer::find(1)->marketers()->find($id);
         $marketer->user()->update([
             'name' => $request->name,
@@ -158,7 +172,7 @@ class MarketerController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt($request->phone),
-            'role_id' => 6
+            'role_id' => $marketer_role_id
         ]);
         $marketer->update([
             'tel' => $request->tel,
@@ -177,7 +191,7 @@ class MarketerController extends Controller
      */
     public function destroy($id)
     {
-        $marketer = Marketer::find(1)->marketers()->find($id);
+        $marketer = Marketer::find(Auth::user()->marketer->id)->marketers()->find($id);
 
         if ($marketer->status == 1) {
             return response()->json(['message'=>'بازاریاب تایید شده رو نمی توان حذف کرد .'],500);

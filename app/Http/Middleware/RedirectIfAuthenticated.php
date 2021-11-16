@@ -23,13 +23,14 @@ class RedirectIfAuthenticated
                 return redirect('/admin/user');
             }else if($user->isAdmin()){
                 return redirect('/admin/marketer');
-            }else if($user->isAdviser()){
-
+            }else if($user->isMarketer()){
+                return redirect('/marketer/marketers');
             }else if($user->isSeller()){
 
             }else if($user->isAccountant()){
 
             }else if($user->isMarketer()){
+
 
             }
         }

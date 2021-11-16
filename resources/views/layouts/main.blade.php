@@ -131,22 +131,22 @@
                             </li>
                             <li class="has-submenu">
                                 @if(Auth::user()->isMarketer())
-                                <a href="{{url('/adviser/customers')}}"><i class="mdi mdi-briefcase"></i>سفارش ها</a>
+                                <a href="{{url('/marketer/customer')}}"><i class="mdi mdi-briefcase"></i>سفارش ها</a>
                                 @endif
                             </li>
                             <li class="has-submenu">
                                 @if(Auth::user()->isMarketer())
-                                <a href="{{url('/adviser/customers')}}"><i class="mdi mdi-account-group"></i>بازاریاب ها</a>
+                                <a href="{{url('/marketer/marketers')}}"><i class="mdi mdi-account-group"></i>بازاریاب ها</a>
                                 @endif
                             </li>
                             <li class="has-submenu">
                                 @if(Auth::user()->isMarketer())
-                                <a href="{{url('/adviser/customers')}}"><i class="mdi mdi-credit-card"></i>شبا</a>
+                                <a href="{{url('/marketer/card')}}"><i class="mdi mdi-credit-card"></i>شبا</a>
                                 @endif
                             </li>
                             <li class="has-submenu">
                                 @if(Auth::user()->isMarketer())
-                                <a href="{{url('/adviser/customers')}}"><i class="mdi mdi mdi-wallet"></i>کیف پول</a>
+                                <a href="{{url('/marketer/payments')}}"><i class="mdi mdi mdi-wallet"></i>کیف پول</a>
                                 @endif
                             </li>
 

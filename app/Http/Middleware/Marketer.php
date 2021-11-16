@@ -15,6 +15,9 @@ class Marketer
      */
     public function handle($request, Closure $next)
     {
+        if(!Auth::check()){
+            return redirect('login');
+        }
         if(Auth::user()->isMarketer()){
 
             return $next($request);

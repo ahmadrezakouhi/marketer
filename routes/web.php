@@ -33,7 +33,7 @@ Route::prefix('admin')->group(function () {
 
 });
 
-Route::prefix('marketer')->group(function () {
+Route::middleware('marketer')->prefix('marketer')->group(function () {
 
     Route::resource('customer', 'Marketer\CustomerController');
 

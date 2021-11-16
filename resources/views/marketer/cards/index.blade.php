@@ -88,7 +88,7 @@
                                         <th>شماره شبا </th>
                                         <th>وضعیت</th>
 
-                                        <th></th>
+                                        {{-- <th></th> --}}
 
                                     </tr>
                                 </thead>
@@ -139,12 +139,12 @@
                         name: 'status'
                     },
 
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
+                    // {
+                    //     data: 'action',
+                    //     name: 'action',
+                    //     orderable: false,
+                    //     searchable: false
+                    // },
                 ]
             });
 

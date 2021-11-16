@@ -39,7 +39,8 @@
                     </div>
                     <div class="modal-footer">
 
-                        <button id="saveBtn" type="submit" class="btn btn-primary btn-block shadow mt-2" value="create">ثبت</button>
+                        <button id="saveBtn" type="submit" class="btn btn-primary btn-block shadow mt-2"
+                            value="create">ثبت</button>
                         </form>
                     </div>
                 </div><!-- /.modal-content -->
@@ -61,6 +62,20 @@
         <div class="wrapper">
             <div class="container">
 
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card-box" style="">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="mt-0 header-title ">موجودی</h4>
+
+                            </div>
+                            <hr>
+
+                            <h3 class="text-center">{{ $amount }}</h3>
+
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-12">
@@ -68,7 +83,8 @@
                             <div class="d-flex justify-content-between">
                                 <h4 class="mt-0 header-title">برداشت ها</h4>
                                 <a id="createPayment" class="btn btn-success  waves-effect waves-light shadow"
-                                    href="javascript:void(0)" data-target="#myModal"><i class="fas fa-money-bill-wave"></i></a>
+                                    href="javascript:void(0)" data-target="#myModal"><i
+                                        class="fas fa-money-bill-wave"></i></a>
                             </div>
                             <hr>
 
@@ -118,8 +134,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('payments.index') }}",
-                columns: [
-                    {
+                columns: [{
                         data: 'name',
                         name: 'name'
                     },
@@ -165,17 +180,16 @@
                         table.draw();
 
 
-                            toastr["success"]("برداشت جدید ثبت شد");
+                        toastr["success"]("برداشت جدید ثبت شد");
 
 
 
-                    }
-                    ,
-                    error:function(res){
-                        var error =eval("("+res.responseText+")")
-                         $.each(error.errors,function (index,value) {
+                    },
+                    error: function(res) {
+                        var error = eval("(" + res.responseText + ")")
+                        $.each(error.errors, function(index, value) {
                             toastr["error"](value);
-                         })
+                        })
 
                     }
                 })

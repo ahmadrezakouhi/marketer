@@ -123,7 +123,7 @@
                                         <th>موبایل</th>
                                         <th>آدرس</th>
                                         <th>عمل</th>
-                                        <th></th>
+                                        {{-- <th></th> --}}
 
                                     </tr>
                                 </thead>
@@ -193,12 +193,12 @@
                         data: 'surgery',
                         name: 'surgary'
                     },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
+                    // {
+                    //     data: 'action',
+                    //     name: 'action',
+                    //     orderable: false,
+                    //     searchable: false
+                    // },
                 ]
             });
 

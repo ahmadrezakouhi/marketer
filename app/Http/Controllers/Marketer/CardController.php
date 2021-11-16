@@ -22,11 +22,11 @@ class CardController extends Controller
             $cards = Marketer::find(1)->cards()->with('bank');
             return Datatables::of($cards)
                 ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editCard"><i class="fa fa-edit"></i></a>';
-                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteCard"><i class="fas fa-trash"></i></a>';
-                    return $btn;
-                })
+                // ->addColumn('action', function ($row) {
+                //     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editCard"><i class="fa fa-edit"></i></a>';
+                //     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteCard"><i class="fas fa-trash"></i></a>';
+                //     return $btn;
+                // })
                 ->addColumn('name', function (Card $card) {
                     return $card->bank->name;
                 })
@@ -43,6 +43,7 @@ class CardController extends Controller
                 ->make(true);;
         }
         $banks = Bank::all();
+        
         return view('marketer.cards.index', compact('banks'));
     }
 

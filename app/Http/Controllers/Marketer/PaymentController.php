@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Marketer;
 use App\Payment;
 use DataTables;
+use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
 {
     /**
@@ -16,8 +17,10 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
+        $marketer_id = Auth::user()->marketer->id;
         if ($request->ajax()) {
-            $payments = Marketer::find(1)->payments()->with('card');
+
+            $payments = Marketer::find($marketer_id)->payments()->with('card');
             return Datatables::of($payments)
                 ->addIndexColumn()
                 ->addColumn('name',function (Payment $payment)
@@ -42,8 +45,9 @@ class PaymentController extends Controller
                 })
                 ->make(true);
         }
-        $cards = Marketer::find(1)->cards;
-        return view('marketer.payments.index',compact('cards'));
+        $cards = Marketer::find($marketer_id)->cards;
+        $amount = Marketer::find($marketer_id)->wallet->amount;
+        return view('marketer.payments.index',compact('cards','amount'));
     }
 
     /**

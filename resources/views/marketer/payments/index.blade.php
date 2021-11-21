@@ -71,7 +71,7 @@
                             </div>
                             <hr>
 
-                            <h3 class="text-center">{{ $amount }}</h3>
+                            <h3 class="text-center">{{ number_format($amount) }}</h3>
 
                         </div>
                     </div>

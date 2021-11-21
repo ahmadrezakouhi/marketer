@@ -20,11 +20,11 @@ class RedirectIfAuthenticated
         if (Auth::guard($guard)->check()) {
             $user = Auth::user();
             if($user->isSuperAdmin()){
-                return redirect('/admin/user');
+                return redirect('/admin/dashboard');
             }else if($user->isAdmin()){
                 return redirect('/admin/marketer');
             }else if($user->isMarketer()){
-                return redirect('/marketer/marketers');
+                return redirect('/marketer/dashboard');
             }else if($user->isAdviser()){
                 return redirect('/adviser/orders');
             }else if($user->isAccountant()){

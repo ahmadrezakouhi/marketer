@@ -75,8 +75,8 @@
 
 
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card-box" style="">
+                    <div class="col-12 ">
+                        <div class="card-box shadow" style="">
                             <div class="d-flex justify-content-between">
                                 <h4 class="mt-0 header-title">کاربر ها</h4>
                                 <a id="createNewUser" class="btn btn-success  waves-effect waves-light shadow"

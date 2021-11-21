@@ -42,11 +42,11 @@ class LoginController extends Controller
     {
         $user = Auth::user();
         if ($user->isSuperAdmin()) {
-            return '/admin/user';
+            return '/admin/dashboard';
         } else if ($user->isAdmin()) {
             return '/admin/marketer';
         } else if ($user->isMarketer()) {
-            return '/marketer/marketers';
+            return '/marketer/dashboard';
         }else if($user->isAdviser()){
             return '/adviser/orders';
         }

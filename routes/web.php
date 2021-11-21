@@ -21,9 +21,12 @@ Route::post('logout',function(){
     return redirect('login');
 })->name('logout');
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 Route::prefix('admin')->group(function () {
+
+    Route::get('dashboard','Admin\DashboardController@dashboard')->middleware('super_admin')->name('admin.dashboard');
+    Route::get('sub-marketers','Admin\SubMarketerController@index')->middleware('super_admin')->name('admin.sub-marketer');
 
     Route::resource('user', 'Admin\UserController')->middleware('super_admin');
 
@@ -34,6 +37,8 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::middleware('marketer')->prefix('marketer')->group(function () {
+    
+    Route::get('dashboard','Marketer\DashboardController@dashboard')->name('marketer.dashboard');
 
     Route::resource('customer', 'Marketer\CustomerController');
 

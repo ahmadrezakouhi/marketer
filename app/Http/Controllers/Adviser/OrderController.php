@@ -53,6 +53,13 @@ class OrderController extends Controller
             return response()->json(['error' => 'سفارش تایید و یا رد شده را نمی توان انتخاب کرد!!!'], 500);
         }
 
+        $price = $customer_surgery->price;
+        $marketer = Customer::find($request->order_id)->marketer;
+        $amount = $price + ($marketer->commission->level1 * $price / 100);
+        $marketer->wallet()->update(['amount'=>$amount]);
+
+
+
 
         CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => 1]);
         return response()->json();
@@ -68,4 +75,13 @@ class OrderController extends Controller
         CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => -1]);
         return response()->json();
     }
+
+
+    private  function calculateCommission($commission,$price)
+    {
+        return  $price + ($commission* $price / 100);
+
+    }
+
+
 }

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'مدیریت کاربر')
+@section('title', 'کیف پول')
 @section('content')
 
     <div>
@@ -64,7 +64,7 @@
 
                 <div class="row">
                     <div class="col-4">
-                        <div class="card-box" style="">
+                        <div class="card-box shadow" style="">
                             <div class="d-flex justify-content-between">
                                 <h4 class="mt-0 header-title ">موجودی</h4>
 
@@ -79,7 +79,7 @@
 
                 <div class="row">
                     <div class="col-12">
-                        <div class="card-box" style="">
+                        <div class="card-box shadow" style="">
                             <div class="d-flex justify-content-between">
                                 <h4 class="mt-0 header-title">برداشت ها</h4>
                                 <a id="createPayment" class="btn btn-success  waves-effect waves-light shadow"

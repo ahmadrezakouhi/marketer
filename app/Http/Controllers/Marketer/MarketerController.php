@@ -48,12 +48,12 @@ class MarketerController extends Controller
                 // })->addColumn('phone', function (Marketer $marketer) {
                 //     return $marketer->user->phone;
                 // })
-                // ->editColumn('status', function (Marketer $marketer) {
-                //     if ($marketer->status) {
-                //         return 'فعال';
-                //     }
-                //     return 'غیر فعال';
-                // })
+                ->editColumn('status', function ($row) {
+                    if ($row->status) {
+                        return 'فعال';
+                    }
+                    return 'غیر فعال';
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }

@@ -8,14 +8,20 @@ use App\Customer;
 use App\CustomerSurgery;
 use App\Surgery;
 use DataTables;
-
+use Illuminate\Support\Facades\Auth;
+use DB;
 class OrderController extends Controller
 {
     public function index(Request $request)
     {
 
         if ($request->ajax()) {
-            $customers = Customer::with('surgeries');
+            $customers = DB::table('customer_surgery')
+            ->join('customers','customer_id','customers.id')
+            ->join('surgeries','surgery_id','surgeries.id')
+            ->select('customer_surgery.id as id','customer_surgery.status as status', 'customers.name as name','customers.last_name as last_name','surgeries.name as surgery')
+            ->get();
+            //Customer::with('surgeries');
             return Datatables::of($customers)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -24,18 +30,18 @@ class OrderController extends Controller
 
                     return $btn;
                 })
-                ->editColumn('status', function (Customer $customer) {
-                    if ($customer->surgeries()->first()->pivot->status == -1) {
+                ->editColumn('status', function ($row) {
+                    if ($row->status == -1) {
                         return 'رد شده';
-                    } else if ($customer->surgeries()->first()->pivot->status  == 0) {
+                    } else if ($row->status  == 0) {
                         return 'در حال بررسی';
                     } else {
                         return 'تایید شده';
                     }
                 })
-                ->addColumn('price', function (Customer $customer) {
-                    return $customer->surgeries()->first()->pivot->price;
-                })
+                // ->addColumn('price', function (Customer $customer) {
+                //     return $customer->surgeries()->first()->pivot->price;
+                // })
                 ->rawColumns(['action'])
                 ->make(true);
         }

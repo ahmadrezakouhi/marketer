@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MarketerRequest;
 use App\Marketer;
+use App\Role;
 use App\User;
+use App\Wallet;
 use DataTables;
 use DB;
 class MarketerController extends Controller
@@ -32,7 +34,9 @@ class MarketerController extends Controller
                 ->addColumn('action', function ($row) {
                     // dd($row);
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editMarketer"><i class="fa fa-edit"></i></a>';
+                    if($row->status != 1){
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteMarketer"><i class="fas fa-trash"></i></a>';
+                    }
                     return $btn;
                  })//->addColumn('name', function (Marketer $marketer) {
                 //     return $marketer->user->name;
@@ -52,12 +56,12 @@ class MarketerController extends Controller
                 // ->addColumn('level3', function (Marketer $marketer) {
                 //     return $marketer->commission->level3;
                 // })
-                // ->editColumn('status', function (Marketer $marketer) {
-                //     if ($marketer->status) {
-                //         return 'فعال';
-                //     }
-                //     return 'غیر فعال';
-                // })
+                ->editColumn('status', function ($row) {
+                    if ($row->status) {
+                        return 'فعال';
+                    }
+                    return 'غیر فعال';
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -82,6 +86,7 @@ class MarketerController extends Controller
      */
     public function store(MarketerRequest $request)
     {
+        $role = Role::where('name','marketer')->first();
         $request->validated();
         if ($request->level1 + $request->level2 + $request->level3 > 15) {
             return response()->json(['errors'=>['commissions' => 'جمع پورسانت های تعیین شده باید کمتر از 15 درصد باشد.']], 500);
@@ -93,14 +98,14 @@ class MarketerController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt($request->phone),
-            'role_id' => 6
+            'role_id' => $role->id
 
         ]);
         $marketer = new Marketer([
             'tel' => $request->tel,
             'address' => $request->address,
             'national_code' => $request->national_code,
-            'status' => $request->status ? 1 : 0,
+            'status' => $request->active ? 1: 0,
             'parent_id' => null
         ]);
 
@@ -112,7 +117,8 @@ class MarketerController extends Controller
             'level3'=>$request->level3,
         ]);
         $marketer->commission()->save($commission);
-
+        $wallet = new Wallet();
+        $marketer->wallet()->save($wallet);
         return response()->json();
     }
 
@@ -151,6 +157,8 @@ class MarketerController extends Controller
      */
     public function update(MarketerRequest $request, $id)
     {
+        $role = Role::where('name','marketer')->first();
+
         if ($request->level1 + $request->level2 + $request->level3 > 15) {
             return response()->json(['errors'=>['commissions' => 'جمع پورسانت های تعیین شده باید کمتر از 15 درصد باشد.']], 500);
         }
@@ -161,7 +169,7 @@ class MarketerController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt($request->phone),
-            'role_id' => 6
+            'role_id' => $role->id
 
 
         ]);
@@ -169,7 +177,7 @@ class MarketerController extends Controller
             'tel' => $request->tel,
             'address' => $request->address,
             'national_code' => $request->national_code,
-            'status' => $request->status ? 1 : 0,
+            'status' => $request->active ? 1 : 0
         ]);
 
         $marketer->commission()->update([
@@ -177,7 +185,7 @@ class MarketerController extends Controller
             'level2'=> $request->level2,
             'level3'=> $request->level3
         ]);
-        return response()->json();
+        return response()->json($request->all());
     }
 
     /**
@@ -191,6 +199,7 @@ class MarketerController extends Controller
         $marketer = Marketer::findOrFail($id);
         $marketer->commission()->delete();
         $marketer->user()->delete();
+        $marketer->wallet()->delete();
         $marketer->delete();
 
 

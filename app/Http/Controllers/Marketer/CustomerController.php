@@ -9,6 +9,7 @@ use App\Marketer;
 use App\Surgery;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
+use DB;
 class CustomerController extends Controller
 {
     /**
@@ -21,7 +22,12 @@ class CustomerController extends Controller
         if($request->ajax()){
             $marketer_id = Auth::user()->marketer->id;
 
-            $customers = Marketer::find($marketer_id)->customers()->with('surgeries');
+             $customers = DB::table('customers')->join('marketers','marketer_id','marketers.id')
+             ->join('customer_surgery','customer_id','customers.id')
+             ->join('surgeries','surgery_id','surgeries.id')
+             ->where('marketer_id',$marketer_id)->select('customers.name as name','last_name','gender','age','customers.tel as tel','customers.phone as phone',
+             'customers.address as address','surgeries.name as surgery')->get();
+            // Marketer::find($marketer_id)->customers()->with('surgeries');
             return Datatables::of($customers)
                 ->addIndexColumn()
                 // ->addColumn('action', function ($row) {
@@ -29,11 +35,12 @@ class CustomerController extends Controller
                 //      $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteCustomer"><i class="fas fa-trash"></i></a>';
                 //     return $btn;
                 // })
-                ->editColumn('gender',function(Customer $customer){
-                    return $customer->gender ? 'زن':'مرد';
-                })->addColumn('surgery',function(Customer $customer){
-                    return $customer->surgeries()->first()->name;
+                ->editColumn('gender',function($row){
+                    return $row->gender ? 'زن':'مرد';
                 })
+                // ->addColumn('surgery',function(Customer $customer){
+                //     return $customer->surgeries()->first()->name;
+                // })
 
                 ->rawColumns(['action'])
                 ->make(true);
@@ -62,7 +69,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $marketer = Marketer::find(1);
+        $marketer = Marketer::find(Auth::user()->marketer->id);
         $customer = new Customer([
                 'name'=>$request->name,
                 'last_name'=>$request->last_name,

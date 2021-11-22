@@ -40,7 +40,7 @@
                                 <label for="role_id" class="col-form-label">نوع کاربر</label>
                                 <select id="role_id" class="form-control" name="role_id">
                                     @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        <option value="{{ $role->id }}">{{ $role->farsi_name }}</option>
                                     @endforeach
 
                                 </select>

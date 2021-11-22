@@ -24,7 +24,7 @@
     <link href="{{ asset('assets/libs/datatables/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/libs/datatables/buttons.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/libs/datatables/select.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/libs/treeview/style.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/treeview/style.css') }}" rel="stylesheet" type="text/css" />
     <!-- third party css end -->
 
 
@@ -324,55 +324,57 @@
 
 
 
-                        @if(Auth::user()->isSuperAdmin())
+                        @if (Auth::user()->isSuperAdmin())
 
-                        <li>
-                            <a href="{{ route('admin.dashboard') }}">
-                                <i class="mdi mdi-view-dashboard"></i>
-                                <span> پیشخوان </span>
-                            </a>
-                        </li>
-
-
-                        <li>
-
-                            <a href="{{ url('/admin/user') }}"><i class="mdi mdi-account-group"></i>کاربر ها</a>
-
-                        </li>
-                        <li>
-
-                            <a href="{{ url('/admin/surgery') }}"><i class="mdi mdi-medical-bag"></i>عمل ها</a>
+                            <li>
+                                <a href="{{ route('admin.dashboard') }}">
+                                    <i class="mdi mdi-view-dashboard"></i>
+                                    <span> پیشخوان </span>
+                                </a>
+                            </li>
 
 
-                        </li>
+                            <li>
 
-                        <li>
-                            <a href="javascript: void(0);">
-                                <i class="mdi mdi-account-group"></i>
-                                <span> مدیریت بازاریاب ها</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul class="nav-second-level" aria-expanded="false">
-                                <li><a href="{{ route('marketer.index') }}">بازاریاب ها </a></li>
-                                {{-- <li><a href="ui-cards.html"> زیر دست ها</a></li> --}}
+                                <a href="{{ url('/admin/user') }}"><i class="mdi mdi-account-group"></i>کاربر ها</a>
 
-                            </ul>
-                        </li>
+                            </li>
+                            <li>
 
-                        @endif
+                                <a href="{{ url('/admin/surgery') }}"><i class="mdi mdi-medical-bag"></i>عمل ها</a>
 
 
-                        @if(Auth::user()->isAdmin())
+                            </li>
 
-                        <li>
-                            <a href="{{ url('/admin/marketer') }}"><i class="mdi mdi-account-group"></i>بازاریاب
-                                ها</a>
-                        </li>
+                            <li>
+                                <a href="javascript: void(0);">
+                                    <i class="mdi mdi-account-group"></i>
+                                    <span> مدیریت بازاریاب ها</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href="{{ route('marketer.index') }}"> <span class="mdi mdi-account-group">
+                                            </span> بازاریاب ها </a></li>
+                                    <li><a href="{{ route('admin.sub-marketer') }}"><span class="mdi mdi-file-tree">
+                                            </span> زیر دست ها</a></li>
+
+                                </ul>
+                            </li>
 
                         @endif
 
 
-                            @if (Auth::user()->isMarketer())
+                        @if (Auth::user()->isAdmin())
+
+                            <li>
+                                <a href="{{ url('/admin/marketer') }}"><i class="mdi mdi-account-group"></i>بازاریاب
+                                    ها</a>
+                            </li>
+
+                        @endif
+
+
+                        @if (Auth::user()->isMarketer())
                             <li>
                                 <a href="{{ route('marketer.dashboard') }}">
                                     <i class="mdi mdi-view-dashboard"></i>
@@ -381,25 +383,42 @@
                             </li>
 
                             <li>
-                                <a href="{{ url('/marketer/customer') }}"><i class="mdi mdi-briefcase"></i>سفارش ها</a>
+                                <a href="{{ url('/marketer/customer') }}"><i class="mdi mdi-briefcase"></i>سفارش
+                                    ها</a>
 
-                        </li>
-                        <li >
+                            </li>
+                            {{-- <li >
 
                                 <a href="{{ url('/marketer/marketers') }}"><i
                                         class="mdi mdi-account-group"></i>بازاریاب ها</a>
 
-                        </li>
-                        <li >
+                        </li> --}}
+                            <li>
+                                <a href="javascript: void(0);">
+                                    <i class="mdi mdi-account-group"></i>
+                                    <span> مدیریت بازاریاب ها</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href="{{ route('marketers.index') }}"> <span
+                                                class="mdi mdi-account-group"> </span> بازاریاب ها </a></li>
+                                    <li><a href="{{ route('marketer.sub-marketer') }}"><span
+                                                class="mdi mdi-file-tree"> </span> زیر دست ها</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li>
 
                                 <a href="{{ url('/marketer/card') }}"><i class="mdi mdi-credit-card"></i>شبا</a>
 
-                        </li>
-                        <li >
+                            </li>
+                            <li>
 
-                                <a href="{{ url('/marketer/payments') }}"><i class="mdi mdi mdi-wallet"></i>کیف پول</a>
+                                <a href="{{ url('/marketer/payments') }}"><i class="mdi mdi mdi-wallet"></i>کیف
+                                    پول</a>
 
-                        </li>
+                            </li>
 
                         @endif
 
@@ -586,8 +605,8 @@
     <script src="{{ asset('assets/libs/datatables/dataTables.select.min.js') }}"></script>
     <script src="{{ asset('assets/libs/pdfmake/pdfmake.min.js') }}"></script>
     <script src="{{ asset('assets/libs/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('assets/libs/treeview/jstree.min.js')}}"></script>
-    <script src="{{ asset('assets/js/pages/treeview.init.js')}}"></script>
+    <script src="{{ asset('assets/libs/treeview/jstree.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/pages/treeview.init.js')}}"></script> --}}
 
 </body>
 

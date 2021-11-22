@@ -8,6 +8,7 @@ use App\User;
 use App\Marketer;
 use App\Commission;
 use App\Role;
+use App\Wallet;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -33,7 +34,9 @@ class MarketerController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editMarketer"><i class="fa fa-edit"></i></a>';
+                    if($row->status!=1){
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteMarketer"><i class="fas fa-trash"></i></a>';
+                    }
                     // $btn = $btn . ' <a href="'.route("marketers.show",$row->id).'" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-info showSubMarketer"><i class="fas fa-sitemap"></i></a>';
                     return $btn;
                 })
@@ -100,7 +103,8 @@ class MarketerController extends Controller
 
         $commission = new Commission();
         $marketer->commission()->save($commission);
-
+        $wallet = new Wallet();
+        $marketer->wallet()->save($wallet);
         return response()->json();
     }
 

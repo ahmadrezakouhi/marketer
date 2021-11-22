@@ -16,7 +16,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('card_id')->unsigned()->index();
-            $table->foreign('card_id')->references('id')->on('cards');
+            $table->foreign('card_id')->references('id')->on('cards')->onDelete('cascade');
             $table->double('amount');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();

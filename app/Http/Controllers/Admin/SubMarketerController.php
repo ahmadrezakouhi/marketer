@@ -10,7 +10,24 @@ class SubMarketerController extends Controller
 {
     public function index()
     {
-        $marketers = DB::table('marketers')->join('users','user_id','users.id')->where('parent_id','=',NULL)->get();
-        return view('admin.marketer.sub',compact('marketers'));
+        $marketers = Marketer::where('parent_id',null)->get();
+
+       $output = createAllMarketerTree($marketers);
+
+        // dd($output);
+        return view('admin.marketer.sub',compact('output'));
+    }
+
+
+    public function createTree ($marketer)
+    {
+        $output = "<ul>";
+        foreach ($marketer->marketers() as $m) {
+            $output .="<li>";
+            $output .=$m->user()->name;
+            $output .="</li>";
+        }
+
+        return $output;
     }
 }

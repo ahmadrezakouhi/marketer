@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'مدیریت سفارش  ها')
+@section('title', 'مدیریت سفارش ها')
 @section('content')
 
     <div>
@@ -23,7 +23,7 @@
 
                 <div class="row">
                     <div class="col-12">
-                        <div class="card-box" style="">
+                        <div class="card-box shadow" style="">
                             <div class="d-flex justify-content-between">
                                 <h4 class="mt-0 header-title"> مدیریت سفارش ها</h4>
 
@@ -38,7 +38,7 @@
                                         <th>نام</th>
                                         <th>نام خانوادگی</th>
                                         <th>وضعیت</th>
-                                        <th>مبلغ</th>
+                                        <th>عمل</th>
                                         <th></th>
 
                                     </tr>
@@ -77,7 +77,7 @@
                 processing: true,
                 serverSide: true,
 
-                orderable:false,
+                orderable: false,
                 ajax: "{{ route('adviser.orders.index') }}",
                 columns: [
 
@@ -93,15 +93,12 @@
                     {
                         data: 'status',
                         name: 'status',
-                        searchable:false,
-                        orderable: false,
+
 
                     },
                     {
-                        data: 'price',
-                        name: 'price' ,
-                        searchable:false,
-                        orderable: false,
+                        data: 'surgery',
+                        name: 'surgery',
 
                     },
 
@@ -123,16 +120,15 @@
                 var order_id = $(this).data('id');
 
                 $.ajax({
-                    method:"POST",
-                    url: "{{route('adviser.orders.accept')}}",
-                    data:{
-                        order_id:order_id
+                    method: "POST",
+                    url: "{{ route('adviser.orders.accept') }}",
+                    data: {
+                        order_id: order_id
                     },
-                    success:function(res){
+                    success: function(res) {
                         console.log('ss');
                         toastr["success"]("سفارش مورد نظر تایید شد");
-                    }
-                    ,
+                    },
                     error: function(res) {
                         var error = res.responseJSON;
                         $.each(error, function(index, value) {
@@ -150,15 +146,14 @@
                 var order_id = $(this).data('id');
 
                 $.ajax({
-                    method:"POST",
-                    url: "{{route('adviser.orders.decline')}}",
-                    data:{
-                        order_id:order_id
+                    method: "POST",
+                    url: "{{ route('adviser.orders.decline') }}",
+                    data: {
+                        order_id: order_id
                     },
-                    success:function(res){
+                    success: function(res) {
                         toastr["success"]("سفارش مورد نظر رد شد");
-                    }
-                    ,
+                    },
                     error: function(res) {
                         var error = res.responseJSON;
                         $.each(error, function(index, value) {

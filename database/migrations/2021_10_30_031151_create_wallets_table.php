@@ -16,8 +16,8 @@ class CreateWalletsTable extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('marketer_id')->unsigned()->index();
-            $table->foreign('marketer_id')->references('id')->on('marketers');
-            $table->double('amount');
+            $table->foreign('marketer_id')->references('id')->on('marketers')->onDelete('cascade');
+            $table->double('amount')->default(0);
             $table->timestamps();
         });
     }

@@ -16,9 +16,9 @@ class CreateCardsTable extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('marketer_id')->unsigned();
-            $table->foreign('marketer_id')->references('id')->on('marketers');
+            $table->foreign('marketer_id')->references('id')->on('marketers')->onDelete('cascade');
             $table->bigInteger('bank_id')->unsigned();
-            $table->foreign('bank_id')->references('id')->on('banks');
+            $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
             $table->string('identification')->unique();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();

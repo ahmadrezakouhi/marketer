@@ -37,8 +37,10 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::middleware('marketer')->prefix('marketer')->group(function () {
-    
+
     Route::get('dashboard','Marketer\DashboardController@dashboard')->name('marketer.dashboard');
+    Route::get('sub-marketers','Marketer\SubMarketerController@index')->name('marketer.sub-marketer');
+
 
     Route::resource('customer', 'Marketer\CustomerController');
 
@@ -47,6 +49,9 @@ Route::middleware('marketer')->prefix('marketer')->group(function () {
     Route::resource('marketers', 'Marketer\MarketerController');
 
     Route::resource('payments', 'Marketer\PaymentController');
+
+    Route::get('wallet-amount','Marketer\PaymentController@getWalletAmount')->name('wallet.amount');
+
 
 });
 
@@ -75,3 +80,7 @@ Route::middleware('adviser')->prefix('adviser')->group(function ()
    Route::post('orders/accept','Adviser\OrderController@accept')->name('adviser.orders.accept');
    Route::post('orders/decline','Adviser\OrderController@decline')->name('adviser.orders.decline');
 });
+
+
+Route::get('change-password','Common\PasswordController@index')->middleware('auth')->name('common.change-password');
+Route::patch('update-password','Common\PasswordController@updatePassword')->middleware('auth')->name('common.update-password');

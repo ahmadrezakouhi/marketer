@@ -33,6 +33,11 @@ class Marketer extends Model
     }
 
 
+    public function parent(){
+        return $this->belongsTo('App\Marketer','parent_id','id');
+    }
+
+
     public function wallet()
     {
         return $this->hasOne('App\Wallet');

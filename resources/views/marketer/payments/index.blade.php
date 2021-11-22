@@ -66,12 +66,12 @@
                     <div class="col-4">
                         <div class="card-box shadow" style="">
                             <div class="d-flex justify-content-between">
-                                <h4 class="mt-0 header-title ">موجودی</h4>
+                                <h4 class="mt-0 header-title " >موجودی</h4>
 
                             </div>
                             <hr>
 
-                            <h3 class="text-center">{{ number_format($amount) }}</h3>
+                            <h3 class="text-center" id="wallet">{{ number_format($amount) }}</h3>
 
                         </div>
                     </div>
@@ -182,12 +182,24 @@
 
                         toastr["success"]("برداشت جدید ثبت شد");
 
-
+                        $.ajax({
+                            method:"GET"
+                            ,
+                            url:"{{route('wallet.amount')}}"
+                            ,
+                            success:function (res) {
+                               
+                                $('#wallet').text(res.amount);
+                            }
+                        })
 
                     },
                     error: function(res) {
-                        var error = eval("(" + res.responseText + ")")
-                        $.each(error.errors, function(index, value) {
+                        // var error = eval("(" + res.responseText + ")")
+                        // $.each(error.errors, function(index, value) {
+                        //     toastr["error"](value);
+                        // })
+                        $.each(res.responseJSON.errors, function(index, value) {
                             toastr["error"](value);
                         })
 

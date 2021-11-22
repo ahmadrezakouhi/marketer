@@ -24,7 +24,7 @@ class UserController extends Controller
         if ($request->ajax()) {
             $user = Auth::user();
             $data =DB::table('users')->join('roles','roles.id','=','users.role_id')->
-            select('users.id','users.name as username','users.last_name','users.email','users.phone','roles.name as role_name')->where([['role_id','!=','5'],['users.id','!=',$user->id]])->get();//User::with('role')->where('role_id','!=',6);
+            select('users.id','users.name as username','users.last_name','users.email','users.phone','roles.farsi_name as role_name')->where([['role_id','!=','5'],['users.id','!=',$user->id]])->get();//User::with('role')->where('role_id','!=',6);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -32,11 +32,7 @@ class UserController extends Controller
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteUser"><i class="fas fa-trash"></i></a>';
                     return $btn;
                 })
-                // ->addColumn('role', function (User $user) {
 
-                //     return $user->role->name;
-
-                // })
                 ->rawColumns(['action'])
                 ->make(true);
         }

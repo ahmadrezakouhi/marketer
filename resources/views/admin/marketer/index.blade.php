@@ -96,10 +96,24 @@
 
 
                             <div class="checkbox checkbox-success">
-                                <input id="active" type="checkbox">
+                                <input id="active" name="active" type="checkbox">
                                 <label for="active">فعال</label>
                             </div>
 
+                            {{-- <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="active" class="col-form-label text-center  " style="width:100%">وضعیت</label>
+                                    <select id="active" class="form-control" name="active">
+                                        @for ($i=0;$i<=1;$i++)
+                                            <option value="{{ $i }}"
+
+
+                                            >{{ $i }}</option>
+                                        @endfor
+
+                                    </select>
+                                </div>
+                            <div> --}}
 
 
                     </div>
@@ -266,7 +280,7 @@
                 $.get("{{ route('marketer.index') }}" + "/" + marketer_id + "/edit", function(data) {
 
 
-                    console.log(data);
+
                     $('#userForm').trigger('reset');
                     $('#userFormLabel').text('ادیت بازاریاب');
 
@@ -284,6 +298,8 @@
                     $('#national_code').val(data.national_code);
                     // var cheched = data.status ? true : false;
                     $('#active').prop('checked', data.status);
+                    // $('#active').val(data.status);
+
                     $('#level1').val(data.level1);
                     $('#level2').val(data.level2);
                     $('#level3').val(data.level3);
@@ -301,7 +317,7 @@
                 var url = marketer_id ? "{{ route('marketer.index') }}" + "/" + marketer_id :
                     "{{ route('marketer.index') }}";
                 var method = marketer_id ? "PUT" : "POST";
-                console.log(url);
+
                 $.ajax({
                     method: method, //"POST",
                     url: url, //"{{ route('marketer.store') }}",
@@ -317,22 +333,16 @@
                         } else {
                             toastr["success"]("بازاریاب جدید ثبت شد");
                         }
-                        console.log(res);
+                       
 
                     },
                     error: function(res) {
-                        // var error = eval("(" + res.responseText + ")")
-                        // $.each(error.errors, function(index, value) {
-                        //     toastr["error"](value);
-                        // });
-                        console.log(res);
-                        // var errors = res.responseJSON;
-                    //    if(errors){
+
                         $.each(res.responseJSON.errors, function(index, value) {
                             toastr["error"](value);
                         })
 
-                    //    }
+
 
                     }
                 })
@@ -404,7 +414,7 @@
 
                             error: function(data) {
 
-                                console.log('Error:', data);
+
 
                             }
 

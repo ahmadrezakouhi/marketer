@@ -16,9 +16,9 @@ class CreateCustomerSurgeryTable extends Migration
         Schema::create('customer_surgery', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('customer_id')->unsigned();
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->bigInteger('surgery_id')->unsigned();
-            $table->foreign('surgery_id')->references('id')->on('surgeries');
+            $table->foreign('surgery_id')->references('id')->on('surgeries')->onDelete('cascade');
             $table->tinyInteger('status')->default(0);
             $table->double('price')->nullable();
             $table->timestamps();

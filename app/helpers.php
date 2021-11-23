@@ -51,3 +51,12 @@ function createSubMarketerTree($marketers)
 
     return $output;
 }
+
+
+
+
+function calculateCommission($price,$commission)
+{
+    $result = ($price*$commission)/100;
+    return $result;
+}

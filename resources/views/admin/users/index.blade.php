@@ -46,6 +46,10 @@
                                 </select>
                             </div>
 
+                            <div class="checkbox checkbox-success">
+                                <input id="active" name="active" type="checkbox">
+                                <label for="active">فعال</label>
+                            </div>
 
 
                     </div>
@@ -93,6 +97,7 @@
                                         <th>ایمیل</th>
                                         <th>تلفن</th>
                                         <th>نوع کابر </th>
+                                        <th>وضعیت</th>
                                         <th></th>
 
                                     </tr>
@@ -152,6 +157,10 @@
                         name: 'role_name'
                     },
                     {
+                        data: 'active',
+                        name: 'active'
+                    },
+                    {
                         data: 'action',
                         name: 'action',
                         orderable: false,
@@ -190,6 +199,8 @@
                     $('#last_name').val(data.last_name);
                     $('#email').val(data.email);
                     $('#phone').val(data.phone);
+                    $('#role_id').val(data.role_id);
+                    $('#active').prop('checked', data.active);
 
 
 

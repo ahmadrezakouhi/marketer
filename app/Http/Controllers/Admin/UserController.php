@@ -24,13 +24,21 @@ class UserController extends Controller
         if ($request->ajax()) {
             $user = Auth::user();
             $data =DB::table('users')->join('roles','roles.id','=','users.role_id')->
-            select('users.id','users.name as username','users.last_name','users.email','users.phone','roles.farsi_name as role_name')->where([['role_id','!=','5'],['users.id','!=',$user->id]])->get();//User::with('role')->where('role_id','!=',6);
+            select('users.id','users.name as username','users.last_name','users.email','users.phone','users.active','roles.farsi_name as role_name')->where([['role_id','!=','5'],['users.id','!=',$user->id]])->get();//User::with('role')->where('role_id','!=',6);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editUser"><i class="fa fa-edit"></i></a>';
-                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteUser"><i class="fas fa-trash"></i></a>';
+                    // $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteUser"><i class="fas fa-trash"></i></a>';
+                    // $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-success acceptCard"><i class="fas fa-check"></i></a>';
+                    // $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger declineCard"><i class="fas fa-ban"></i></a>';
                     return $btn;
+                })->editColumn('active',function($row){
+                    if($row->active){
+                        return 'فعال';
+                    }else{
+                        return 'غیر فعال';
+                    }
                 })
 
                 ->rawColumns(['action'])
@@ -65,7 +73,8 @@ class UserController extends Controller
             'email'=>$request->email,
             'phone'=>$request->phone,
             'role_id'=>$request->role_id,
-            'password'=>bcrypt($request->phone)
+            'password'=>bcrypt($request->phone),
+            'active'=>$request->active ? 1 : 0
         ]);
 
         return response()->json();

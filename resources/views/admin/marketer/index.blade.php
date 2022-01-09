@@ -55,7 +55,7 @@
                                 <div class="form-group col-md-4">
                                     <label for="level1" class="col-form-label text-center  " style="width:100%">پورسانت</label>
                                     <select id="level1" class="form-control" name="level1">
-                                        @for ($i=1;$i<=13;$i++)
+                                        @for ($i=1;$i<=23;$i++)
                                             <option value="{{ $i }}"
                                             @if($i==5)
                                             selected
@@ -69,7 +69,7 @@
                                 <div class="form-group col-md-4">
                                     <label for="level2" class="col-form-label text-center" style="width:100%">پورسانت زیر دست اول</label>
                                     <select id="level2" class="form-control" name="level2">
-                                        @for ($i=1;$i<=13;$i++)
+                                        @for ($i=1;$i<=23;$i++)
                                             <option value="{{ $i }}"
                                             @if($i==3)
                                             selected
@@ -82,7 +82,7 @@
                                 <div class="form-group col-md-4">
                                     <label for="level3" class="col-form-label text-center" style="width: 100%"> پورسانت زیردست دوم</label>
                                     <select id="level3" class="form-control" name="level3">
-                                        @for ($i=1;$i<=13;$i++)
+                                        @for ($i=1;$i<=23;$i++)
                                             <option value="{{ $i }}" @if($i==1)
                                             selected
                                             @endif

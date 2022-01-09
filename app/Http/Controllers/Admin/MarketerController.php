@@ -6,6 +6,7 @@ use App\Commission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MarketerRequest;
+use Illuminate\Support\Str;
 use App\Marketer;
 use App\Role;
 use App\User;
@@ -27,18 +28,22 @@ class MarketerController extends Controller
         if ($request->ajax()) {
             $marketers = DB::table('users')->join('marketers','users.id','=','marketers.user_id')
             ->join('commissions','marketers.id','=','commissions.marketer_id')->select('marketers.id as id','name'
-            ,'last_name','email','phone','tel','address','national_code','status','level1','level2','level3')->get();
+            ,'last_name','email','phone','tel','address','national_code','active','level1','level2','level3')->get();
             ; //Marketer::with('user', 'commission');
             return Datatables::of($marketers)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     // dd($row);
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editMarketer"><i class="fa fa-edit"></i></a>';
-                    if($row->status != 1){
-                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteMarketer"><i class="fas fa-trash"></i></a>';
-                    }
+                    // if($row->status != 1){
+                    // $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteMarketer"><i class="fas fa-trash"></i></a>';
+                    // }
                     return $btn;
-                 })//->addColumn('name', function (Marketer $marketer) {
+                 })->editColumn('address',function ($row)
+                 {
+                     return Str::limit($row->address,2);
+                 })
+                 //->addColumn('name', function (Marketer $marketer) {
                 //     return $marketer->user->name;
                 // })->addColumn('last_name', function (Marketer $marketer) {
                 //     return $marketer->user->last_name;
@@ -56,8 +61,8 @@ class MarketerController extends Controller
                 // ->addColumn('level3', function (Marketer $marketer) {
                 //     return $marketer->commission->level3;
                 // })
-                ->editColumn('status', function ($row) {
-                    if ($row->status) {
+                ->editColumn('active', function ($row) {
+                    if ($row->active) {
                         return 'فعال';
                     }
                     return 'غیر فعال';
@@ -88,8 +93,8 @@ class MarketerController extends Controller
     {
         $role = Role::where('name','marketer')->first();
         $request->validated();
-        if ($request->level1 + $request->level2 + $request->level3 > 15) {
-            return response()->json(['errors'=>['commissions' => 'جمع پورسانت های تعیین شده باید کمتر از 15 درصد باشد.']], 500);
+        if ($request->level1 + $request->level2 + $request->level3 > 25) {
+            return response()->json(['errors'=>['commissions' => 'جمع پورسانت های تعیین شده باید کمتر از 25 درصد باشد.']], 500);
         }
 
         $user = User::create([
@@ -98,14 +103,15 @@ class MarketerController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt($request->phone),
-            'role_id' => $role->id
+            'role_id' => $role->id,
+            'active' => $request->active ? 1: 0,
 
         ]);
         $marketer = new Marketer([
             'tel' => $request->tel,
             'address' => $request->address,
             'national_code' => $request->national_code,
-            'status' => $request->active ? 1: 0,
+
             'parent_id' => null
         ]);
 
@@ -143,7 +149,7 @@ class MarketerController extends Controller
         // $marketer = Marketer::with('user', 'commission')->findOrFail($id);
         $marketer = DB::table('users')->join('marketers','users.id','=','marketers.user_id')
         ->join('commissions','marketers.id','=','commissions.marketer_id')->select('marketers.id as id','users.id as user_id','name'
-        ,'last_name','email','phone','tel','address','national_code','status','level1','level2','level3')->where('marketers.id',
+        ,'last_name','email','phone','tel','address','national_code','active','level1','level2','level3')->where('marketers.id',
         '=',$id)->first();
         return response()->json($marketer);
     }
@@ -159,8 +165,8 @@ class MarketerController extends Controller
     {
         $role = Role::where('name','marketer')->first();
 
-        if ($request->level1 + $request->level2 + $request->level3 > 15) {
-            return response()->json(['errors'=>['commissions' => 'جمع پورسانت های تعیین شده باید کمتر از 15 درصد باشد.']], 500);
+        if ($request->level1 + $request->level2 + $request->level3 > 25) {
+            return response()->json(['errors'=>['commissions' => 'جمع پورسانت های تعیین شده باید کمتر از 25 درصد باشد.']], 500);
         }
         $marketer = Marketer::findOrFail($id);
         $marketer->user()->update([
@@ -169,7 +175,8 @@ class MarketerController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt($request->phone),
-            'role_id' => $role->id
+            'role_id' => $role->id,
+            'active' => $request->active ? 1 : 0
 
 
         ]);
@@ -177,7 +184,7 @@ class MarketerController extends Controller
             'tel' => $request->tel,
             'address' => $request->address,
             'national_code' => $request->national_code,
-            'status' => $request->active ? 1 : 0
+
         ]);
 
         $marketer->commission()->update([

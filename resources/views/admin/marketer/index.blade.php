@@ -140,7 +140,7 @@
 
 
         <div class="wrapper">
-            <div class="container">
+            <div class="">
 
 
                 <div class="row">
@@ -235,8 +235,8 @@
                         name: 'national_code'
                     },
                     {
-                        data: 'status',
-                        name: 'status'
+                        data: 'active',
+                        name: 'active'
                     },
                     {
                         data: 'level1',
@@ -333,7 +333,7 @@
                         } else {
                             toastr["success"]("بازاریاب جدید ثبت شد");
                         }
-                       
+
 
                     },
                     error: function(res) {

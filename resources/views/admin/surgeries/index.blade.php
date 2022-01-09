@@ -49,7 +49,7 @@
 
 
         <div class="wrapper">
-            <div class="container">
+            <div class="">
 
 
                 <div class="row">

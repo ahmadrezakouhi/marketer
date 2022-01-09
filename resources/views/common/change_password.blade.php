@@ -16,7 +16,7 @@
 
 
                             <form method="POST" action="">
-                                
+
                               <div class="">
 
                               </div>
@@ -67,18 +67,20 @@
 
                     method:"PATCH"
                     ,
-                    url:"{{ route('common.change-password')}}"
+                    url:"{{ route('common.update-password')}}"
                     ,
                     data:$(this).serialize()
                     ,
 
                     success:function(res){
-
+                        toastr["success"]("رمز عبور تغییر یافت");
 
                     }
                     ,
                     error:function(res){
-
+                        $.each(res.responseJSON.errors, function(index, value) {
+                            toastr["error"](value);
+                        })
                     }
 
                 });

@@ -79,8 +79,13 @@ Route::middleware('adviser')->prefix('adviser')->group(function ()
    Route::get('orders','Adviser\OrderController@index')->name('adviser.orders.index');
    Route::post('orders/accept','Adviser\OrderController@accept')->name('adviser.orders.accept');
    Route::post('orders/decline','Adviser\OrderController@decline')->name('adviser.orders.decline');
+
+   Route::get('orders/{id}','Adviser\OrderController@show')->name('adviser.orders.show');
+
 });
 
 
-Route::get('change-password','Common\PasswordController@index')->middleware('auth')->name('common.change-password');
-Route::patch('update-password','Common\PasswordController@updatePassword')->middleware('auth')->name('common.update-password');
+Route::get('change-password','Common\PasswordController@index')
+->middleware('auth')->name('common.change-password');
+Route::patch('update-password','Common\PasswordController@updatePassword')
+->middleware('auth')->name('common.update-password');

@@ -162,7 +162,7 @@
                         <img src="{{ asset('assets/images/users/avatar.png') }}" alt="تصویر کاربر"
                             class="rounded-circle">
                         <span class="pro-user-name ml-1">
-                            {{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i>
+                            {{ Auth::user()->name.' '.Auth::user()->last_name}} <i class="mdi mdi-chevron-down"></i>
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -184,7 +184,7 @@
                         </a> --}}
 
                         <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <a href="{{route('common.change-password')}}" class="dropdown-item notify-item">
                             <i class="fe-lock"></i>
                             <span>تغییر رمز</span>
                         </a>
@@ -398,22 +398,26 @@
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
-                                <li><a href="{{ route('marketer.index') }}"> <span class="mdi mdi-account-group"> </span> بازاریاب ها </a></li>
+                                <li><a href="{{ route('marketers.index') }}"> <span class="mdi mdi-account-group"> </span> بازاریاب ها </a></li>
                                 <li><a href="{{ route('marketer.sub-marketer')}}"><span class="mdi mdi-file-tree"> </span>  زیر دست ها</a></li>
 
                             </ul>
                         </li>
 
-                        <li >
 
-                                <a href="{{ url('/marketer/card') }}"><i class="mdi mdi-credit-card"></i>شبا</a>
+                        <li>
+                            <a href="javascript: void(0);">
+                               <i class="fa fa-wallet"></i>
+                               <span> مدیریت مالی</span>
+                               <span class="menu-arrow"></span>
+                           </a>
+                           <ul class="nav-second-level" aria-expanded="false">
+                               <li> <a href="{{ url('/marketer/card') }}"><i class="mdi mdi-credit-card"></i>شبا</a></li>
+                               <li><a href="{{ url('/marketer/payments') }}"><i class="mdi mdi mdi-wallet"></i>کیف پول</a></li>
 
-                        </li>
-                        <li >
+                           </ul>
+                       </li>
 
-                                <a href="{{ url('/marketer/payments') }}"><i class="mdi mdi mdi-wallet"></i>کیف پول</a>
-
-                        </li>
 
                         @endif
 

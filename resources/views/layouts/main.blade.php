@@ -292,7 +292,7 @@
                     <p class="text-muted">{{ Auth::user()->role->farsi_name }}</p>
                     <ul class="list-inline">
                         <li class="list-inline-item">
-                            <a href="#" class="text-muted">
+                            <a href="{{route('common.change-password')}}" class="text-muted">
                                 <i class="fe-lock"></i>
                             </a>
                         </li>

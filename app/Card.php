@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
 {
-    protected $fillable = ['marketer_id','bank_id','identification','status','price'];
+    protected $fillable = [
+        'marketer_id', 'bank_id', 'name', 'last_name',
+        'national_code', 'identification', 'status', 'price'
+    ];
 
 
     public function marketer()
@@ -23,5 +26,4 @@ class Card extends Model
     {
         $this->hasMany('App\Payment');
     }
-
 }

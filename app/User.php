@@ -52,6 +52,14 @@ class User extends Authenticatable
         return $this->hasOne('App\Marketer');
     }
 
+
+    public function isActive(){
+        if($this->active){
+            return true;
+        }
+        return false;
+    }
+
     public function isSuperAdmin(){
         if($this->role->name == 'super_admin'){
             return true;

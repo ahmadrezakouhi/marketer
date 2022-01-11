@@ -10,6 +10,7 @@ use App\Card;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
 use DB;
+
 class CardController extends Controller
 {
     /**
@@ -20,8 +21,16 @@ class CardController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $cards = DB::table('cards')->join('banks','bank_id','banks.id')
-            ->where('marketer_id',Auth::user()->marketer->id)->get();
+            $cards = DB::table('cards')->join('banks', 'bank_id', 'banks.id')
+                ->where('marketer_id', Auth::user()->marketer->id)
+                ->select(
+                    'banks.name as bank_name',
+                    'cards.name as owner_name',
+                    'cards.last_name as owner_last_name',
+                    'cards.national_code as owner_national_code',
+                    'identification',
+                    'status'
+                )->get();
             // Marketer::find(Auth::user()->marketer->id)->cards()->with('bank');
             return Datatables::of($cards)
                 ->addIndexColumn()
@@ -33,12 +42,12 @@ class CardController extends Controller
                 // ->addColumn('name', function (Card $card) {
                 //     return $card->bank->name;
                 // })
-                ->editColumn('status',function($row){
-                    if($row->status == 0){
+                ->editColumn('status', function ($row) {
+                    if ($row->status == 0) {
                         return 'در انتظار تایید ';
-                    }else if($row->status==1){
+                    } else if ($row->status == 1) {
                         return 'تایید شده';
-                    }else {
+                    } else {
                         return 'رد شده';
                     }
                 })
@@ -72,14 +81,15 @@ class CardController extends Controller
 
 
         $card = new Card([
-            'identification'=>$request->identification
-            ,
-            'bank_id'=>$request->bank_id
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'national_code' => $request->national_code,
+
+            'identification' => $request->identification,
+            'bank_id' => $request->bank_id
         ]);
         $marketer->cards()->save($card);
         return response()->json();
-
-
     }
 
     /**
@@ -102,8 +112,8 @@ class CardController extends Controller
     public function edit($id)
     {
         $card = Marketer::find(Auth::user()->marketer->id)->cards()->find($id)->first();
-        if($card->status == 1){
-            return response()->json(['message'=>'کارت تایید شده امکان ادیت آن وجود ندارد'],500);
+        if ($card->status == 1) {
+            return response()->json(['message' => 'کارت تایید شده امکان ادیت آن وجود ندارد'], 500);
         }
         return response()->json($card);
     }
@@ -119,9 +129,9 @@ class CardController extends Controller
     {
         Marketer::find(Auth::user()->marketer->id)->cards()->find($id)->update([
 
-            'identification'=>$request->identification,
-            'bank_id'=>$request->bank_id,
-            'status'=>0
+            'identification' => $request->identification,
+            'bank_id' => $request->bank_id,
+            'status' => 0
 
 
         ]);
@@ -140,15 +150,13 @@ class CardController extends Controller
      */
     public function destroy($id)
     {
-        $card = Marketer::find(Auth::user()->marketer->id)->cards()->where('id',$id)->first();
-        if($card->status == 1){
-            return response()->json(['message'=>'این کارت تایید شده است نمی توان آن را حذف کرد.'],500);
-
-        }else {
+        $card = Marketer::find(Auth::user()->marketer->id)->cards()->where('id', $id)->first();
+        if ($card->status == 1) {
+            return response()->json(['message' => 'این کارت تایید شده است نمی توان آن را حذف کرد.'], 500);
+        } else {
             $card->delete();
         }
 
         return response()->json();
-
     }
 }

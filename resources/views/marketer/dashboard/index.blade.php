@@ -4,7 +4,7 @@
 
     <div>
 
-        <div class="row">
+        {{-- <div class="row">
 
             <div class="col-xl-4 col-md-6">
                 <div class="card-box shadow">
@@ -19,7 +19,7 @@
 
                         <div class="widget-detail-1 text-right">
                             <h2 class="font-weight-normal pt-5 "> {{number_format($wallet)}} </h2>
-                            {{-- <p class="text-muted mb-1">تومان</p> --}}
+
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
 
                         <div class="widget-detail-1 text-right">
                             <h2 class="font-weight-normal pt-5 "> {{ $countCustomers }}</h2>
-                            {{-- <p class="text-muted mb-1">درآمد امروز</p> --}}
+
                         </div>
                     </div>
                 </div>
@@ -66,9 +66,132 @@
 
 
 
+        </div> --}}
+
+<div class="row">
+    <div class="col-xl-4 col-md-6">
+        <div class="card-box shadow " style="background-color: #046FB6;border-radius: 10px">
+
+
+
+
+            <div class="widget-chart-1 ">
+                <div class="widget-chart-box-1 float-left" dir="ltr">
+                    <img class="" src="{{ asset('assets/images/icons/sallery.png') }}" alt="" style="width: 70px">
+                </div>
+
+                <div class="widget-detail-1 pt-2 text-right">
+                    <p class="header-title  text-white">درآمد کل</p>
+                    <p class="font-weight-normal text-white "> {{number_format($wallet)}} </p>
+                    {{-- <p class="text-muted mb-1">تومان</p> --}}
+                </div>
+            </div>
         </div>
 
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card-box shadow " style="background-color: #F4412F;border-radius: 10px">
 
+
+
+
+            <div class="widget-chart-1 ">
+                <div class="widget-chart-box-1 float-left" dir="ltr">
+                    <img class="" src="{{ asset('assets/images/icons/marketer.png') }}" alt="" style="width: 70px">
+                </div>
+
+                <div class="widget-detail-1 pt-2 text-right">
+                    <p class="header-title  text-white">بازاریاب زیردست</p>
+                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    {{-- <p class="text-muted mb-1">تومان</p> --}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card-box shadow " style="background-color: #DE6800;border-radius: 10px">
+
+
+
+
+            <div class="widget-chart-1 ">
+                <div class="widget-chart-box-1 float-left" dir="ltr">
+                    <img class="" src="{{ asset('assets/images/icons/surgery.png') }}" alt="" style="width: 70px">
+                </div>
+
+                <div class="widget-detail-1 pt-2 text-right">
+                    <p class="header-title  text-white">عمل ثبت شده</p>
+                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    {{-- <p class="text-muted mb-1">تومان</p> --}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-4 col-md-6">
+        <div class="card-box shadow " style="background-color: #27AE60;border-radius: 10px">
+
+
+
+
+            <div class="widget-chart-1 ">
+                <div class="widget-chart-box-1 float-left" dir="ltr">
+                    <img class="" src="{{ asset('assets/images/icons/amount_requested.png') }}" alt="" style="width: 70px">
+                </div>
+
+                <div class="widget-detail-1 pt-2 text-right">
+                    <p class="header-title  text-white">مجموع مبالغ درخواستی</p>
+                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    {{-- <p class="text-muted mb-1">تومان</p> --}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card-box shadow " style="background-color: #ff9800;border-radius: 10px">
+
+
+
+
+            <div class="widget-chart-1 ">
+                <div class="widget-chart-box-1 float-left" dir="ltr">
+                    <img class="" src="{{ asset('assets/images/icons/supply.png') }}" alt="" style="width: 70px">
+                </div>
+
+                <div class="widget-detail-1 pt-2 text-right">
+                    <p class="header-title  text-white">موجودی</p>
+                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    {{-- <p class="text-muted mb-1">تومان</p> --}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card-box shadow " style="background-color: #3f51b5;border-radius: 10px">
+
+
+
+
+            <div class="widget-chart-1 ">
+                <div class="widget-chart-box-1 float-left" dir="ltr">
+                    <img class="" src="{{ asset('assets/images/icons/commission.png') }}" alt="" style="width: 70px">
+                </div>
+
+                <div class="widget-detail-1 pt-2 text-right">
+                    <p class="header-title  text-white">مبالغ پرداخت شده</p>
+                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    {{-- <p class="text-muted mb-1">تومان</p> --}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
         <div class="row mt-2">

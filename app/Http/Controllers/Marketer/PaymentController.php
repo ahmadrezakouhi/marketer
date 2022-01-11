@@ -25,7 +25,7 @@ class PaymentController extends Controller
             $payments = DB::table('payments')->join('cards', 'card_id', 'cards.id')
                 ->join('banks', 'bank_id', 'banks.id')
                 ->where('marketer_id', Auth::user()->marketer->id)
-                ->select('name', 'identification', 'amount', 'payments.status')->get();
+                ->select('banks.name as bank_name','cards.name as name','last_name', 'identification', 'amount', 'payments.status')->get();
             // Marketer::find($marketer_id)->payments()->with('card');
             return Datatables::of($payments)
                 ->addIndexColumn()
@@ -78,7 +78,7 @@ class PaymentController extends Controller
             return response()->json(['errors' => ['میزان موجودی کمتر از میزان درخواست می باشد.']], 500);
         }
 
-        $wallet->update(['amount'=>($wallet->amount-$request->amount)]);
+        $wallet->update(['amount' => ($wallet->amount - $request->amount)]);
 
 
         Payment::create([
@@ -135,9 +135,9 @@ class PaymentController extends Controller
     }
 
 
-    public function getWalletAmount(){
+    public function getWalletAmount()
+    {
         $amount = Auth::user()->marketer->wallet->amount;
-        return response()->json(['amount'=>$amount]);
+        return response()->json(['amount' => $amount]);
     }
-
 }

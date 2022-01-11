@@ -135,8 +135,8 @@
                 serverSide: true,
                 ajax: "{{ route('payments.index') }}",
                 columns: [{
-                        data: 'name',
-                        name: 'name'
+                        data: 'bank_name',
+                        name: 'bank_name'
                     },
                     {
                         data: 'identification',
@@ -188,7 +188,7 @@
                             url:"{{route('wallet.amount')}}"
                             ,
                             success:function (res) {
-                               
+
                                 $('#wallet').text(res.amount);
                             }
                         })

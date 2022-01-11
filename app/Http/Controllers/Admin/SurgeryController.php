@@ -23,7 +23,7 @@ class SurgeryController extends Controller
             ->addIndexColumn()
             ->addColumn('action',function($row){
                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editSurgery"><i class="fa fa-edit"></i></a>';
-                $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteSurgery"><i class="fas fa-trash"></i></a>';
+               // $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteSurgery"><i class="fas fa-trash"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])

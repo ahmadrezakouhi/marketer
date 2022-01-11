@@ -27,6 +27,7 @@ class OrderController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-success acceptOrder " ><i class="fas fa-check"></i></a>';
                     $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger declineOrder"><i class="fas fa-ban"></i></a>';
+                    $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Show" class="btn btn-icon waves-effect waves-light btn-info showOrder"><i class="fas fa-headset"></i></a>';
 
                     return $btn;
                 })
@@ -35,8 +36,10 @@ class OrderController extends Controller
                         return 'رد شده';
                     } else if ($row->status  == 0) {
                         return 'در حال بررسی';
-                    } else {
+                    } else if ($row->status  == 1){
                         return 'تایید شده';
+                    }else if ($row->status  == -2){
+                        return 'درحال مشاوره';
                     }
                 })
                 // ->addColumn('price', function (Customer $customer) {
@@ -54,38 +57,88 @@ class OrderController extends Controller
 
     public function accept(Request $request)
     {
+        $adviser = Auth::user();
         $customer_surgery = CustomerSurgery::where('customer_id', $request->order_id)->first();
-        if ($customer_surgery->status != 0) {
+        if ($customer_surgery->status == 1 || $customer_surgery->status == -1) {
             return response()->json(['error' => 'سفارش تایید و یا رد شده را نمی توان انتخاب کرد!!!'], 500);
         }
+        if($customer_surgery->status==-2 && $customer_surgery->adviser_id !=$adviser->id){
+            return response()->json(['errors'=>['مشتری مورد نظر در حال مشاوره میباشد']],500);
+        }
+        CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => 1,'adviser_id'=>$adviser->id,'price'=>$request->price]);
 
         $price = $customer_surgery->price;
         $marketer = Customer::find($request->order_id)->marketer;
-        $amount = $price + ($marketer->commission->level1 * $price / 100);
-        $marketer->wallet()->update(['amount'=>$amount]);
+        $amount = calculateCommission($price,$marketer->commission->level1);
+        $marketer->wallet()->update(['amount'=>($marketer->wallet->amount + $amount)]);
+
+
+        $marketer = $marketer->parent;
+
+        if($marketer!=null){
+            $amount = calculateCommission($price,$marketer->commission->level2);
+            $marketer->wallet()->update(['amount'=>($marketer->wallet->amount + $amount)]);
+        }
+        if($marketer!=null){
+        $marketer = $marketer->parent;
+        }
+        if($marketer!=null){
+            $amount = calculateCommission($price,$marketer->commission->level3);
+            $marketer->wallet()->update(['amount'=>($marketer->wallet->amount + $amount)]);
+        }
 
 
 
-
-        CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => 1]);
         return response()->json();
     }
 
     public function decline(Request $request)
     {
+        $adviser = Auth::user();
         $customer_surgery = CustomerSurgery::where('customer_id', $request->order_id)->first();
-        if ($customer_surgery->status != 0) {
+        if ($customer_surgery->status == 1 || $customer_surgery->status == -1) {
             return response()->json(['error' => 'سفارش تایید و یا رد شده را نمی توان انتخاب کرد!!!'], 500);
         }
 
-        CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => -1]);
+        if($customer_surgery->status==-2 && $customer_surgery->adviser_id !=$adviser->id){
+            return response()->json(['errors'=>['مشتری مورد نظر در حال مشاوره میباشد']],500);
+        }
+
+        CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => -1,'adviser_id'=>$adviser->id]);
         return response()->json();
     }
 
 
-    private  function calculateCommission($commission,$price)
-    {
-        return  $price + ($commission* $price / 100);
+    public function show($id){
+
+        $adviser = Auth::user();
+
+        $customer_surgery = CustomerSurgery::find($id);
+
+
+
+
+        if($customer_surgery->status==-2 && $customer_surgery->adviser_id !=$adviser->id){
+            return response()->json(['errors'=>['مشتری مورد نظر در حال مشاوره میباشد']],500);
+        }
+
+
+        if($customer_surgery->adviser_id == null){
+
+            $customer_surgery->update(['status'=>-2,'adviser_id'=>($adviser->id)]);
+        }
+
+        if($customer_surgery->adviser_id == null || $customer_surgery->adviser_id == $adviser->id){
+            $order = DB::table('customer_surgery')
+            ->join('customers','customer_id','customers.id')
+            ->where('customer_surgery.id',$id)
+            ->first();
+            return response()->json($order);
+
+        }
+
+
+
 
     }
 

@@ -33,9 +33,24 @@
 
 
                             <div class="form-group ">
+                                <label for="name" class="col-form-label">نام</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="نام">
+                            </div>
+                            <div class="form-group ">
+                                <label for="last_name" class="col-form-label">نام خانوادگی</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name"
+                                    placeholder="نام خانوادگی">
+                            </div>
+                            <div class="form-group ">
                                 <label for="identification" class="col-form-label">شماره شبا</label>
                                 <input type="text" class="form-control" id="identification" name="identification"
                                     placeholder="شماره شبا">
+                            </div>
+                            <div class="form-group ">
+                                <label for="national_code" class="col-form-label">کد ملی</label>
+                                <input type="text" class="form-control" id="national_code" name="national_code"
+                                    placeholder="کد ملی">
                             </div>
 
 
@@ -84,6 +99,9 @@
                             <table id="datatable" class="table table-bordered dt-responsive nowrap">
                                 <thead>
                                     <tr>
+                                        <th>نام</th>
+                                        <th>نام خانوادگی</th>
+                                        <th>کدملی</th>
                                         <th>بانک</th>
                                         <th>شماره شبا </th>
                                         <th>وضعیت</th>
@@ -126,9 +144,22 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('card.index') }}",
-                columns: [{
-                        data: 'name',
-                        name: 'name'
+                columns: [
+                    {
+                        data: 'owner_name',
+                        name: 'owner_name'
+                    },
+                    {
+                        data: 'owner_last_name',
+                        name: 'owner_last_name'
+                    },
+                    {
+                        data: 'owner_national_code',
+                        name: 'owner_national_code'
+                    },
+                    {
+                        data: 'bank_name',
+                        name: 'bank_name'
                     },
                     {
                         data: 'identification',

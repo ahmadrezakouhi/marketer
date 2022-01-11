@@ -69,7 +69,7 @@
         </div> --}}
 
 <div class="row">
-    <div class="col-xl-4 col-md-6">
+    <div class="col-md-4 ">
         <div class="card-box shadow " style="background-color: #046FB6;border-radius: 10px">
 
 
@@ -82,14 +82,14 @@
 
                 <div class="widget-detail-1 pt-2 text-right">
                     <p class="header-title  text-white">درآمد کل</p>
-                    <p class="font-weight-normal text-white "> {{number_format($wallet)}} </p>
+                    <p class="font-weight-normal text-white "> {{number_format($wallet+$totalPayment)}} </p>
                     {{-- <p class="text-muted mb-1">تومان</p> --}}
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="col-xl-4 col-md-6">
+    <div class="col-md-4 ">
         <div class="card-box shadow " style="background-color: #F4412F;border-radius: 10px">
 
 
@@ -102,14 +102,14 @@
 
                 <div class="widget-detail-1 pt-2 text-right">
                     <p class="header-title  text-white">بازاریاب زیردست</p>
-                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    <p class="font-weight-normal text-white "> {{ $countMarketers }} </p>
                     {{-- <p class="text-muted mb-1">تومان</p> --}}
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="col-xl-4 col-md-6">
+    <div class="col-md-4 ">
         <div class="card-box shadow " style="background-color: #DE6800;border-radius: 10px">
 
 
@@ -122,7 +122,7 @@
 
                 <div class="widget-detail-1 pt-2 text-right">
                     <p class="header-title  text-white">عمل ثبت شده</p>
-                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    <p class="font-weight-normal text-white "> {{ number_format($countCustomers) }} </p>
                     {{-- <p class="text-muted mb-1">تومان</p> --}}
                 </div>
             </div>
@@ -131,7 +131,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xl-4 col-md-6">
+    <div class="col-md-4">
         <div class="card-box shadow " style="background-color: #27AE60;border-radius: 10px">
 
 
@@ -144,14 +144,14 @@
 
                 <div class="widget-detail-1 pt-2 text-right">
                     <p class="header-title  text-white">مجموع مبالغ درخواستی</p>
-                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    <p class="font-weight-normal text-white "> {{ number_format($totalRequestPayment) }} </p>
                     {{-- <p class="text-muted mb-1">تومان</p> --}}
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="col-xl-4 col-md-6">
+    <div class="col-md-4">
         <div class="card-box shadow " style="background-color: #ff9800;border-radius: 10px">
 
 
@@ -164,14 +164,15 @@
 
                 <div class="widget-detail-1 pt-2 text-right">
                     <p class="header-title  text-white">موجودی</p>
-                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    <p class="font-weight-normal text-white "> {{ number_format($wallet) }} </p>
                     {{-- <p class="text-muted mb-1">تومان</p> --}}
+                    <div class="my-md-4 my-xl-0"></div>
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="col-xl-4 col-md-6">
+    <div class="col-md-4">
         <div class="card-box shadow " style="background-color: #3f51b5;border-radius: 10px">
 
 
@@ -184,7 +185,7 @@
 
                 <div class="widget-detail-1 pt-2 text-right">
                     <p class="header-title  text-white">مبالغ پرداخت شده</p>
-                    <p class="font-weight-normal text-white "> {{ number_format(10) }} </p>
+                    <p class="font-weight-normal text-white "> {{ number_format($totalPayment) }} </p>
                     {{-- <p class="text-muted mb-1">تومان</p> --}}
                 </div>
             </div>

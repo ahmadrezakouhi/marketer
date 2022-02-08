@@ -170,7 +170,7 @@
             var table = $('table').DataTable({
                 processing: true,
                 serverSide: true,
-
+                searching: false,
                 orderable: false,
                 ajax: "{{ route('adviser.orders.index') }}",
                 columns: [
@@ -237,7 +237,7 @@
 
                 var order_id = $(this).data('id');
                 $('#order_id').val(order_id);
-                
+
                 $('#setPrice').modal('show');
 
 

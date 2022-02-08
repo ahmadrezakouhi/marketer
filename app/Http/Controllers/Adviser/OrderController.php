@@ -10,6 +10,8 @@ use App\Surgery;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Kavenegar;
+
 class OrderController extends Controller
 {
     public function index(Request $request)
@@ -17,10 +19,11 @@ class OrderController extends Controller
 
         if ($request->ajax()) {
             $customers = DB::table('customer_surgery')
-            ->join('customers','customer_id','customers.id')
-            ->join('surgeries','surgery_id','surgeries.id')
-            ->select('customer_surgery.id as id','customer_surgery.status as status', 'customers.name as name','customers.last_name as last_name','surgeries.name as surgery')
-            ->get();
+                ->join('customers', 'customer_id', 'customers.id')
+                ->join('surgeries', 'surgery_id', 'surgeries.id')
+                ->select('customer_surgery.id as id', 'customer_surgery.status as status', 'customers.name as name', 'customers.last_name as last_name', 'surgeries.name as surgery')
+                ->where('status', '=', '0')
+                ->get();
             //Customer::with('surgeries');
             return Datatables::of($customers)
                 ->addIndexColumn()
@@ -36,9 +39,9 @@ class OrderController extends Controller
                         return 'رد شده';
                     } else if ($row->status  == 0) {
                         return 'در حال بررسی';
-                    } else if ($row->status  == 1){
+                    } else if ($row->status  == 1) {
                         return 'تایید شده';
-                    }else if ($row->status  == -2){
+                    } else if ($row->status  == -2) {
                         return 'درحال مشاوره';
                     }
                 })
@@ -62,29 +65,29 @@ class OrderController extends Controller
         if ($customer_surgery->status == 1 || $customer_surgery->status == -1) {
             return response()->json(['error' => 'سفارش تایید و یا رد شده را نمی توان انتخاب کرد!!!'], 500);
         }
-        if($customer_surgery->status==-2 && $customer_surgery->adviser_id !=$adviser->id){
-            return response()->json(['errors'=>['مشتری مورد نظر در حال مشاوره میباشد']],500);
+        if ($customer_surgery->status == -2 && $customer_surgery->adviser_id != $adviser->id) {
+            return response()->json(['errors' => ['مشتری مورد نظر در حال مشاوره میباشد']], 500);
         }
-        CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => 1,'adviser_id'=>$adviser->id,'price'=>$request->price]);
+        CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => 1, 'adviser_id' => $adviser->id, 'price' => $request->price]);
 
         $price = $customer_surgery->price;
         $marketer = Customer::find($request->order_id)->marketer;
-        $amount = calculateCommission($price,$marketer->commission->level1);
-        $marketer->wallet()->update(['amount'=>($marketer->wallet->amount + $amount)]);
+        $amount = calculateCommission($price, $marketer->commission->level1);
+        $marketer->wallet()->update(['amount' => ($marketer->wallet->amount + $amount)]);
 
 
         $marketer = $marketer->parent;
 
-        if($marketer!=null){
-            $amount = calculateCommission($price,$marketer->commission->level2);
-            $marketer->wallet()->update(['amount'=>($marketer->wallet->amount + $amount)]);
+        if ($marketer != null) {
+            $amount = calculateCommission($price, $marketer->commission->level2);
+            $marketer->wallet()->update(['amount' => ($marketer->wallet->amount + $amount)]);
         }
-        if($marketer!=null){
-        $marketer = $marketer->parent;
+        if ($marketer != null) {
+            $marketer = $marketer->parent;
         }
-        if($marketer!=null){
-            $amount = calculateCommission($price,$marketer->commission->level3);
-            $marketer->wallet()->update(['amount'=>($marketer->wallet->amount + $amount)]);
+        if ($marketer != null) {
+            $amount = calculateCommission($price, $marketer->commission->level3);
+            $marketer->wallet()->update(['amount' => ($marketer->wallet->amount + $amount)]);
         }
 
 
@@ -94,22 +97,24 @@ class OrderController extends Controller
 
     public function decline(Request $request)
     {
+        send_sms('09130774939', 'toranjCilinicActiveAcount', 'sms', '.', '.', '.', 'احمد رضا کوهی');
         $adviser = Auth::user();
         $customer_surgery = CustomerSurgery::where('customer_id', $request->order_id)->first();
         if ($customer_surgery->status == 1 || $customer_surgery->status == -1) {
             return response()->json(['error' => 'سفارش تایید و یا رد شده را نمی توان انتخاب کرد!!!'], 500);
         }
 
-        if($customer_surgery->status==-2 && $customer_surgery->adviser_id !=$adviser->id){
-            return response()->json(['errors'=>['مشتری مورد نظر در حال مشاوره میباشد']],500);
+        if ($customer_surgery->status == -2 && $customer_surgery->adviser_id != $adviser->id) {
+            return response()->json(['errors' => ['مشتری مورد نظر در حال مشاوره میباشد']], 500);
         }
 
-        CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => -1,'adviser_id'=>$adviser->id]);
+        CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => -1, 'adviser_id' => $adviser->id]);
         return response()->json();
     }
 
 
-    public function show($id){
+    public function show($id)
+    {
 
         $adviser = Auth::user();
 
@@ -118,29 +123,22 @@ class OrderController extends Controller
 
 
 
-        if($customer_surgery->status==-2 && $customer_surgery->adviser_id !=$adviser->id){
-            return response()->json(['errors'=>['مشتری مورد نظر در حال مشاوره میباشد']],500);
+        if ($customer_surgery->status == -2 && $customer_surgery->adviser_id != $adviser->id) {
+            return response()->json(['errors' => ['مشتری مورد نظر در حال مشاوره میباشد']], 500);
         }
 
 
-        if($customer_surgery->adviser_id == null){
+        if ($customer_surgery->adviser_id == null) {
 
-            $customer_surgery->update(['status'=>-2,'adviser_id'=>($adviser->id)]);
+            $customer_surgery->update(['status' => -2, 'adviser_id' => ($adviser->id)]);
         }
 
-        if($customer_surgery->adviser_id == null || $customer_surgery->adviser_id == $adviser->id){
+        if ($customer_surgery->adviser_id == null || $customer_surgery->adviser_id == $adviser->id) {
             $order = DB::table('customer_surgery')
-            ->join('customers','customer_id','customers.id')
-            ->where('customer_surgery.id',$id)
-            ->first();
+                ->join('customers', 'customer_id', 'customers.id')
+                ->where('customer_surgery.id', $id)
+                ->first();
             return response()->json($order);
-
         }
-
-
-
-
     }
-
-
 }

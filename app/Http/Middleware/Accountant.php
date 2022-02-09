@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use Illuminate\Support\Facades\Auth;
 class Accountant
 {
     /**
@@ -15,6 +15,13 @@ class Accountant
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(!Auth::check()){
+            return redirect('login');
+        }else if(Auth::user()->isAccountant()){
+
+            return $next($request);
+        }
+        return redirect('login');
+
     }
 }

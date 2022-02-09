@@ -56,7 +56,7 @@ Route::middleware('marketer')->prefix('marketer')->group(function () {
 });
 
 
-Route::prefix('acountant')->group(function(){
+Route::middleware('accountant')->prefix('accountant')->group(function(){
 
     Route::get('cards','Acountant\CardController@index')->name('acountant.cards.index');
 

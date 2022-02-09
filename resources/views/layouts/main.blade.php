@@ -371,6 +371,26 @@
 
                         @endif
 
+                        @if(Auth::user()->isAdviser())
+
+                        <li>
+                            <a href="{{ url('/admin/marketer') }}"><i class="mdi mdi-account-group"></i>بازاریاب
+                                ها</a>
+                        </li>
+
+                        @endif
+                        @if(Auth::user()->isAccountant())
+
+                        <li>
+                            <a href="{{ url('/accountant/payments') }}"><i class="mdi mdi-coin"></i>پرداخت ها</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ url('/accountant/cards') }}"><i class="mdi mdi-credit-card"></i> شبا</a>
+                        </li>
+
+                        @endif
+
 
                             @if (Auth::user()->isMarketer())
                             <li>

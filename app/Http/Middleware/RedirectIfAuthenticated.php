@@ -19,19 +19,17 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             $user = Auth::user();
-            if($user->isSuperAdmin()){
+            if ($user->isSuperAdmin()) {
                 return redirect('/admin/dashboard');
-            }else if($user->isAdmin()){
+            } else if ($user->isAdmin()) {
                 return redirect('/admin/marketer');
-            }else if($user->isMarketer()){
+            } else if ($user->isMarketer()) {
                 return redirect('/marketer/dashboard');
-            }else if($user->isAdviser()){
+            } else if ($user->isAdviser()) {
                 return redirect('/adviser/orders');
-            }else if($user->isAccountant()){
+            } else if ($user->isAccountant()) {
 
-            }else if($user->isMarketer()){
-
-
+                return redirect('/accountant/payments');
             }
         }
 

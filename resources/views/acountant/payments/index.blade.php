@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'مدیریت بازایاب ها')
+@section('title', 'پرداخت ها')
 @section('content')
 
     <div>
@@ -25,7 +25,7 @@
                     <div class="col-12">
                         <div class="card-box" style="">
                             <div class="d-flex justify-content-between">
-                                <h4 class="mt-0 header-title"> مدیریت شبا</h4>
+                                <h4 class="mt-0 header-title"> پرداخت ها</h4>
 
                             </div>
                             <hr>

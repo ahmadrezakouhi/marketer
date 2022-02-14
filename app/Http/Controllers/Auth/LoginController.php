@@ -51,4 +51,9 @@ class LoginController extends Controller
             return '/adviser/orders';
         }
     }
+
+
+    public function username(){
+        return 'phone';
+    }
 }

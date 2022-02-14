@@ -115,13 +115,13 @@
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <div class="form-group mb-3">
-                                        <label for="emailaddress">ایمیل</label>
-                                        <input class="form-control " type="email" id="email" name="email" placeholder="ایمیل خود را وارد کنید">
+                                        <label for="phone">ایمیل</label>
+                                        <input class="form-control " type="text" id="phone" name="phone" placeholder="ایمیل خود را وارد کنید">
                                     </div>
 
                                     <div class="form-group mb-3">
                                         <label for="password">رمز عبور</label>
-                                        <input class="form-control" type="password"  id="password" name="password" placeholder="رمز عبور خود را وارد کنید">
+                                        <input class="form-control " type="password"  id="password" name="password" placeholder="رمز عبور خود را وارد کنید">
                                     </div>
 
                                     <div class="form-group mb-3">

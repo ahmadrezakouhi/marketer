@@ -63,7 +63,7 @@ function calculateCommission($price, $commission)
 
 
 
-function send_sms($receptor, $template, $type, $token, $token2, $token3,$token10)
+function send_sms($receptor, $template, $type, $token, $token2, $token3,$token10,$token20)
 {
     try {
         // $receptor =  "09130774939";
@@ -72,7 +72,7 @@ function send_sms($receptor, $template, $type, $token, $token2, $token3,$token10
         // $token =  "تست";
         // $token2 =  "";
         // $token3 =  "";
-        $result =  Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type,$token10);
+        $result =  Kavenegar::VerifyLookup($receptor, $token, $token2, $token3, $template, $type,$token10,$token20);
         if ($result) {
             return response()->json(['error' => $result], 500);
         }

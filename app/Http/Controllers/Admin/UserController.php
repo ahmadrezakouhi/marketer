@@ -76,7 +76,13 @@ class UserController extends Controller
             'password'=>bcrypt($request->phone),
             'active'=>$request->active ? 1 : 0
         ]);
+        $user = User::findOrFail($request->user_id);
+        if($user->active){
+            send_sms($user->phone,'toranjCilinicActiveAcount','sms',$request->phone,'','.','.','.');
+        }else {
+            send_sms($user->phone,'toranjCilinicNonActiveAcount','sms','.','.','.','.','.');
 
+        }
         return response()->json();
     }
 

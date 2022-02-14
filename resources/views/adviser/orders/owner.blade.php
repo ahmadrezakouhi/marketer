@@ -1,60 +1,12 @@
 @extends('layouts.main')
-@section('title', 'لیست بیماران ثبت شده')
+@section('title', 'لیست بیماران من')
 @section('content')
 
     <div>
 
 
 
-        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="userFormLabel"> مشخصات مشتری </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    </div>
-                    <div class="modal-body">
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p>نام : </p>
-                                <p>نام خانوادگی : </p>
-                                <p>جنسیت : </p>
-                                <p>سن : </p>
-                                <p> موبایل : </p>
-                                <p> تلفن : </p>
-                                <p> آدرس : </p>
-                            </div>
-                            <div class="col-md-6">
-                                <p id="name"></p>
-                                <p id="last_name"> </p>
-                                <p id="gender"></p>
-                                <p id="age"></p>
-                                <p id="phone"> </p>
-                                <p id="tel"> </p>
-                                <p id="address"> </p>
-                            </div>
-                        </div>
-
-
-
-
-
-
-
-
-
-
-
-                    </div>
-                    {{-- <div class="modal-footer">
-
-
-                    </div> --}}
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
 
 
 
@@ -119,7 +71,7 @@
                     <div class="col-12">
                         <div class="card-box shadow" style="">
                             <div class="d-flex justify-content-between">
-                                <h4 class="mt-0 header-title"> لیست بیماران ثبت شده</h4>
+                                <h4 class="mt-0 header-title"> لیست بیماران من</h4>
 
                             </div>
                             <hr>
@@ -131,6 +83,7 @@
 
                                         <th>نام</th>
                                         <th>نام خانوادگی</th>
+                                        <th>شماره تماس</th>
                                         <th>وضعیت</th>
                                         <th>عمل</th>
                                         <th></th>
@@ -170,9 +123,9 @@
             var table = $('table').DataTable({
                 processing: true,
                 serverSide: true,
-                searching:false,
-                ordering: false,
-                ajax: "{{ route('adviser.orders.index') }}",
+
+                orderable: false,
+                ajax: "{{ route('adviser.orders.owner') }}",
                 columns: [
 
 
@@ -183,6 +136,10 @@
                     {
                         data: 'last_name',
                         name: 'last_name'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
                     },
                     {
                         data: 'status',
@@ -273,19 +230,29 @@
 
 
 
-            $('body').on('click', '.addOrder', function() {
+            $('body').on('click', '.showOrder', function() {
 
                 var order_id = $(this).data('id');
 
                 $.ajax({
-                    method: "POST",
-                    url: "{{ route('adviser.orders.add') }}",
-                    data: {
-                        order_id: order_id
-                    },
-                    success: function(res) {
-                        toastr["success"]("بیمار به لیست بیماران من افزوده شد");
+                    method: "GET",
+                    url: "{{ url('adviser/orders') }}" + '/' + order_id,
 
+                    success: function(res) {
+
+                        $('#name').text(res.name);
+                        $('#last_name').text(res.last_name);
+                        $('#age').text(res.age);
+                        if (res.gender == 0) {
+                            $('#gender').text("مرد");
+                        } else {
+                            $('#gender').text("زن");
+
+                        }
+                        $('#phone').text(res.phone);
+                        $('#tel').text(res.tel);
+                        $('#address').text(res.address);
+                        $('#myModal').modal('show');
 
                     },
                     error: function(res) {

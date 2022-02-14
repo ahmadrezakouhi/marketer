@@ -374,8 +374,8 @@
                         @if(Auth::user()->isAdviser())
 
                         <li>
-                            <a href="{{ url('/admin/marketer') }}"><i class="mdi mdi-account-group"></i>بازاریاب
-                                ها</a>
+                            <a href="{{ url('/adviser/orders') }}"><i class="mdi mdi mdi-briefcase"></i>لیست بیماران ثبت شده</a>
+                            <a href="{{ url('/adviser/owner/orders') }}"><i class="mdi mdi mdi-briefcase"></i> لیست بیماران من </a>
                         </li>
 
                         @endif

@@ -7,7 +7,7 @@
 
 
 
-        <div class="card-box shadow">
+        <div class="card-box shadow" style="overflow-x: auto;overflow-y:auto;height:100vh">
 
 
             {{-- <h4 class="header-title mt-0 mb-3">درخت ساده</h4> --}}

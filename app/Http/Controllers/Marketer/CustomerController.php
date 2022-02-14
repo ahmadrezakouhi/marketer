@@ -26,21 +26,18 @@ class CustomerController extends Controller
              ->join('customer_surgery','customer_id','customers.id')
              ->join('surgeries','surgery_id','surgeries.id')
              ->where('marketer_id',$marketer_id)->select('customers.name as name','last_name','gender','age','customers.tel as tel','customers.phone as phone',
-             'customers.address as address','surgeries.name as surgery')->get();
-            // Marketer::find($marketer_id)->customers()->with('surgeries');
+             'customers.address as address','customer_surgery.created_at as created','surgeries.name as surgery')->get();
+
             return Datatables::of($customers)
                 ->addIndexColumn()
-                // ->addColumn('action', function ($row) {
-                //      $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Edit" class="edit btn btn-icon waves-effect waves-light btn-warning editCustomer"><i class="fa fa-edit"></i></a>';
-                //      $btn = $btn . ' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" data-original-title="Delete" class="btn btn-icon waves-effect waves-light btn-danger deleteCustomer"><i class="fas fa-trash"></i></a>';
-                //     return $btn;
-                // })
+
                 ->editColumn('gender',function($row){
                     return $row->gender ? 'زن':'مرد';
                 })
-                // ->addColumn('surgery',function(Customer $customer){
-                //     return $customer->surgeries()->first()->name;
-                // })
+                ->editColumn('created', function ($row) {
+                    return \Morilog\Jalali\Jalalian::forge($row->created);
+                })
+
 
                 ->rawColumns(['action'])
                 ->make(true);

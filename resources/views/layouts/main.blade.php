@@ -371,6 +371,26 @@
 
                         @endif
 
+                        @if(Auth::user()->isAdviser())
+
+                        <li>
+                            <a href="{{ url('/adviser/orders') }}"><i class="mdi mdi mdi-briefcase"></i>لیست بیماران ثبت شده</a>
+                            <a href="{{ url('/adviser/owner/orders') }}"><i class="mdi mdi mdi-briefcase"></i> لیست بیماران من </a>
+                        </li>
+
+                        @endif
+                        @if(Auth::user()->isAccountant())
+
+                        <li>
+                            <a href="{{ url('/accountant/payments') }}"><i class="mdi mdi-coin"></i>پرداخت ها</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ url('/accountant/cards') }}"><i class="mdi mdi-credit-card"></i> شبا</a>
+                        </li>
+
+                        @endif
+
 
                             @if (Auth::user()->isMarketer())
                             <li>

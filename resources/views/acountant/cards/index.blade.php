@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'مدیریت بازایاب ها')
+@section('title', 'مدیریت شبا')
 @section('content')
 
     <div>

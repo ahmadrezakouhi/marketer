@@ -16,6 +16,7 @@ class DashboardController extends Controller
 
         $totalPrice = DB::table('customer_surgery')->where('status', '=', '1')->sum('price');
 
+        $totalPayment = DB::table('payments')->where('status','=','1')->sum('amount');
 
         $activeMarketers = DB::table('users')->where('active', '=', '1')->where('role_id',$marketer_role_id)->count();
 
@@ -35,6 +36,6 @@ class DashboardController extends Controller
         // )
 
         // ->take(5)->latest('customer_surgery.created_at')->get();
-        return view('admin.dashboard.index', compact('totalPrice', 'payments', 'activeMarketers','totalCustomerSurgery','customerSurgeries'));
+        return view('admin.dashboard.index', compact('totalPrice','totalPayment', 'payments', 'activeMarketers','totalCustomerSurgery','customerSurgeries'));
     }
 }

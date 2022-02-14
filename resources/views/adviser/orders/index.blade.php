@@ -133,6 +133,7 @@
                                         <th>نام خانوادگی</th>
                                         <th>وضعیت</th>
                                         <th>عمل</th>
+                                        <th>تاریخ درخواست</th>
                                         <th></th>
 
                                     </tr>
@@ -193,6 +194,11 @@
                     {
                         data: 'surgery',
                         name: 'surgery',
+
+                    },
+                    {
+                        data: 'created',
+                        name: 'created',
 
                     },
 

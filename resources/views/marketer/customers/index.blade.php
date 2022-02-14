@@ -123,6 +123,7 @@
                                         <th>موبایل</th>
                                         <th>آدرس</th>
                                         <th>عمل</th>
+                                        <th>تاریخ ثبت درخواست</th>
                                         {{-- <th></th> --}}
 
                                     </tr>
@@ -192,6 +193,10 @@
                     {
                         data: 'surgery',
                         name: 'surgary'
+                    },
+                    {
+                        data: 'created',
+                        name: 'created'
                     },
                     // {
                     //     data: 'action',

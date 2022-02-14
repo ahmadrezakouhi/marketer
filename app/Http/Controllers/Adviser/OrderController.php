@@ -20,8 +20,8 @@ class OrderController extends Controller
             $customers = DB::table('customer_surgery')
                 ->join('customers', 'customer_id', 'customers.id')
                 ->join('surgeries', 'surgery_id', 'surgeries.id')
-                ->where('customer_surgery.status','=',0)
-                ->select('customer_surgery.id as id', 'customer_surgery.status as status', 'customers.name as name', 'customers.last_name as last_name', 'surgeries.name as surgery')
+                ->where('customer_surgery.status', '=', 0)
+                ->select('customer_surgery.id as id', 'customer_surgery.status as status', 'customer_surgery.created_at as created', 'customers.name as name', 'customers.last_name as last_name', 'surgeries.name as surgery')
                 ->get();
             //Customer::with('surgeries');
             return Datatables::of($customers)
@@ -44,9 +44,9 @@ class OrderController extends Controller
                         return 'درحال مشاوره';
                     }
                 })
-                // ->addColumn('price', function (Customer $customer) {
-                //     return $customer->surgeries()->first()->pivot->price;
-                // })
+                ->editColumn('created', function ($row) {
+                    return \Morilog\Jalali\Jalalian::forge($row->created);
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -150,8 +150,8 @@ class OrderController extends Controller
             $customers = DB::table('customer_surgery')
                 ->join('customers', 'customer_id', 'customers.id')
                 ->join('surgeries', 'surgery_id', 'surgeries.id')
-                ->where('adviser_id', '=',$adviser)
-                ->select('customer_surgery.id as id', 'customer_surgery.status as status', 'customers.name as name', 'customers.last_name as last_name','customers.phone as phone', 'surgeries.name as surgery')
+                ->where('adviser_id', '=', $adviser)
+                ->select('customer_surgery.id as id', 'customer_surgery.status as status', 'customer_surgery.created_at as created', 'customers.name as name', 'customers.last_name as last_name', 'customers.phone as phone', 'surgeries.name as surgery')
                 ->get();
 
             return Datatables::of($customers)
@@ -174,6 +174,9 @@ class OrderController extends Controller
                         return 'درحال مشاوره';
                     }
                 })
+                ->editColumn('created', function ($row) {
+                    return \Morilog\Jalali\Jalalian::forge($row->created);
+                })
 
                 ->rawColumns(['action'])
                 ->make(true);
@@ -185,17 +188,16 @@ class OrderController extends Controller
 
 
 
-    public function addOrder(Request $request){
+    public function addOrder(Request $request)
+    {
         $adviser = Auth::user();
         $customer = CustomerSurgery::findOrFail($request->order_id);
-        if($customer->status != 0 ){
-            return response()->json(['error' => 'بیمار توسط مشاور دیگری در حال مشاوره می باشد'],500);
-        }else {
-            $customer->update(['adviser_id'=>$adviser->id,'status'=>-2]);
+        if ($customer->status != 0) {
+            return response()->json(['error' => 'بیمار توسط مشاور دیگری در حال مشاوره می باشد'], 500);
+        } else {
+            $customer->update(['adviser_id' => $adviser->id, 'status' => -2]);
         }
 
         return response()->json();
     }
-
-
 }

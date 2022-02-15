@@ -73,95 +73,111 @@
 
 {{-- @endsection --}}
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>ورود</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="یک قالب مدیریتی با امکانات فراوان برای ساخت سی آر ام، سیستم مدیریت محتوا و ..." name="description" />
-        <meta content="قائم امیدی" name="author" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-        <!-- App css -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/css/app-rtl.min.css" rel="stylesheet" type="text/css" />
 
-    </head>
-
-    <body class="authentication-bg">
-
-        {{-- <div class="home-btn d-none d-sm-block">
+{{-- <div class="home-btn d-none d-sm-block">
         </div> --}}
+@extends('layouts.master_login')
+@section('content')
+    <div class="account-pages mt-5 mb-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="text-center">
 
-        <div class="account-pages mt-5 mb-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-5">
-                        <div class="text-center">
+                    </div>
+                    <div class="card shadow">
 
-                        </div>
-                        <div class="card shadow">
+                        <div class="card-body p-4">
 
-                            <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <h4 class="text-uppercase mt-0">ورود</h4>
+                            </div>
 
-                                <div class="text-center mb-4">
-                                    <h4 class="text-uppercase mt-0">ورود</h4>
+                            <form method="POST" action="{{route('login')}}">
+                                @csrf
+                                <div class="form-group mb-3 ">
+                                    <label for="phone">موبایل</label>
+                                    <input dir="ltr" class="form-control text-right" type="text" id="phone" name="phone"
+                                        placeholder="09*******">
                                 </div>
 
-                                <form method="POST" action="{{ route('login') }}">
-                                    @csrf
-                                    <div class="form-group mb-3">
-                                        <label for="phone">ایمیل</label>
-                                        <input class="form-control " type="text" id="phone" name="phone" placeholder="ایمیل خود را وارد کنید">
-                                    </div>
+                                <div class="form-group mb-3">
+                                    <label for="password">رمز عبور</label>
+                                    <input dir="ltr" class="form-control " type="password" id="password" name="password"
+                                        placeholder="">
+                                </div>
 
-                                    <div class="form-group mb-3">
-                                        <label for="password">رمز عبور</label>
-                                        <input class="form-control " type="password"  id="password" name="password" placeholder="رمز عبور خود را وارد کنید">
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="remember" id="remember"
+                                            {{ old('remember') ? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="remember">من را به خاطر بسپار</label>
                                     </div>
+                                </div>
 
-                                    <div class="form-group mb-3">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="remember">من را به خاطر بسپار</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group mb-0 text-center">
-                                        <button class="btn btn-primary btn-block" type="submit"> ورود </button>
-                                    </div>
-                                    {{-- <div class="row mt-3">
+                                <div class="form-group mb-0 text-center">
+                                    <button class="btn btn-primary btn-block" type="submit"> ورود </button>
+                                </div>
+                                {{-- <div class="row mt-3">
                                         <div class="col-12 text-center">
                                             <p> <a href="{{route('password.request')}}" class="text-muted ml-1"><i class="fa fa-lock mr-1"></i>رمز عبور خود را فراموش کرده اید؟</a></p>
 
                                         </div> <!-- end col -->
                                     </div> --}}
-                                </form>
+                            </form>
+                            {{-- @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <div class=" alert alert-danger text-danger">{{$error}}</div>
+                            @endforeach
+                        @endif --}}
+                        </div> <!-- end card-body -->
+                    </div>
+                    <!-- end card -->
 
-                            </div> <!-- end card-body -->
-                        </div>
-                        <!-- end card -->
 
+                    <!-- end row -->
 
-                        <!-- end row -->
-
-                    </div> <!-- end col -->
-                </div>
-                <!-- end row -->
+                </div> <!-- end col -->
             </div>
-            <!-- end container -->
+            <!-- end row -->
         </div>
-        <!-- end page -->
+        <!-- end container -->
+    </div>
+    <!-- end page -->
 
-        <!-- Vendor js -->
-        <script src="assets/js/vendor.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+            @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                            toastr["error"]('{{$error}}');
+                            @endforeach
+                            @endif
 
-        <!-- App js-->
-        <script src="assets/js/app.min.js"></script>
+            // $('form').submit(function(event) {
+                // event.preventDefault();
+                // $.ajax({
+                //     method: 'POST',
+                //     url: '{{ route('login') }}',
+                //     data: $(this).serialize(),
+                //     success:function(res){
 
-    </body>
-</html>
+                //     }
+                //     ,
+                //     error: function(res) {
+
+                //         $.each(res.responseJSON.errors, function(index, value) {
+                //             toastr["error"](value);
+                //         })
+                //     }
+                // });
+
+            // })
+        })
+    </script>
+@endsection

@@ -94,14 +94,16 @@ class OrderController extends Controller
             $marketer->wallet()->update(['amount' => ($marketer->wallet->amount + $amount)]);
         }
 
-
+        $customer = CustomerSurgery::find($request->order_id)->customer;
+        $marketer = CustomerSurgery::find($request->order_id)->customer->marketer->user;
+        send_sms($marketer->phone,'toranjCilinicMarketerAcceptCustomer','sms',$customer->name . ' '.$customer->last_name,'.','.','.','.');
 
         return response()->json();
     }
 
     public function decline(Request $request)
     {
-        send_sms('09130774939', 'toranjCilinicActiveAcount', 'sms', '.', '.', '.', 'احمد رضا کوهی');
+
         $adviser = Auth::user();
         $customer_surgery = CustomerSurgery::where('customer_id', $request->order_id)->first();
         if ($customer_surgery->status == 1 || $customer_surgery->status == -1) {
@@ -113,6 +115,10 @@ class OrderController extends Controller
         }
 
         CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => -1, 'adviser_id' => $adviser->id]);
+        $customer = CustomerSurgery::find($request->order_id)->customer;
+        $marketer = CustomerSurgery::find($request->order_id)->customer->marketer->user;
+        send_sms($marketer->phone,'toranjCilinicMarketerRejectCustomer','sms',$customer->name . ' '.$customer->last_name,'.','.','.','.');
+
         return response()->json();
     }
 
@@ -198,12 +204,17 @@ class OrderController extends Controller
     public function addOrder(Request $request)
     {
         $adviser = Auth::user();
-        $customer = CustomerSurgery::findOrFail($request->order_id);
-        if ($customer->status != 0) {
+        $customer_surgery = CustomerSurgery::findOrFail($request->order_id);
+        if ($customer_surgery->status != 0) {
             return response()->json(['error' => 'بیمار توسط مشاور دیگری در حال مشاوره می باشد'], 500);
         } else {
-            $customer->update(['adviser_id' => $adviser->id, 'status' => -2]);
+            $customer_surgery->update(['adviser_id' => $adviser->id, 'status' => -2]);
+            $marketer = $customer_surgery->customer->marketer->user;
+        $customer = $customer_surgery->customer;
+        send_sms($marketer->phone,'toranjCilinicMarketerSelectCustomer','sms','.','.','.',$adviser->name . ' '.$adviser->last_name,'.');
+        send_sms($customer->phone,'toranjCilinicCustomerSelectCustomer','sms','.','.','.',$customer->name .' '.$customer->last_name,$adviser->name . ' '.$adviser->last_name);
         }
+
 
         return response()->json();
     }

@@ -51,6 +51,11 @@ class PaymentController extends Controller
     public function accept(Request $request)
     {
         Payment::find($request->payment_id)->update(['status' => 1]);
+        $user = Payment::find($request->payment_id)->card->marketer->user;
+        $identification = Payment::find($request->payment_id)->card->identification;
+        send_sms($user->phone,'toranjCilinicMarketerWithdraw','sms',$identification,'.','.','.','.');
+        return response()->json();
+
     }
 
 

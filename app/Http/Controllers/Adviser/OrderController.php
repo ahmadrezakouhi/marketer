@@ -11,6 +11,9 @@ use DataTables;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
+use Kavenegar;
+
+
 class OrderController extends Controller
 {
     public function index(Request $request)
@@ -20,8 +23,10 @@ class OrderController extends Controller
             $customers = DB::table('customer_surgery')
                 ->join('customers', 'customer_id', 'customers.id')
                 ->join('surgeries', 'surgery_id', 'surgeries.id')
+
                 ->where('customer_surgery.status', '=', 0)
                 ->select('customer_surgery.id as id', 'customer_surgery.status as status', 'customer_surgery.created_at as created', 'customers.name as name', 'customers.last_name as last_name', 'surgeries.name as surgery')
+
                 ->get();
             //Customer::with('surgeries');
             return Datatables::of($customers)
@@ -89,13 +94,16 @@ class OrderController extends Controller
             $marketer->wallet()->update(['amount' => ($marketer->wallet->amount + $amount)]);
         }
 
-
+        $customer = CustomerSurgery::find($request->order_id)->customer;
+        $marketer = CustomerSurgery::find($request->order_id)->customer->marketer->user;
+        send_sms($marketer->phone,'toranjCilinicMarketerAcceptCustomer','sms',$customer->name . ' '.$customer->last_name,'.','.','.','.');
 
         return response()->json();
     }
 
     public function decline(Request $request)
     {
+
         $adviser = Auth::user();
         $customer_surgery = CustomerSurgery::where('customer_id', $request->order_id)->first();
         if ($customer_surgery->status == 1 || $customer_surgery->status == -1) {
@@ -107,6 +115,10 @@ class OrderController extends Controller
         }
 
         CustomerSurgery::where('customer_id', $request->order_id)->update(['status' => -1, 'adviser_id' => $adviser->id]);
+        $customer = CustomerSurgery::find($request->order_id)->customer;
+        $marketer = CustomerSurgery::find($request->order_id)->customer->marketer->user;
+        send_sms($marketer->phone,'toranjCilinicMarketerRejectCustomer','sms',$customer->name . ' '.$customer->last_name,'.','.','.','.');
+
         return response()->json();
     }
 
@@ -138,6 +150,7 @@ class OrderController extends Controller
                 ->first();
             return response()->json($order);
         }
+
     }
 
 
@@ -191,13 +204,19 @@ class OrderController extends Controller
     public function addOrder(Request $request)
     {
         $adviser = Auth::user();
-        $customer = CustomerSurgery::findOrFail($request->order_id);
-        if ($customer->status != 0) {
+        $customer_surgery = CustomerSurgery::findOrFail($request->order_id);
+        if ($customer_surgery->status != 0) {
             return response()->json(['error' => 'بیمار توسط مشاور دیگری در حال مشاوره می باشد'], 500);
         } else {
-            $customer->update(['adviser_id' => $adviser->id, 'status' => -2]);
+            $customer_surgery->update(['adviser_id' => $adviser->id, 'status' => -2]);
+            $marketer = $customer_surgery->customer->marketer->user;
+        $customer = $customer_surgery->customer;
+        send_sms($marketer->phone,'toranjCilinicMarketerSelectCustomer','sms','.','.','.',$adviser->name . ' '.$adviser->last_name,'.');
+        send_sms($customer->phone,'toranjCilinicCustomerSelectCustomer','sms','.','.','.',$customer->name .' '.$customer->last_name,$adviser->name . ' '.$adviser->last_name);
         }
+
 
         return response()->json();
     }
+
 }

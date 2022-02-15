@@ -77,6 +77,12 @@ class UserController extends Controller
             'active'=>$request->active ? 1 : 0
         ]);
 
+        if($request->active){
+            send_sms($request->phone,'toranjCilinicActiveAcount','sms',$request->phone,$request->phone,'.','.','.');
+        }else {
+            send_sms($request->phone,'toranjCilinicNonActiveAcount','sms','.','.','.','.','.');
+
+        }
         return response()->json();
     }
 

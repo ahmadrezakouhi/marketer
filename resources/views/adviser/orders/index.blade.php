@@ -171,8 +171,10 @@
             var table = $('table').DataTable({
                 processing: true,
                 serverSide: true,
+
                 searching:false,
                 ordering: false,
+
                 ajax: "{{ route('adviser.orders.index') }}",
                 columns: [
 

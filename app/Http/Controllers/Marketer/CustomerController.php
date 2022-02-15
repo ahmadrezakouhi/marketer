@@ -80,6 +80,8 @@ class CustomerController extends Controller
         $marketer->customers()->save($customer);
         $surgery = Surgery::find($request->surgery_id);
         $customer->surgeries()->save($surgery);
+        send_sms($marketer->user->phone,'toranjCilinicMarketerRegisterCustomer','sms','.','.','.','.','.');
+
         return response()->json($request->all());
     }
 

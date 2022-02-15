@@ -39,7 +39,7 @@
 
                         <div class="widget-detail-1 pt-2 text-right">
                             <p class="header-title  text-white">پورسانت  واریزی</p>
-                            <p class="font-weight-normal text-white "> {{ number_format($totalPrice) }} </p>
+                            <p class="font-weight-normal text-white "> {{ number_format($totalPayment) }} </p>
                             {{-- <p class="text-muted mb-1">تومان</p> --}}
                         </div>
                     </div>

@@ -53,4 +53,9 @@ class LoginController extends Controller
             return '/accountant/payments';
         }
     }
+
+
+    public function username(){
+        return 'phone';
+    }
 }

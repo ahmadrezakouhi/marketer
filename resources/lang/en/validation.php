@@ -131,6 +131,12 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'phone'=>[
+            'required'=>'فیلد موبایل الزامی می باشد .'
+        ],
+        'password'=>[
+            'required'=>'فیلد پسورد الزامی می باشد .'
+        ]
     ],
 
     /*
